@@ -1,0 +1,67 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-line-*: initial;
+  --color-white: #ffffff;
+
+  --color-type-normal: #9fa39d;
+  --color-type-fire: #ff9900;
+  --color-type-water: #14a8ff;
+  --color-type-electric: #ffde00;
+  --color-type-grass: #1cd80e;
+  --color-type-ice: #2ee4c6;
+  --color-type-fighting: #ff215b;
+  --color-type-poison: #f149ff;
+  --color-type-ground: #ff6b0d;
+  --color-type-flying: #89bdff;
+  --color-type-psychic: #ff6c64;
+  --color-type-bug: #7bcf00;
+  --color-type-rock: #d8bc5a;
+  --color-type-ghost: #4e6aff;
+  --color-type-dragon: #0076ff;
+  --color-type-dark: #5a566a;
+  --color-type-steel: #23a1bd;
+  --color-type-fairy: #ff76ff;
+
+  --color-input: #2f5aff;
+  --color-placeholder: rgba(255, 255, 255, 0.25);
+  --color-pokemon-card-border: #24293f;
+  --color-container-modal: #555555;
+  --color-background: #060b28;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 1rem;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #060B28;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+    &::-webkit-scrollbar {
+      width: 1rem;
+    }
+    &::-webkit-scrollbar-track {
+      background: #060b28;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #2f5aff;
+      border-radius: 0.5rem;
+      border: 0.25rem solid #060b28;
+  }
+}
+
+}
