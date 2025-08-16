@@ -1,8 +1,25 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { CardMonster } from "../../components/CardMonster";
 import { LabelType } from "../../components/LabelType";
+import { useFetchAllMonsters } from "../../api/monster/useFetchAllMonsters";
 
 export function Home() {
+
+    const [selectedType, setSelectedType] = useState<string | null>(null);
+
+    const { data: monstersData } = useFetchAllMonsters()
+
+    const handleTypeClick = (type: string) => {
+
+        if(selectedType === type) {
+            setSelectedType(null);
+            return;
+        }
+
+        setSelectedType(type);
+    };
+
     return (
         <main className="min-h-screen flex flex-col items-center justify-center">
 
@@ -35,24 +52,24 @@ export function Home() {
             <section className="flex flex-col space-y-4">
                 <h2 className="text-xl font-semibold text-white ">Encontre pelo tipo:</h2>
                 <div className="flex flex-wrap justify-center items-center gap-4 p-4">
-                    <LabelType type="normal"  />
-                    <LabelType type="fire" />
-                    <LabelType type="water" />
-                    <LabelType type="electric" />
-                    <LabelType type="grass" />
-                    <LabelType type="ice" />
-                    <LabelType type="fighting" />
-                    <LabelType type="poison" />
-                    <LabelType type="ground" />
-                    <LabelType type="flying" />
-                    <LabelType type="psychic" />
-                    <LabelType type="bug" />
-                    <LabelType type="rock" />
-                    <LabelType type="ghost" />
-                    <LabelType type="dragon" />
-                    <LabelType type="dark" />
-                    <LabelType type="steel" />
-                    <LabelType type="fairy" />
+                    <LabelType monsterType="normal" onClick={() => handleTypeClick('normal')} selected={selectedType === 'normal'}  />
+                    <LabelType monsterType="fire" />
+                    <LabelType monsterType="water" />
+                    <LabelType monsterType="electric" />
+                    <LabelType monsterType="grass" />
+                    <LabelType monsterType="ice" />
+                    <LabelType monsterType="fighting" />
+                    <LabelType monsterType="poison" />
+                    <LabelType monsterType="ground" />
+                    <LabelType monsterType="flying" />
+                    <LabelType monsterType="psychic" />
+                    <LabelType monsterType="bug" />
+                    <LabelType monsterType="rock" />
+                    <LabelType monsterType="ghost" />
+                    <LabelType monsterType="dragon" />
+                    <LabelType monsterType="dark" />
+                    <LabelType monsterType="steel" />
+                    <LabelType monsterType="fairy" />
                 </div>
             </section>
 
@@ -61,13 +78,10 @@ export function Home() {
 
 
             <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-10">
-                <CardMonster />
-                <CardMonster />
-                <CardMonster />
-                <CardMonster />
-                <CardMonster />
-                <CardMonster />
-                <CardMonster />
+
+                {monstersData && monstersData.data.monsters?.map((monster) => (
+                    <CardMonster key={monster.id} monster={monster} />
+                ))}
 
             </section>
         </main>

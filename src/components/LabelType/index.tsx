@@ -17,9 +17,9 @@ import rock from '../../assets/monsterTypes/rock.svg';
 import ghost from '../../assets/monsterTypes/ghost.svg';
 import steel from '../../assets/monsterTypes/steel.svg';
 
-interface LabelTypeProps {
-    type: "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
-    isSelected?: boolean;
+interface LabelTypeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    monsterType: "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
+    selected?: boolean;
     className?: string;
 }
 
@@ -119,12 +119,12 @@ const typeStyles = {
     }
 };
 
-export function LabelType({ type, isSelected = false, className }: LabelTypeProps) {
+export function LabelType({ monsterType, className, selected = false, ...rest }: LabelTypeProps) {
 
     return (
-        <button className={`flex items-center justify-center gap-2 px-2 py-1 rounded-lg ${typeStyles[type].bg} text-white ${typeStyles[type].hoverText} ${isSelected ? 'brightness-100' : 'brightness-50'} cursor-pointer ${className}`}>
-            <img src={typeIcons[type]} alt={type} className="w-4 h-4 " />
-            <p>{type.charAt(0).toUpperCase() + type.slice(1)}</p>
+        <button className={`flex items-center justify-center gap-2 px-2 py-1 rounded-lg ${typeStyles[monsterType].bg} text-white ${typeStyles[monsterType].hoverText} ${selected ? 'brightness-100' : 'brightness-50'} cursor-pointer ${className}`} {...rest}>
+            <img src={typeIcons[monsterType]} alt={monsterType} className="w-4 h-4 " />
+            <p>{monsterType.charAt(0).toUpperCase() + monsterType.slice(1)}</p>
         </button>
     )
 }

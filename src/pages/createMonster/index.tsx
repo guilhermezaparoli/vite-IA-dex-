@@ -143,7 +143,7 @@ export function CreateMonster() {
                                                     : 'opacity-70 hover:opacity-100'
                                             }`}
                                         >
-                                            <LabelType type={type} />
+                                            <LabelType monsterType={type} />
                                         </div>
                                     ))}
                                 </div>
