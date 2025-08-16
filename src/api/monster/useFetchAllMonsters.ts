@@ -13,21 +13,31 @@ export interface Monster {
     type_id: number;
 }
 
-export interface MonstersResponse {
-    monsters: Monster[];
-    total: number;
+
+interface Pagination {
+    totalItems: number;
     page: number;
     pageSize: number;
 }
+export interface MonstersResponse {
+    monsters: Monster[];
+    pagination: Pagination;
+}
 
-export const useFetchAllMonsters = () => {
+export interface MonstersParams {
+    page?: number;
+    pageSize?: number;
+    search?: string;
+}
+
+export const useFetchAllMonsters = (params: MonstersParams) => {
     return useQuery({
-        queryKey: ['monsters'],
-        queryFn: () => api.get<MonstersResponse>('/monsters', {
-                params: {
-                    page: 3,
-                    pageSize: 10
-                }
-            }),
+        queryKey: ['monsters', params],
+        queryFn: async () => {
+            const { data } = await api.get<MonstersResponse>('/monsters', {
+                params
+            })
+            return data
+        },
     })
 }

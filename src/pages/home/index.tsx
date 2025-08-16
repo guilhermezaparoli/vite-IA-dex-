@@ -3,12 +3,17 @@ import { useState } from "react";
 import { CardMonster } from "../../components/CardMonster";
 import { LabelType } from "../../components/LabelType";
 import { useFetchAllMonsters } from "../../api/monster/useFetchAllMonsters";
+import { Pagination } from "../../components/Pagination";
 
 export function Home() {
 
     const [selectedType, setSelectedType] = useState<string | null>(null);
+       const [currentPage, setCurrentPage] = useState(1);
 
-    const { data: monstersData } = useFetchAllMonsters()
+    const { data: monstersData } = useFetchAllMonsters({
+        page: currentPage,
+        pageSize: 10
+    })
 
     const handleTypeClick = (type: string) => {
 
@@ -19,6 +24,21 @@ export function Home() {
 
         setSelectedType(type);
     };
+
+
+    const { monsters, pagination } = monstersData || {};
+    const { totalItems, pageSize } = pagination || {};
+console.log(monstersData);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        
+        // Scroll suave para o topo da lista (opcional)
+        const element = document.querySelector('#monsters-list');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center">
@@ -79,11 +99,15 @@ export function Home() {
 
             <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-10">
 
-                {monstersData && monstersData.data.monsters?.map((monster) => (
+                {monstersData && monsters?.map((monster) => (
                     <CardMonster key={monster.id} monster={monster} />
                 ))}
 
             </section>
+
+            {monstersData && totalItems && pageSize && (
+                <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / pageSize)} onPageChange={handlePageChange} itemsPerPage={pageSize} totalItems={totalItems}  />
+            )}
         </main>
     )
 }
