@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { api } from ".."
+import { useEffect } from "react";
 
 
 export interface Monster {
@@ -25,19 +26,34 @@ export interface MonstersResponse {
 }
 
 export interface MonstersParams {
-    page?: number;
-    pageSize?: number;
+    page: number;
+    pageSize: number;
     search?: string;
 }
 
-export const useFetchAllMonsters = (params: MonstersParams) => {
-    return useQuery({
-        queryKey: ['monsters', params],
+function fetchAllMonstersOptions({ page, pageSize, search }: MonstersParams) {
+    return {
+        queryKey: ['monsters', { page, pageSize, search }],
         queryFn: async () => {
             const { data } = await api.get<MonstersResponse>('/monsters', {
-                params
+                params: { page, pageSize, search }
             })
             return data
-        },
+        }
+    }
+}
+
+export const useFetchAllMonsters = (params: MonstersParams) => {
+
+    const queryClient = useQueryClient()
+    useEffect(() => {
+        queryClient.prefetchQuery(fetchAllMonstersOptions({
+            page: params.page + 1,
+            pageSize: params.pageSize,
+            search: params.search
+        }))
+    }, [params, queryClient])
+    return useQuery({
+        ...fetchAllMonstersOptions(params)
     })
 }
