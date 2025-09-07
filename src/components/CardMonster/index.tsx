@@ -1,4 +1,4 @@
-import type { Monster } from "../../api/monster/useFetchAllMonsters";
+import type { Monster } from "../../api/queries/useFetchAllMonsters";
 import { LabelType } from "../LabelType";
 
 interface CardMonsterProps {

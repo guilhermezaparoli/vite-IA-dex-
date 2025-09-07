@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CardMonster } from "../../components/CardMonster";
 import { LabelType } from "../../components/LabelType";
-import { useFetchAllMonsters } from "../../api/monster/useFetchAllMonsters";
+import { useFetchAllMonsters } from "../../api/queries/useFetchAllMonsters";
 import { Pagination } from "../../components/Pagination";
 
 export function Home() {
@@ -26,8 +26,8 @@ export function Home() {
     };
 
 
-    const { monsters, pagination } = monstersData || {};
-    const { totalItems, pageSize } = pagination || {};
+    const { monsters, pagination } = monstersData;
+    const { totalItems, pageSize } = pagination;
 console.log(monstersData);
 
     const handlePageChange = (page: number) => {
@@ -99,15 +99,13 @@ console.log(monstersData);
 
             <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 mt-10">
 
-                {monstersData && monsters?.map((monster) => (
+                {monsters?.map((monster) => (
                     <CardMonster key={monster.id} monster={monster} />
                 ))}
 
             </section>
 
-            {monstersData && totalItems && pageSize && (
-                <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / pageSize)} onPageChange={handlePageChange} itemsPerPage={pageSize} totalItems={totalItems}  />
-            )}
+            <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / pageSize)} onPageChange={handlePageChange} itemsPerPage={pageSize} totalItems={totalItems}  />
         </main>
     )
 }

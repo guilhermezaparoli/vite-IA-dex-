@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
+import { Suspense } from "react"
 
 const router = createRouter({ routeTree })
 
@@ -23,7 +24,13 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
-            <RouterProvider router={router} />
+            <Suspense fallback={
+                <div className="min-h-screen flex items-center justify-center bg-gray-900">
+                    <div className="text-white text-xl">Carregando aplicação...</div>
+                </div>
+            }>
+                <RouterProvider router={router} />
+            </Suspense>
         </QueryClientProvider>
     )
 }
