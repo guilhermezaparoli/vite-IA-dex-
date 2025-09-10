@@ -1,5 +1,6 @@
 import type { Monster } from "../../api/queries/useFetchAllMonsters";
 import { LabelType } from "../LabelType";
+import { Link } from "@tanstack/react-router";
 
 interface CardMonsterProps {
     monster: Monster
@@ -22,9 +23,13 @@ export function CardMonster({ monster }: CardMonsterProps) {
 
             </div>
 
-            <button className=" px-4 py-2 w-full bg-blue-500 text-white rounded hover:bg-blue-600">
+            <Link 
+                to="/monster/$id" 
+                params={{ id: monster.id }}
+                className="px-4 py-2 w-full bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center block"
+            >
                 More details
-            </button>
+            </Link>
         </div>
     )
 }

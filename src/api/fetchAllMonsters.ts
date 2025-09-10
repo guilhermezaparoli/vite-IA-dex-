@@ -9,6 +9,9 @@ export interface Monster {
     created_at: string;
     user_id: string;
     type_id: number;
+    user: {
+        name: string
+    }
 }
 
 

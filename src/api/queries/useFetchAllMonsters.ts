@@ -12,6 +12,9 @@ export interface Monster {
     created_at: string;
     user_id: string;
     type_id: number;
+    user: {
+        name: string
+    }
 }
 
 
@@ -40,7 +43,5 @@ export const useFetchAllMonsters = (params: MonstersParams) => {
     }, [page, pageSize, search, queryClient])
 
 
-    return useSuspenseQuery({
-        ...makeMonstersQuery.allPaginated(page, pageSize, search)
-    })
+    return useSuspenseQuery(makeMonstersQuery.allPaginated(page, pageSize, search))
 }

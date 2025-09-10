@@ -13,6 +13,7 @@ import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as CreateMonsterRouteImport } from './routes/create-monster'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MonsterIdRouteImport } from './routes/monster.$id'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MonsterIdRoute = MonsterIdRouteImport.update({
+  id: '/monster/$id',
+  path: '/monster/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/create-monster': typeof CreateMonsterRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/monster/$id': typeof MonsterIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/create-monster': typeof CreateMonsterRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/monster/$id': typeof MonsterIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/create-monster': typeof CreateMonsterRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/monster/$id': typeof MonsterIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/create-monster' | '/login' | '/register'
+  fullPaths: '/' | '/create-monster' | '/login' | '/register' | '/monster/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/create-monster' | '/login' | '/register'
-  id: '__root__' | '/' | '/create-monster' | '/login' | '/register'
+  to: '/' | '/create-monster' | '/login' | '/register' | '/monster/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/create-monster'
+    | '/login'
+    | '/register'
+    | '/monster/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +82,7 @@ export interface RootRouteChildren {
   CreateMonsterRoute: typeof CreateMonsterRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  MonsterIdRoute: typeof MonsterIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/monster/$id': {
+      id: '/monster/$id'
+      path: '/monster/$id'
+      fullPath: '/monster/$id'
+      preLoaderRoute: typeof MonsterIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   CreateMonsterRoute: CreateMonsterRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  MonsterIdRoute: MonsterIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
