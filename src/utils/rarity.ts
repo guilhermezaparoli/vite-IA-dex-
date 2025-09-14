@@ -46,7 +46,7 @@ export const rarityConfigs: Record<RarityLevel, RarityConfig> = {
   },
   legendary: {
     level: 'legendary',
-    label: 'Legendário',
+    label: 'Lendário',
     color: '#f59e0b',
     borderColor: '#d97706',
     glowColor: 'rgba(245, 158, 11, 0.7)',

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { LabelType } from '../../components/LabelType';
-import { useFetchAllTypes } from '../../api/queries/useFetchAllTypes';
 
 type MonsterType = "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
 
@@ -15,7 +14,6 @@ const monsterTypes: MonsterType[] = [
 
 export function CreateMonster() {
     const [selectedTypes, setSelectedTypes] = useState<MonsterType[]>([]);
-    const { data } = useFetchAllTypes()
     const handleTypeToggle = (type: MonsterType) => {
         setSelectedTypes(prev => {
             if (prev.includes(type)) {
@@ -43,8 +41,7 @@ export function CreateMonster() {
         console.log(data);
     }
    
-console.log(data, "data");
-
+console.log(errors, selectedTypes);
     return (
         <main className="min-h-screen bg-background p-4">
             <div className="max-w-2xl mx-auto">
@@ -107,13 +104,8 @@ console.log(data, "data");
                                     {monsterTypes.map((type) => (
                                         <div
                                             key={type}
-                                            onClick={() => handleTypeToggle(type)}
-                                            className={`cursor-pointer transition-all ${selectedTypes.includes(type)
-                                                    ? 'ring-2 ring-input ring-offset-2 ring-offset-container-modal'
-                                                    : 'opacity-70 hover:opacity-100'
-                                                }`}
                                         >
-                                            <LabelType monsterType={type} />
+                                            <LabelType monsterType={type} selected={selectedTypes.includes(type)} onClick={() => handleTypeToggle(type)}/>
                                         </div>
                                     ))}
                                 </div>
