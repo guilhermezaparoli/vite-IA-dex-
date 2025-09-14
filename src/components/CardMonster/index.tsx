@@ -1,17 +1,32 @@
 import type { Monster } from "../../api/queries/useFetchAllMonsters";
 import { LabelType } from "../LabelType";
+import { RarityBadge } from "../RarityBadge";
 import { Link } from "@tanstack/react-router";
+import { getRarityConfig } from "../../utils/rarity";
 
 interface CardMonsterProps {
     monster: Monster
 }
 export function CardMonster({ monster }: CardMonsterProps) {
+    const rarityConfig = getRarityConfig(monster);
     
     return (
-        <div className="max-w-72 mx-auto flex items-center flex-col space-y-4 border border-slate-800 rounded-3xl overflow-hidden">
+        <div 
+            className={`max-w-72 mx-auto flex items-center flex-col space-y-4 border-2 rounded-3xl overflow-hidden relative transition-all duration-300 hover:scale-105 ${
+                rarityConfig.level === 'legendary' ? 'rarity-legendary' : ''
+            }`}
+            style={{
+                borderColor: rarityConfig.borderColor,
+                boxShadow: `0 0 20px ${rarityConfig.glowColor}, inset 0 0 20px ${rarityConfig.glowColor}`
+            }}
+        >
+            <div className="absolute top-2 right-2 z-10">
+                <RarityBadge monster={monster} />
+            </div>
+            
             <img src={monster.image} alt="Monster" className="w-full rounded-t-2xl" />
 
-            <div className="flex flex-col items-center text-center gap-3 text-white">
+            <div className="flex flex-col items-center text-center gap-3 text-white px-4">
                 <p>#{monster.id}</p>
                 <h2 className="text-2xl font-bold">{monster.name}</h2>
                 <div className="flex items-center gap-2">
@@ -19,8 +34,17 @@ export function CardMonster({ monster }: CardMonsterProps) {
                     <LabelType monsterType="fairy" selected className="!cursor-default" />
                 </div>
 
-                <p className="text-gray-400 text-sm">created by [{monster.user.name}]</p>
+                <p className="text-gray-400 text-sm">Criado por [{monster.user.name}]</p>
 
+                <div className="flex items-center gap-1 text-xs">
+                    <span className="text-gray-300">Status total:</span>
+                    <span 
+                        className="font-bold"
+                        style={{ color: rarityConfig.color }}
+                    >
+                        {monster.hp + monster.attack + monster.defense + monster.speed + monster.special_attack + monster.special_defense}
+                    </span>
+                </div>
             </div>
 
             <Link 
@@ -28,7 +52,7 @@ export function CardMonster({ monster }: CardMonsterProps) {
                 params={{ id: monster.id }}
                 className="px-4 py-2 w-full bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-center block"
             >
-                More details
+                Mais detalhes
             </Link>
         </div>
     )

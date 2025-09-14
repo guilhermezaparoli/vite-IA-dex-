@@ -28,6 +28,12 @@
   --color-pokemon-card-border: #24293f;
   --color-container-modal: #555555;
   --color-background: #060b28;
+
+  --color-rarity-common: #9ca3af;
+  --color-rarity-uncommon: #10b981;
+  --color-rarity-rare: #3b82f6;
+  --color-rarity-epic: #a855f7;
+  --color-rarity-legendary: #f59e0b;
 }
 
 @layer base {
@@ -57,11 +63,31 @@
     &::-webkit-scrollbar-track {
       background: #060b28;
     }
-    &::-webkit-scrollbar-thumb {
+        &::-webkit-scrollbar-thumb {
       background-color: #2f5aff;
       border-radius: 0.5rem;
-      border: 0.25rem solid #060b28;
+    }
   }
 }
 
+@keyframes rarity-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
+
+@keyframes legendary-sparkle {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(1deg); }
+  50% { transform: scale(1) rotate(0deg); }
+  75% { transform: scale(1.05) rotate(-1deg); }
+}
+
+.rarity-legendary {
+  animation: legendary-sparkle 3s ease-in-out infinite;
+}
+
+.rarity-glow {
+  animation: rarity-glow 2s ease-in-out infinite;
+}
+
+

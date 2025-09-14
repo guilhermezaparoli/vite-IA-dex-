@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useFetchMonsterById } from '../../api/queries/useFetchMonsterById';
+import { RarityIndicator } from '../../components/RarityIndicator';
+import { getRarityConfig } from '../../utils/rarity';
 
 
 interface MonsterDetailsProps {
@@ -13,7 +15,7 @@ const MAX_STAT_VALUE = 255;
 
 export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
     const { data: monster } = useFetchMonsterById(monsterId);
-
+    const rarityConfig = getRarityConfig(monster);
 
     return (
         <main className="min-h-screen bg-background p-4">
@@ -46,6 +48,10 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                             <div className="text-center space-y-4">
                                 <div className="text-gray-400 text-lg">#{monster.id}</div>
                                 <h1 className="text-4xl font-bold text-white">{monster.name}</h1>
+                                
+                                <div className="flex justify-center">
+                                    <RarityIndicator monster={monster} size="large" />
+                                </div>
                                 
                                 {/* <div className="flex justify-center gap-2">
                                     {monster.types?.map((type) => (
@@ -83,7 +89,22 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                         <div className="bg-container-modal rounded-2xl p-6">
                             <h2 className="text-xl font-bold text-white mb-4">Estatísticas</h2>
                             <div className="space-y-4">
+                                <div className="bg-background rounded-lg p-4 border-2" style={{ borderColor: rarityConfig.borderColor }}>
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-300 font-semibold">Total das Estatísticas</span>
+                                        <span 
+                                            className="text-2xl font-bold"
+                                            style={{ color: rarityConfig.color }}
+                                        >
+                                            {monster.hp + monster.attack + monster.defense + monster.speed + monster.special_attack + monster.special_defense}
+                                        </span>
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                        Raridade: <span style={{ color: rarityConfig.color }}>{rarityConfig.label}</span>
+                                    </div>
+                                </div>
                                 
+                            
                                     <div className="space-y-2">
                                         <div className="flex justify-between text-sm">
                                             <span className="text-gray-300 capitalize">
