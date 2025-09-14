@@ -19,7 +19,7 @@ export function CardMonster({ monster }: CardMonsterProps) {
                     <LabelType monsterType="fairy" selected className="!cursor-default" />
                 </div>
 
-                <p className="text-gray-400 text-sm">created by [Your Name]</p>
+                <p className="text-gray-400 text-sm">created by [{monster.user.name}]</p>
 
             </div>
 

@@ -1,5 +1,6 @@
-import { fetchAllMonsters, type Monster, type MonstersResponse } from "../fetchAllMonsters";
+import { fetchAllMonsters, type MonstersResponse } from "../fetchAllMonsters";
 import { fetchMonsterById } from "../fetchMonsterById";
+import type { Monster } from "../queries/useFetchAllMonsters";
 
 interface IMonsterQueries {
     all: () => string[];

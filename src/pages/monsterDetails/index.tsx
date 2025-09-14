@@ -1,40 +1,19 @@
 import { Link } from '@tanstack/react-router';
-import { LabelType } from '../../components/LabelType';
 import { useFetchMonsterById } from '../../api/queries/useFetchMonsterById';
-import type { Monster } from '../../api/fetchAllMonsters';
 
 
 interface MonsterDetailsProps {
     monsterId: string;
 }
 
-type MonsterType = "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
+// type MonsterType = "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
 
-interface ExtendedMonster extends Monster {
-    types?: MonsterType[];
-    stats?: Record<string, number>;
-}
+
+const MAX_STAT_VALUE = 255; 
 
 export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
     const { data: monster } = useFetchMonsterById(monsterId);
-    const extendedData: Pick<ExtendedMonster, 'types' | 'stats'> = {
-        types: ["dragon", "fire"],
-        stats: {
-            hp: 85,
-            attack: 120,
-            defense: 78,
-            speed: 95,
-            special_attack: 110,
-            special_defense: 85
-        }
-    };
 
-    const extendedMonster: ExtendedMonster = {
-        ...monster,
-        ...extendedData
-    };
-
-    const maxStat = Math.max(...Object.values(extendedMonster.stats || {}));
 
     return (
         <main className="min-h-screen bg-background p-4">
@@ -57,19 +36,19 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                       
                         <div className="bg-container-modal rounded-2xl p-6">
                             <img 
-                                src={extendedMonster.image} 
-                                alt={extendedMonster.name}
+                                src={monster.image} 
+                                alt={monster.name}
                                 className="w-full max-w-md mx-auto rounded-lg"
                             />
                         </div>
 
                         <div className="bg-container-modal rounded-2xl p-6">
                             <div className="text-center space-y-4">
-                                <div className="text-gray-400 text-lg">#{extendedMonster.id}</div>
-                                <h1 className="text-4xl font-bold text-white">{extendedMonster.name}</h1>
+                                <div className="text-gray-400 text-lg">#{monster.id}</div>
+                                <h1 className="text-4xl font-bold text-white">{monster.name}</h1>
                                 
-                                <div className="flex justify-center gap-2">
-                                    {extendedMonster.types?.map((type) => (
+                                {/* <div className="flex justify-center gap-2">
+                                    {monster.types?.map((type) => (
                                         <LabelType 
                                             key={type} 
                                             monsterType={type} 
@@ -77,10 +56,10 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                                             className="!cursor-default" 
                                         />
                                     ))}
-                                </div>
+                                </div> */}
 
                                 <div className="text-gray-400 text-sm">
-                                    Criado em {new Date(extendedMonster.created_at).toLocaleDateString('pt-BR')} por {extendedMonster.user.name}
+                                    Criado em {new Date(monster.created_at).toLocaleDateString('pt-BR')} por {monster.user.name}
                                 </div>
                             </div>
                         </div>
@@ -91,35 +70,105 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                        
                         <div className="bg-container-modal rounded-2xl p-6">
                             <h2 className="text-xl font-bold text-white mb-4">Descrição</h2>
-                            <p className="text-gray-300 leading-relaxed">{extendedMonster.description}</p>
+                            <p className="text-gray-300 leading-relaxed">{monster.description}</p>
                         </div>
 
                        
                         <div className="bg-container-modal rounded-2xl p-6">
                             <h2 className="text-xl font-bold text-white mb-4">História</h2>
-                            <p className="text-gray-300 leading-relaxed">{extendedMonster.story}</p>
+                            <p className="text-gray-300 leading-relaxed">{monster.story}</p>
                         </div>
 
                       
                         <div className="bg-container-modal rounded-2xl p-6">
                             <h2 className="text-xl font-bold text-white mb-4">Estatísticas</h2>
                             <div className="space-y-4">
-                                {Object.entries(extendedMonster.stats || {}).map(([statName, value]) => (
-                                    <div key={statName} className="space-y-2">
+                                
+                                    <div className="space-y-2">
                                         <div className="flex justify-between text-sm">
                                             <span className="text-gray-300 capitalize">
-                                                {statName.replace('_', ' ')}
+                                                HP
                                             </span>
-                                            <span className="text-white font-medium">{value as number}</span>
+                                            <span className="text-white font-medium">{monster.hp}</span>
                                         </div>
                                         <div className="w-full bg-background rounded-full h-2">
                                             <div
                                                 className="bg-input h-2 rounded-full transition-all duration-300"
-                                                style={{ width: `${((value as number) / maxStat) * 100}%` }}
+                                                style={{ width: `${((monster.hp) / MAX_STAT_VALUE) * 100}%` }}
                                             />
                                         </div>
                                     </div>
-                                ))}
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-300 capitalize">
+                                                Ataque
+                                            </span>
+                                            <span className="text-white font-medium">{monster.attack}</span>
+                                        </div>
+                                        <div className="w-full bg-background rounded-full h-2">
+                                            <div
+                                                className="bg-input h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${((monster.attack) / MAX_STAT_VALUE) * 100}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-300 capitalize">
+                                                Defesa
+                                            </span>
+                                            <span className="text-white font-medium">{monster.defense}</span>
+                                        </div>
+                                        <div className="w-full bg-background rounded-full h-2">
+                                            <div
+                                                className="bg-input h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${((monster.defense) / MAX_STAT_VALUE) * 100}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-300 capitalize">
+                                                Velocidade
+                                            </span>
+                                            <span className="text-white font-medium">{monster.speed}</span>
+                                        </div>
+                                        <div className="w-full bg-background rounded-full h-2">
+                                            <div
+                                                className="bg-input h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${((monster.speed) / MAX_STAT_VALUE) * 100}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-300 capitalize">
+                                                Ataque especial
+                                            </span>
+                                            <span className="text-white font-medium">{monster.special_attack}</span>
+                                        </div>
+                                        <div className="w-full bg-background rounded-full h-2">
+                                            <div
+                                                className="bg-input h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${((monster.special_attack) / MAX_STAT_VALUE) * 100}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="flex justify-between text-sm">
+                                            <span className="text-gray-300 capitalize">
+                                                Defesa especial
+                                            </span>
+                                            <span className="text-white font-medium">{monster.special_defense}</span>
+                                        </div>
+                                        <div className="w-full bg-background rounded-full h-2">
+                                            <div
+                                                className="bg-input h-2 rounded-full transition-all duration-300"
+                                                style={{ width: `${((monster.special_defense) / MAX_STAT_VALUE) * 100}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                
                             </div>
                         </div>
                     </div>

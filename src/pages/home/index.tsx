@@ -32,8 +32,7 @@ console.log(monstersData);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-        
-        // Scroll suave para o topo da lista (opcional)
+    
         const element = document.querySelector('#monsters-list');
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
