@@ -30,8 +30,8 @@ export function CardMonster({ monster }: CardMonsterProps) {
                 <p>#{monster.id}</p>
                 <h2 className="text-2xl font-bold">{monster.name}</h2>
                 <div className="flex items-center gap-2">
-                    <LabelType monsterType="dragon" selected className="!cursor-default" />
-                    <LabelType monsterType="fairy" selected className="!cursor-default" />
+                    <LabelType monsterType="DRAGON" selected className="!cursor-default" />
+                    <LabelType monsterType="FAIRY" selected className="!cursor-default" />
                 </div>
 
                 <p className="text-gray-400 text-sm">Criado por [{monster.user.name}]</p>

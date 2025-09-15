@@ -71,24 +71,24 @@ console.log(monstersData);
             <section className="flex flex-col space-y-4">
                 <h2 className="text-xl font-semibold text-white ">Encontre pelo tipo:</h2>
                 <div className="flex flex-wrap justify-center items-center gap-4 p-4">
-                    <LabelType monsterType="normal" onClick={() => handleTypeClick('normal')} selected={selectedType === 'normal'}  />
-                    <LabelType monsterType="fire" />
-                    <LabelType monsterType="water" />
-                    <LabelType monsterType="electric" />
-                    <LabelType monsterType="grass" />
-                    <LabelType monsterType="ice" />
-                    <LabelType monsterType="fighting" />
-                    <LabelType monsterType="poison" />
-                    <LabelType monsterType="ground" />
-                    <LabelType monsterType="flying" />
-                    <LabelType monsterType="psychic" />
-                    <LabelType monsterType="bug" />
-                    <LabelType monsterType="rock" />
-                    <LabelType monsterType="ghost" />
-                    <LabelType monsterType="dragon" />
-                    <LabelType monsterType="dark" />
-                    <LabelType monsterType="steel" />
-                    <LabelType monsterType="fairy" />
+                    <LabelType monsterType="NORMAL" onClick={() => handleTypeClick('NORMAL')} selected={selectedType === 'NORMAL'}  />
+                    <LabelType monsterType="FIRE" />
+                    <LabelType monsterType="WATER" />
+                    <LabelType monsterType="ELECTRIC" />
+                    <LabelType monsterType="GRASS" />
+                    <LabelType monsterType="ICE" />
+                    <LabelType monsterType="FIGHTING" />
+                    <LabelType monsterType="POISON" />
+                    <LabelType monsterType="GROUND" />
+                    <LabelType monsterType="FLYING" />
+                    <LabelType monsterType="PSYCHIC" />
+                    <LabelType monsterType="BUG" />
+                    <LabelType monsterType="ROCK" />
+                    <LabelType monsterType="GHOST" />
+                    <LabelType monsterType="DRAGON" />
+                    <LabelType monsterType="DARK" />
+                    <LabelType monsterType="STEEL" />
+                    <LabelType monsterType="FAIRY" />
                 </div>
             </section>
 

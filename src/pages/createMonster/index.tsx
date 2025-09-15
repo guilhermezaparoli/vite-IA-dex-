@@ -1,61 +1,78 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { z } from 'zod';
 import { LabelType } from '../../components/LabelType';
+import type { MonsterType } from '../../@types/monster';
+import { useCreateMonster } from '../../api/mutations/useCreateMonster';
 
-type MonsterType = "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
 
 const monsterTypes: MonsterType[] = [
-    "normal", "fire", "water", "electric", "grass", "ice",
-    "fighting", "poison", "ground", "flying", "psychic", "bug",
-    "rock", "ghost", "dragon", "dark", "steel", "fairy"
+  "NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE",
+  "FIGHTING", "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG",
+  "ROCK", "GHOST", "DRAGON", "DARK", "STEEL", "FAIRY"
 ];
 
 export function CreateMonster() {
-    const [selectedTypes, setSelectedTypes] = useState<MonsterType[]>([]);
-    const handleTypeToggle = (type: MonsterType) => {
-        setSelectedTypes(prev => {
-            if (prev.includes(type)) {
-                return prev.filter(t => t !== type);
-            } else if (prev.length < 2) {
-                return [...prev, type];
-            }
-            return prev;
-        });
-    };
-
+    const { mutate, isPending } = useCreateMonster()
     const formSchema = z.object({
         name: z.string().min(1, "Nome é obrigatório"),
         description: z.string().min(1, "Descrição é obrigatória"),
-        story: z.string().optional(),
+        story: z.string(),
         types: z.array(z.enum(monsterTypes)).max(2, "Selecione no máximo 2 tipos").min(1, "Selecione pelo menos 1 tipo")
     })
-    type FormData = z.infer<typeof formSchema>;
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        resolver: zodResolver(formSchema)
-    });
 
+    type FormData = z.infer<typeof formSchema>;
+
+    const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            types: [],
+            story: ""
+        }
+    });
+    
+    const selectedTypes = watch("types");
+    
+    const handleTypeToggle = (type: MonsterType) => {
+
+        if(watch("types").includes(type)) {
+            const newTypes = watch("types").filter(t => t !== type);
+            setValue("types", newTypes);
+        } else if(watch("types").length < 2) {
+            const newTypes = [...watch("types"), type];
+            setValue("types", newTypes);
+        }
+    };
 
     const onHandleSubmit = (data: FormData) => {
         console.log(data);
+
+
+        mutate({ 
+            description: data.description,
+            name: data.name,
+            story: data.story,
+            types: selectedTypes
+        }, {
+            onSuccess: () => {
+                alert("Criou essa bomba")
+            }
+        })
     }
    
 console.log(errors, selectedTypes);
     return (
         <main className="min-h-screen bg-background p-4">
             <div className="max-w-2xl mx-auto">
-                {/* Header */}
+          
                 <div className="text-center mb-8 pt-8">
                     <h1 className="text-4xl font-bold text-white mb-2">Criar Monstro</h1>
                     <p className="text-gray-400">Use IA para gerar seu monstro único</p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-8">
-                    {/* Form Section */}
                     <div className="bg-container-modal rounded-2xl p-6">
                         <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
-                            {/* Name Field */}
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                                     Nome do Monstro *
@@ -68,7 +85,7 @@ console.log(errors, selectedTypes);
                                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                             </div>
 
-                            {/* Description Field */}
+                        
                             <div>
                                 <label htmlFor="description" className="block text-sm font-medium text-white mb-2">
                                     Descrição *
@@ -82,7 +99,7 @@ console.log(errors, selectedTypes);
                                 {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                             </div>
 
-                            {/* Story Field */}
+                        
                             <div>
                                 <label htmlFor="story" className="block text-sm font-medium text-white mb-2">
                                     História
@@ -109,18 +126,19 @@ console.log(errors, selectedTypes);
                                         </div>
                                     ))}
                                 </div>
-                                <p className="text-xs text-gray-400 mt-2">
-                                    Selecionados: {selectedTypes.length}/2
-                                </p>
+                                <div className='mt-4'>
+
+                                {errors.types && <p className="text-red-500 text-sm mt-1">{errors.types.message}</p>}
+                                </div>
                             </div>
 
 
                             <button
                                 type="submit"
-                                // disabled={isLoading || !isFormValid}
+                                disabled={isPending}
                                 className="w-full bg-input text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {/* {isLoading ? (
+                                {isPending ? (
                                     <div className="flex items-center justify-center">
                                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -130,7 +148,7 @@ console.log(errors, selectedTypes);
                                     </div>
                                 ) : (
                                     'Criar Monstro'
-                                )} */}
+                                )}
                             </button>
                         </form>
                     </div>
