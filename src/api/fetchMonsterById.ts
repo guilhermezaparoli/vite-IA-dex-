@@ -5,7 +5,7 @@ interface MonsterResponse {
     monster: Monster;
 }
 
-export const fetchMonsterById = async (id: string) => {
+export async function fetchMonsterById (id: string) {
     const { data } = await api.get<MonsterResponse>(`/monster/${id}`)
 
     return data.monster

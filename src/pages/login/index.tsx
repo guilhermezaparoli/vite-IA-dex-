@@ -3,16 +3,17 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { Eye, EyeOff } from "lucide-react"
+import { useAuthenticate } from '../../api/mutations/useAuthenticate';
+import { isAxiosError } from 'axios';
 
 export function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+
+    const { mutate: authenticateMutate, isPending } = useAuthenticate()
 
     const zodSchema = z.object({
         email: z.email("Informe um e-mail válido"),
-        password: z.string().min(1, "Informe uma senha")
+        password: z.string().min(8, "Informe uma senha com no mínimo 8 caracteres")
     })
 
     type FormType = z.infer<typeof zodSchema>
@@ -24,7 +25,17 @@ export function Login() {
 
     const onHandleSubmit = async (data: FormType) => {
 
-        console.log(data);
+        authenticateMutate(data, {
+            onSuccess: ({ data }) => {
+                console.log(data.token);
+            },
+            onError: (error) => {
+                if(isAxiosError(error)) {
+                    console.log(error.response?.data.message);
+
+                }
+            }
+        })
     };
 
     return (
@@ -49,7 +60,7 @@ export function Login() {
                                 placeholder="seu@email.com"
                                 {...register("email")}
                             />
-                            {errors.email && <p className='text-red-500'>{errors.email.message}</p>}
+                            {errors.email && <p className='text-red-500 mt-2'>{errors.email.message}</p>}
                         </div>
 
                         {/* Password Field */}
@@ -76,7 +87,7 @@ export function Login() {
                                         )}
                                 </button>
                             </div>
-                            {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
+                            {errors.password && <p className='text-red-500 mt-2'>{errors.password.message}</p>}
                         </div>
 
                         {/* Remember Me & Forgot Password */}
@@ -95,10 +106,10 @@ export function Login() {
 
                         <button
                             type="submit"
-                            disabled={isLoading}
+                            disabled={isPending}
                             className="w-full bg-input cursor-pointer text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {isLoading ? (
+                            {isPending ? (
                                 <div className="flex items-center justify-center">
                                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -113,7 +124,7 @@ export function Login() {
                     </form>
 
                     {/* Divider */}
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-pokemon-card-border"></div>
@@ -122,10 +133,10 @@ export function Login() {
                                 <span className="px-2 bg-container-modal text-gray-400">ou</span>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Social Login */}
-                    <div className="mt-6 space-y-3">
+                    {/* <div className="mt-6 space-y-3">
                         <button className="w-full flex items-center justify-center px-4 py-3 border border-pokemon-card-border rounded-lg text-white hover:bg-background transition-colors">
                             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -135,7 +146,7 @@ export function Login() {
                             </svg>
                             Continuar com Google
                         </button>
-                    </div>
+                    </div> */}
 
                     {/* Sign Up Link */}
                     <div className="mt-6 text-center">

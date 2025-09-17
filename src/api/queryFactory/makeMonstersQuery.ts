@@ -1,31 +1,20 @@
-import { fetchAllMonsters, type MonstersResponse } from "../fetchAllMonsters";
+import { fetchAllMonsters } from "../fetchAllMonsters";
 import { fetchMonsterById } from "../fetchMonsterById";
-import type { Monster } from "../queries/useFetchAllMonsters";
 
-interface IMonsterQueries {
-    all: () => string[];
-    allPaginated: (page: number, pageSize: number, search?: string) => {
-        queryKey: (string | { page: number; pageSize: number; search?: string | undefined; })[];
-        queryFn: () => Promise<MonstersResponse>;
-    };
-    byId: (id: string) => {
-        queryKey: (string | string)[];
-        queryFn: () => Promise<Monster>;
-    };
-}
 
-export const makeMonstersQuery: IMonsterQueries = {
-    all: () => ['monsters'],
+export const makeMonstersQuery = {
+    all: () => ['monsters'] as const,
     allPaginated: (page: number, pageSize: number, search?: string) => (
         {
             queryKey: [...makeMonstersQuery.all(), { page, pageSize, search }],
             queryFn: () => fetchAllMonsters({ page, pageSize, search })
         }
-    ),
+    ) as const,
     byId: (id: string) => (
         {
             queryKey: [...makeMonstersQuery.all(), id],
             queryFn: () => fetchMonsterById(id)
         }
-    )
+    ) as const
 }
+
