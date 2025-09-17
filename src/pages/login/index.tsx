@@ -5,6 +5,7 @@ import z from 'zod';
 import { Eye, EyeOff } from "lucide-react"
 import { useAuthenticate } from '../../api/mutations/useAuthenticate';
 import { isAxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 export function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -30,8 +31,18 @@ export function Login() {
                 console.log(data.token);
             },
             onError: (error) => {
-                if(isAxiosError(error)) {
-                    console.log(error.response?.data.message);
+                if (isAxiosError(error)) {
+                    const message = error.response?.data.message
+                    const errorTranslation: Record<string, string> = {
+                        "Invalid credentials": "Credenciais inválidas",
+                    };
+
+                    if (typeof message === "string") {
+                        const translated =
+                            (message && errorTranslation[message]) ||
+                            "Ocorreu um erro inesperado. Tente novamente.";
+                        toast.error(translated)
+                    }
 
                 }
             }

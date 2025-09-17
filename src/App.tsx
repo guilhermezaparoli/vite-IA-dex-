@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import { Suspense } from "react"
+import { ToastContainer } from "react-toastify"
 
 const router = createRouter({ routeTree })
 
@@ -31,6 +32,7 @@ export default function App() {
             }>
                 <RouterProvider router={router} />
             </Suspense>
+            <ToastContainer />
         </QueryClientProvider>
     )
 }
