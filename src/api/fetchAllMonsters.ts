@@ -1,5 +1,5 @@
 import { api } from "./axios/api";
-import type { Monster } from "./queries/useFetchAllMonsters";
+import type { Monster } from "./queries/monsters/useFetchAllMonsters";
 
 
 
@@ -23,6 +23,5 @@ export async function fetchAllMonsters({ page, pageSize, search }: MonstersParam
     const { data } = await api.get<MonstersResponse>('/monsters', {
         params: { page, pageSize, search }
     })
-
     return data
 }

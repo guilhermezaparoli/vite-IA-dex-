@@ -4,16 +4,19 @@ import { z } from 'zod';
 import { LabelType } from '../../components/LabelType';
 import type { MonsterType } from '../../@types/monster';
 import { useCreateMonster } from '../../api/mutations/useCreateMonster';
+import { toast } from 'react-toastify';
+import { useNavigate } from '@tanstack/react-router';
 
 
 const monsterTypes: MonsterType[] = [
-  "NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE",
-  "FIGHTING", "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG",
-  "ROCK", "GHOST", "DRAGON", "DARK", "STEEL", "FAIRY"
+    "NORMAL", "FIRE", "WATER", "ELECTRIC", "GRASS", "ICE",
+    "FIGHTING", "POISON", "GROUND", "FLYING", "PSYCHIC", "BUG",
+    "ROCK", "GHOST", "DRAGON", "DARK", "STEEL", "FAIRY"
 ];
 
 export function CreateMonster() {
-    const { mutate, isPending } = useCreateMonster()
+    const { mutate: createMonster, isPending } = useCreateMonster()
+    const navigate = useNavigate()
     const formSchema = z.object({
         name: z.string().min(1, "Nome é obrigatório"),
         description: z.string().min(1, "Descrição é obrigatória"),
@@ -30,15 +33,15 @@ export function CreateMonster() {
             story: ""
         }
     });
-    
+
     const selectedTypes = watch("types");
-    
+
     const handleTypeToggle = (type: MonsterType) => {
 
-        if(watch("types").includes(type)) {
+        if (watch("types").includes(type)) {
             const newTypes = watch("types").filter(t => t !== type);
             setValue("types", newTypes);
-        } else if(watch("types").length < 2) {
+        } else if (watch("types").length < 2) {
             const newTypes = [...watch("types"), type];
             setValue("types", newTypes);
         }
@@ -48,23 +51,26 @@ export function CreateMonster() {
         console.log(data);
 
 
-        mutate({ 
+        createMonster({
             description: data.description,
             name: data.name,
             story: data.story,
             types: selectedTypes
         }, {
-            onSuccess: () => {
-                alert("Criou essa bomba")
+            onSuccess: ({ id }) => {
+                toast.success("Monstro criado com sucesso!")
+                navigate({
+                    to: `/monster/${id}`
+                })
             }
         })
     }
-   
-console.log(errors, selectedTypes);
+
+    console.log(errors, selectedTypes);
     return (
         <main className="min-h-screen bg-background p-4">
             <div className="max-w-2xl mx-auto">
-          
+
                 <div className="text-center mb-8 pt-8">
                     <h1 className="text-4xl font-bold text-white mb-2">Criar Monstro</h1>
                     <p className="text-gray-400">Use IA para gerar seu monstro único</p>
@@ -85,7 +91,7 @@ console.log(errors, selectedTypes);
                                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                             </div>
 
-                        
+
                             <div>
                                 <label htmlFor="description" className="block text-sm font-medium text-white mb-2">
                                     Descrição *
@@ -99,7 +105,7 @@ console.log(errors, selectedTypes);
                                 {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>}
                             </div>
 
-                        
+
                             <div>
                                 <label htmlFor="story" className="block text-sm font-medium text-white mb-2">
                                     História
@@ -122,13 +128,13 @@ console.log(errors, selectedTypes);
                                         <div
                                             key={type}
                                         >
-                                            <LabelType monsterType={type} selected={selectedTypes.includes(type)} onClick={() => handleTypeToggle(type)}/>
+                                            <LabelType monsterType={type} selected={selectedTypes.includes(type)} onClick={() => handleTypeToggle(type)} />
                                         </div>
                                     ))}
                                 </div>
                                 <div className='mt-4'>
 
-                                {errors.types && <p className="text-red-500 text-sm mt-1">{errors.types.message}</p>}
+                                    {errors.types && <p className="text-red-500 text-sm mt-1">{errors.types.message}</p>}
                                 </div>
                             </div>
 

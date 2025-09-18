@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CardMonster } from "../../components/CardMonster";
 import { LabelType } from "../../components/LabelType";
-import { useFetchAllMonsters } from "../../api/queries/useFetchAllMonsters";
+import { useFetchAllMonsters } from "../../api/queries/monsters/useFetchAllMonsters";
 import { Pagination } from "../../components/Pagination";
 
 export function Home() {

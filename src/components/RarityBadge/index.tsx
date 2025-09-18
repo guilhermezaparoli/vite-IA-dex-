@@ -1,5 +1,5 @@
 import { getRarityConfig } from '../../utils/rarity';
-import type { Monster } from '../../api/queries/useFetchAllMonsters';
+import type { Monster } from '../../api/queries/monsters/useFetchAllMonsters';
 
 interface RarityBadgeProps {
   monster: Monster;

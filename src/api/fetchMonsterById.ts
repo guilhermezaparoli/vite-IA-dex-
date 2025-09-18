@@ -1,5 +1,5 @@
 import { api } from "./axios/api";
-import type { Monster } from "./queries/useFetchAllMonsters";
+import type { Monster } from "./queries/monsters/useFetchAllMonsters";
 
 interface MonsterResponse {
     monster: Monster;

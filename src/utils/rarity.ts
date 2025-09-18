@@ -1,4 +1,4 @@
-import type { Monster } from "../api/queries/useFetchAllMonsters";
+import type { Monster } from "../api/queries/monsters/useFetchAllMonsters";
 
 export type RarityLevel = 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 

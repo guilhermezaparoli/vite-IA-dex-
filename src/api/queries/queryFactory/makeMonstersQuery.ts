@@ -1,5 +1,5 @@
-import { fetchAllMonsters } from "../fetchAllMonsters";
-import { fetchMonsterById } from "../fetchMonsterById";
+import { fetchAllMonsters } from "../../fetchAllMonsters";
+import { fetchMonsterById } from "../../fetchMonsterById";
 
 
 export const makeMonstersQuery = {

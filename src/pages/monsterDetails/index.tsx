@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { useFetchMonsterById } from '../../api/queries/useFetchMonsterById';
+import { useFetchMonsterById } from '../../api/queries/monsters/useFetchMonsterById';
 import { RarityIndicator } from '../../components/RarityIndicator';
 import { getRarityConfig } from '../../utils/rarity';
 

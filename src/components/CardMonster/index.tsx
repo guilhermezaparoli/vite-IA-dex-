@@ -1,4 +1,4 @@
-import type { Monster } from "../../api/queries/useFetchAllMonsters";
+import type { Monster } from "../../api/queries/monsters/useFetchAllMonsters";
 import { LabelType } from "../LabelType";
 import { RarityBadge } from "../RarityBadge";
 import { Link } from "@tanstack/react-router";

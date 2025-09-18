@@ -1,21 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
-import type { MonsterType } from "../../@types/monster";
-import { api } from "../axios/api";
-
-interface CreateMonsterRequest {
-    name: string;
-    description: string;
-    story: string;
-    types: MonsterType[]
-}
-
-
-function createMonster(body: CreateMonsterRequest) {
-    return api.post('/monsters/create', body)
-}
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createMonster } from "../createMonster";
+import { makeMonstersQuery } from "../queries/queryFactory/makeMonstersQuery";
 
 export function useCreateMonster() {
+    const queryClient = useQueryClient()
     return useMutation({
-        mutationFn: createMonster
+        mutationFn: createMonster,
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: makeMonstersQuery.all()
+            })
+        }
     })
 }

@@ -1,7 +1,7 @@
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { makeMonstersQuery } from "../queryFactory/makeMonstersQuery";
-import type { MonsterType } from "../../@types/monster";
+import type { MonsterType } from "../../../@types/monster";
 
 
 export interface Monster {
@@ -12,17 +12,17 @@ export interface Monster {
     image: string;
     created_at: string;
     user_id: string;
-    types: MonsterType[]
     user: {
         name: string
     }
-
+    
     hp: number;
     attack: number;
     defense: number;
     speed: number;
     special_attack: number;
     special_defense: number;
+    types: MonsterType[]
 }
 
 
