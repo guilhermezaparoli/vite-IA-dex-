@@ -6,10 +6,12 @@ import { Eye, EyeOff } from "lucide-react"
 import { useAuthenticate } from '../../api/mutations/useAuthenticate';
 import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
+import { useAuthenticateContext } from '../../context/authenticate';
+
 
 export function Login() {
     const [showPassword, setShowPassword] = useState(false);
-
+    const { setToken } = useAuthenticateContext()
     const { mutate: authenticateMutate, isPending } = useAuthenticate()
 
     const zodSchema = z.object({
@@ -28,7 +30,7 @@ export function Login() {
 
         authenticateMutate(data, {
             onSuccess: ({ data }) => {
-                console.log(data.token);
+                setToken(data.token)
             },
             onError: (error) => {
                 if (isAxiosError(error)) {

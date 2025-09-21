@@ -4,6 +4,8 @@ import { createRouter, RouterProvider } from "@tanstack/react-router"
 import { routeTree } from "./routeTree.gen"
 import { Suspense } from "react"
 import { toast, ToastContainer } from "react-toastify"
+import AuthenticateProvider from "./context/authenticate"
+
 
 const router = createRouter({ routeTree })
 
@@ -24,7 +26,7 @@ const queryClient = new QueryClient({
     },
     queryCache: new QueryCache({
         onError: (error, query) => {
-            if(typeof query.state.data !== 'undefined'){
+            if (typeof query.state.data !== 'undefined') {
                 toast.error(error.message)
             }
         }
@@ -40,7 +42,9 @@ export default function App() {
                     <div className="text-white text-xl">Carregando aplicação...</div>
                 </div>
             }>
-                <RouterProvider router={router} />
+                <AuthenticateProvider>
+                    <RouterProvider router={router} />
+                </AuthenticateProvider>
             </Suspense>
             <ToastContainer />
         </QueryClientProvider>
