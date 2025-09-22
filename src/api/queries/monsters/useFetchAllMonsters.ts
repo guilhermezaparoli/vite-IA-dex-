@@ -39,17 +39,18 @@ export interface MonstersResponse {
 export interface MonstersParams {
     page: number;
     pageSize: number;
-    search?: string;
+    types?: MonsterType[] | null;
 }
 
 export const useFetchAllMonsters = (params: MonstersParams) => {
 
-    const { page, pageSize, search } = params
+    const { page, pageSize, types } = params
+
     const queryClient = useQueryClient()
     useEffect(() => {
-        queryClient.prefetchQuery(makeMonstersQuery.allPaginated(page + 1, pageSize, search))
-    }, [page, pageSize, search, queryClient])
+        queryClient.prefetchQuery(makeMonstersQuery.allPaginated(page + 1, pageSize, types))
+    }, [page, pageSize, types, queryClient])
 
 
-    return useSuspenseQuery(makeMonstersQuery.allPaginated(page, pageSize, search))
+    return useSuspenseQuery(makeMonstersQuery.allPaginated(page, pageSize, types))
 }

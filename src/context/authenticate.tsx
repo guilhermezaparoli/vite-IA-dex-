@@ -102,8 +102,8 @@ export const useAuthenticateContext = () => {
 
     if (context == undefined) {
         throw new Error("useAuthenticate must be used within an AuthenticateProvider");
-
     }
+    
     return context
 }
 

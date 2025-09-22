@@ -4,35 +4,43 @@ import { CardMonster } from "../../components/CardMonster";
 import { LabelType } from "../../components/LabelType";
 import { useFetchAllMonsters } from "../../api/queries/monsters/useFetchAllMonsters";
 import { Pagination } from "../../components/Pagination";
+import type { MonsterType } from "../../@types/monster";
+import { monsterTypes } from "../../constants/monsterTypes";
 
 export function Home() {
 
-    const [selectedType, setSelectedType] = useState<string | null>(null);
-       const [currentPage, setCurrentPage] = useState(1);
+    const [selectedType, setSelectedType] = useState<MonsterType[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const { data: monstersData } = useFetchAllMonsters({
         page: currentPage,
-        pageSize: 10
+        pageSize: 10,
+        types: selectedType
     })
 
-    const handleTypeClick = (type: string) => {
-
-        if(selectedType === type) {
-            setSelectedType(null);
+    const handleTypeClick = (type: MonsterType) => {
+        
+        if (selectedType?.includes(type)) {
+            setSelectedType(selectedType.filter(t => t !== type));
             return;
         }
+        
+        if (selectedType.length >= 2) {
+            return
+        }
 
-        setSelectedType(type);
+
+        setSelectedType([...selectedType, type]);
     };
 
 
     const { monsters, pagination } = monstersData;
     const { totalItems, pageSize } = pagination;
-console.log(monstersData);
+    console.log(monstersData);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
-    
+
         const element = document.querySelector('#monsters-list');
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -56,10 +64,10 @@ console.log(monstersData);
             </button> */}
 
             <div className="relative m-8">
-                <input 
-                    type="text" 
-                    className="p-2 pr-10 border text-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-transparent" 
-                    placeholder="Pesquise seu monstro" 
+                <input
+                    type="text"
+                    className="p-2 pr-10 border text-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-transparent"
+                    placeholder="Pesquise seu monstro"
                 />
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                     <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,24 +79,9 @@ console.log(monstersData);
             <section className="flex flex-col space-y-4">
                 <h2 className="text-xl font-semibold text-white ">Encontre pelo tipo:</h2>
                 <div className="flex flex-wrap justify-center items-center gap-4 p-4">
-                    <LabelType monsterType="NORMAL" onClick={() => handleTypeClick('NORMAL')} selected={selectedType === 'NORMAL'}  />
-                    <LabelType monsterType="FIRE" />
-                    <LabelType monsterType="WATER" />
-                    <LabelType monsterType="ELECTRIC" />
-                    <LabelType monsterType="GRASS" />
-                    <LabelType monsterType="ICE" />
-                    <LabelType monsterType="FIGHTING" />
-                    <LabelType monsterType="POISON" />
-                    <LabelType monsterType="GROUND" />
-                    <LabelType monsterType="FLYING" />
-                    <LabelType monsterType="PSYCHIC" />
-                    <LabelType monsterType="BUG" />
-                    <LabelType monsterType="ROCK" />
-                    <LabelType monsterType="GHOST" />
-                    <LabelType monsterType="DRAGON" />
-                    <LabelType monsterType="DARK" />
-                    <LabelType monsterType="STEEL" />
-                    <LabelType monsterType="FAIRY" />
+                    {monsterTypes.map((type) => (
+                        <LabelType monsterType={type} onClick={() => handleTypeClick(type)} selected={selectedType?.includes(type)} />
+                    ))}
                 </div>
             </section>
 
@@ -100,7 +93,7 @@ console.log(monstersData);
 
             </section>
 
-            <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / pageSize)} onPageChange={handlePageChange} itemsPerPage={pageSize} totalItems={totalItems}  />
+            <Pagination currentPage={currentPage} totalPages={Math.ceil(totalItems / pageSize)} onPageChange={handlePageChange} itemsPerPage={pageSize} totalItems={totalItems} />
         </main>
     )
 }
