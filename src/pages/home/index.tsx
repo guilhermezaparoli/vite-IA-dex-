@@ -69,7 +69,7 @@ export function Home() {
 
 
     return (
-        <main className="flex flex-col items-center justify-center">
+        <main className="flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
 
             <section className="flex justify-center items-center flex-col space-y-4 p-4">
                 <h1 className="text-3xl font-bold text-white">Bem vindo ao AI Dex</h1>
@@ -108,15 +108,19 @@ export function Home() {
                 </div>
             </section>
 
-            {isLoading ? <div>Carregando...</div> : (<>
+            {isLoading ? <div className="flex items-center justify-center text-white text-xl mt-20">Carregando...</div> : (<>
 
-                <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-4 mt-10">
+                <section id="monsters-list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-4 mt-10">
 
                     {monsters?.map((monster: Monster) => (
                         <CardMonster key={monster.id} monster={monster} />
                     ))}
 
+
                 </section>
+                    {monsters.length === 0 && (
+                        <div className="flex items-center justify-center text-white text-xl">Nenhum monstro encontrado</div>
+                    )}
 
                 <Pagination currentPage={currentPage} totalPages={Math.ceil(pagination.totalItems / pagination.pageSize)} onPageChange={handlePageChange} itemsPerPage={pagination.pageSize} totalItems={pagination.totalItems} />
 

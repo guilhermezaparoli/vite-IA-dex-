@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-query": "^5.84.2",
     "@tanstack/react-query-devtools": "^5.85.8",
     "@tanstack/react-router": "^1.131.2",
@@ -27,7 +27,7 @@
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
     "react-toastify": "^11.0.5",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.1.13",
     "zod": "^4.1.5"
   },
   "devDependencies": {

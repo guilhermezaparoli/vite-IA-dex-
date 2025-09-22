@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router"
 
 export function Header() {
     return (
-        <header className="w-full flex justify-between items-center text-white">
+        <header className="w-full flex justify-between items-center text-white p-4">
             <h1 className="text-2xl font-bold">AI dex</h1>
             <nav>
                 <ul className="flex gap-3">
