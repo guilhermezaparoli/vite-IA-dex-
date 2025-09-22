@@ -18,12 +18,13 @@ export interface MonstersParams {
     page: number;
     pageSize: number;
     types?: MonsterType[] | null;
+    search?: string
 }
     
-export async function fetchAllMonsters({ page, pageSize, types }: MonstersParams) {
-    console.log(types);
+export async function fetchAllMonsters({ page, pageSize, types, search }: MonstersParams) {
+ 
     const { data } = await api.get<MonstersResponse>('/monsters', {
-        params: { page, pageSize, types: types ?? undefined },
+        params: { page, pageSize, types: types ?? undefined, search },
         paramsSerializer: params => {
             return qs.stringify(params, { arrayFormat: 'repeat' })
         }

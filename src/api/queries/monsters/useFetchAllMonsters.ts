@@ -1,7 +1,7 @@
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { makeMonstersQuery } from "../queryFactory/makeMonstersQuery";
 import type { MonsterType } from "../../../@types/monster";
+import { makeMonstersQuery } from "../queryFactory/makeMonstersQuery";
 
 
 export interface Monster {
@@ -40,17 +40,18 @@ export interface MonstersParams {
     page: number;
     pageSize: number;
     types?: MonsterType[] | null;
+    search?: string
 }
 
 export const useFetchAllMonsters = (params: MonstersParams) => {
 
-    const { page, pageSize, types } = params
+    const { page, pageSize, types, search } = params
 
     const queryClient = useQueryClient()
     useEffect(() => {
-        queryClient.prefetchQuery(makeMonstersQuery.allPaginated(page + 1, pageSize, types))
-    }, [page, pageSize, types, queryClient])
+        queryClient.prefetchQuery(makeMonstersQuery.allPaginated(page + 1, pageSize, types, search))
+    }, [page, pageSize, types, queryClient, search])
 
 
-    return useSuspenseQuery(makeMonstersQuery.allPaginated(page, pageSize, types))
+    return useQuery(makeMonstersQuery.allPaginated(page, pageSize, types, search))
 }
