@@ -7,6 +7,7 @@ import { Pagination } from "../../components/Pagination";
 import type { MonsterType } from "../../@types/monster";
 import { monsterTypes } from "../../constants/monsterTypes";
 import { useDebounce } from "../../hooks/useDebounce";
+import { useAuthenticateContext } from "../../context/authenticate";
 
 export function Home() {
 
@@ -14,6 +15,7 @@ export function Home() {
     const [currentPage, setCurrentPage] = useState(1);
     const [search, setSearch] = useState<string>('')
     const debouncedSearch = useDebounce(search, 300)
+    const { isAuthenticate } = useAuthenticateContext()
 
     const { data: monstersData, isLoading } = useFetchAllMonsters({
         page: currentPage,
@@ -76,13 +78,16 @@ export function Home() {
                 <p className="text-gray-400">Explore o mundo dos monstros gerados por IA</p>
             </section>
 
-            <Link to="/create-monster" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                Crie seu próprio monstro
-            </Link>
+            {isAuthenticate ? (<Link to="/create-monster" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Criar monstro
+            </Link>) : (<>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Registre-se
+            </button>
+            </>)}
 
-            {/* <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                Register to create your own monsters
-            </button> */}
+
+
 
             <div className="relative m-8">
                 <input
@@ -118,9 +123,9 @@ export function Home() {
 
 
                 </section>
-                    {monsters.length === 0 && (
-                        <div className="flex items-center justify-center text-white text-xl">Nenhum monstro encontrado</div>
-                    )}
+                {monsters.length === 0 && (
+                    <div className="flex items-center justify-center text-white text-xl">Nenhum monstro encontrado</div>
+                )}
 
                 <Pagination currentPage={currentPage} totalPages={Math.ceil(pagination.totalItems / pagination.pageSize)} onPageChange={handlePageChange} itemsPerPage={pagination.pageSize} totalItems={pagination.totalItems} />
 
