@@ -7,12 +7,14 @@ import { useAuthenticate } from '../../api/mutations/useAuthenticate';
 import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { useAuthenticateContext } from '../../context/authenticate';
+import { useNavigate } from '@tanstack/react-router';
 
 
 export function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const { setToken } = useAuthenticateContext()
     const { mutate: authenticateMutate, isPending } = useAuthenticate()
+    const navigate = useNavigate()
 
     const zodSchema = z.object({
         email: z.email("Informe um e-mail válido"),
@@ -31,6 +33,10 @@ export function Login() {
         authenticateMutate(data, {
             onSuccess: ({ data }) => {
                 setToken(data.token)
+                navigate({ to: '/' })
+                toast.success("Login realizado com sucesso!", {
+                    delay: 1000,
+                })
             },
             onError: (error) => {
                 if (isAxiosError(error)) {

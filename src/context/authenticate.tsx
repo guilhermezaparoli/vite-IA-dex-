@@ -5,7 +5,6 @@ import type { AxiosError, AxiosRequestConfig } from "axios";
 import { refreshToken } from "../api/refreshToken";
 
 interface AuthenticateContextType {
-    // userId: string;
     // username: string;
     isAuthenticate?: boolean
     token: string | null;
@@ -101,7 +100,7 @@ export const useAuthenticateContext = () => {
     const context = useContext(AuthenticateContext)
 
     if (context == undefined) {
-        throw new Error("useAuthenticate must be used within an AuthenticateProvider");
+        throw new Error("useAuthenticateContext must be used within an AuthenticateProvider");
     }
     
     return context
