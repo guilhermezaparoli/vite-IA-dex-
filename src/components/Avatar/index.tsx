@@ -9,11 +9,10 @@ interface AvatarProps {
 export function Avatar({ username = "Usuário", avatarUrl }: AvatarProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const { setToken } = useAuthenticateContext();
+    const { logout } = useAuthenticateContext();
 
     const handleLogout = () => {
-        setToken(null);
-        localStorage.removeItem('token');
+        logout()
         setIsDropdownOpen(false);
     };
 

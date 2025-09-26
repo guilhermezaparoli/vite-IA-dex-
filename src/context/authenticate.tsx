@@ -1,14 +1,19 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect, useLayoutEffect, useState, type ReactNode } from "react";
-import { api } from "../api/axios/api";
+import { useRouter } from "@tanstack/react-router";
 import type { AxiosError, AxiosRequestConfig } from "axios";
+import { createContext, useContext, useEffect, useLayoutEffect, useState, type ReactNode } from "react";
+import { toast } from "react-toastify";
+import { api } from "../api/axios/api";
+import { useLogoutUser } from "../api/mutations/useLogoutUser";
 import { refreshToken } from "../api/refreshToken";
+import { useFetchUser } from "../api/queries/users/useFetchUser";
 
 interface AuthenticateContextType {
     // username: string;
     isAuthenticate?: boolean
     token: string | null;
     setToken: (token: string | null) => void;
+    logout: () => void
 }
 
 interface AuthenticateProviderParams {
@@ -23,8 +28,26 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
 
     const [token, setToken] = useState<string | null>(null)
     const isAuthenticate = !!token
+    const { mutate: logoutUser } = useLogoutUser()
+    const { navigate } = useRouter()
+    const { data: user } = useFetchUser(token)
 
-     useEffect(() => {
+
+    function logout() {
+        logoutUser(undefined, {
+            onSuccess: () => {
+                setToken(null)
+                navigate({
+                    to: "/"
+                })
+            },
+            onError: () => {
+                toast.error("Houve um erro ao tentar deslogar o usuário")
+            }
+        })
+    }
+
+    useEffect(() => {
         const initializeAuth = async () => {
             try {
                 const response = await refreshToken()
@@ -34,7 +57,6 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
                 setToken(null)
             }
         }
-
         initializeAuth()
     }, [])
 
@@ -75,7 +97,7 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
             }
 
             return Promise.reject(error)
-          
+
         })
         return () => {
             api.interceptors.response.eject(refreshInterceptor)
@@ -87,7 +109,8 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
         <AuthenticateContext.Provider value={{
             token,
             setToken,
-            isAuthenticate
+            isAuthenticate,
+            logout
         }}>
             {children}
         </AuthenticateContext.Provider>
@@ -102,7 +125,7 @@ export const useAuthenticateContext = () => {
     if (context == undefined) {
         throw new Error("useAuthenticateContext must be used within an AuthenticateProvider");
     }
-    
+
     return context
 }
 

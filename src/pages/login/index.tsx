@@ -35,7 +35,7 @@ export function Login() {
                 setToken(data.token)
                 navigate({ to: '/' })
                 toast.success("Login realizado com sucesso!", {
-                    delay: 1000,
+                    autoClose: 1000,
                 })
             },
             onError: (error) => {

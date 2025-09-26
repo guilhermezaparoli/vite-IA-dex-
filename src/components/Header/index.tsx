@@ -9,10 +9,6 @@ export function Header() {
             <Link to="/" className="text-2xl font-bold">AI dex</Link>
             <nav className="flex items-center gap-4">
                 <ul className="flex gap-3 justify-center items-center">
-                    <Link to="/" className="[&.active]:text-blue-500 hover:underline">
-                        Home
-                    </Link>
-
                     {isAuthenticate ? (
                         <Avatar username="Usuário" />
                     ) : ( 

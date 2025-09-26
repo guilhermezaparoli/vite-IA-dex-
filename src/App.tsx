@@ -1,10 +1,9 @@
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { createRouter, RouterProvider } from "@tanstack/react-router"
-import { routeTree } from "./routeTree.gen"
 import { Suspense } from "react"
 import { toast, ToastContainer } from "react-toastify"
-import AuthenticateProvider from "./context/authenticate"
+import { routeTree } from "./routeTree.gen"
 
 
 const router = createRouter({ routeTree })
@@ -42,9 +41,8 @@ export default function App() {
                     <div className="text-white text-xl">Carregando aplicação...</div>
                 </div>
             }>
-                <AuthenticateProvider>
                     <RouterProvider router={router} />
-                </AuthenticateProvider>
+               
             </Suspense>
             <ToastContainer />
         </QueryClientProvider>
