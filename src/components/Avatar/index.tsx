@@ -1,18 +1,18 @@
-import { useState, useRef, useEffect } from "react";
-import { useAuthenticateContext } from "../../context/authenticate";
+import { useEffect, useRef, useState } from "react";
 
 interface AvatarProps {
     username?: string;
     avatarUrl?: string;
+    alt?: string;
+    onLogout: () => void
 }
 
-export function Avatar({ username = "Usuário", avatarUrl }: AvatarProps) {
+export function Avatar({ username = "Usuário", avatarUrl, alt = 'avatar', onLogout }: AvatarProps) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const { logout } = useAuthenticateContext();
 
     const handleLogout = () => {
-        logout()
+        onLogout()
         setIsDropdownOpen(false);
     };
 
@@ -50,7 +50,7 @@ export function Avatar({ username = "Usuário", avatarUrl }: AvatarProps) {
                 {avatarUrl ? (
                     <img
                         src={avatarUrl}
-                        alt={username}
+                        alt={alt}
                         className="w-full h-full rounded-full object-cover"
                     />
                 ) : (
