@@ -49,7 +49,11 @@ export const useFetchAllMonsters = (params: MonstersParams) => {
 
     const queryClient = useQueryClient()
     useEffect(() => {
-        queryClient.prefetchQuery(makeMonstersQuery.allPaginated(page + 1, pageSize, types, search))
+        const nextQuery = makeMonstersQuery.allPaginated(page + 1, pageSize, types, search)
+
+        queryClient.prefetchQuery(nextQuery)
+
+      
     }, [page, pageSize, types, queryClient, search])
 
 
