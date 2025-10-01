@@ -19,7 +19,7 @@ export function Home() {
 
     const { data: monstersData, isLoading } = useFetchAllMonsters({
         page: currentPage,
-        pageSize: 10,
+        pageSize: 8,
         types: selectedType,
         search: debouncedSearch
     })
@@ -27,7 +27,7 @@ export function Home() {
     const monsters = monstersData?.monsters || [];
     const pagination = monstersData?.pagination || {
         totalItems: 0,
-        pageSize: 10,
+        pageSize: 8,
         currentPage: 1,
         totalPages: 0
     };

@@ -77,14 +77,15 @@ export function CreateMonster() {
                 </div>
 
                 <div className="grid grid-cols-1 gap-8">
-                    <div className="bg-container-modal rounded-2xl p-6">
+                    <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
                         <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
                                     Nome do Monstro *
                                 </label>
                                 <input
-                                    className="w-full px-4 py-3 bg-background border border-pokemon-card-border rounded-lg text-white placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-input focus:border-transparent transition-colors"
+                                    disabled={isPending}
+                                    className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent "
                                     placeholder="Ex: Flamezard, Aquatron..."
                                     {...register("name")}
                                 />
@@ -97,8 +98,9 @@ export function CreateMonster() {
                                     Descrição *
                                 </label>
                                 <textarea
+                                    disabled={isPending}
                                     rows={3}
-                                    className="w-full px-4 py-3 bg-background border border-pokemon-card-border rounded-lg text-white placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-input focus:border-transparent transition-colors resize-none"
+                                    className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                                     placeholder="Descreva a aparência e características do seu monstro..."
                                     {...register("description")}
                                 />
@@ -111,8 +113,9 @@ export function CreateMonster() {
                                     História
                                 </label>
                                 <textarea
+                                    disabled={isPending}
                                     rows={4}
-                                    className="w-full px-4 py-3 bg-background border border-pokemon-card-border rounded-lg text-white placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-input focus:border-transparent transition-colors resize-none"
+                                    className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                                     placeholder="Conte a origem e história do seu monstro..."
                                     {...register("story")}
                                 />
@@ -142,7 +145,7 @@ export function CreateMonster() {
                             <button
                                 type="submit"
                                 disabled={isPending}
-                                className="w-full bg-input text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full bg-input text-white py-3 px-4 rounded-lg cursor-pointer font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isPending ? (
                                     <div className="flex items-center justify-center">

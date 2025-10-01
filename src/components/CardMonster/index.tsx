@@ -26,7 +26,7 @@ export function CardMonster({ monster }: CardMonsterProps) {
             
             <img src={monster.image} alt="Monster" className="w-full rounded-t-2xl" />
 
-            <div className="flex flex-col items-center text-center gap-3 text-white px-4">
+            <div className="flex flex-col items-center text-center gap-3 text-white px-4 h-full">
                 <p>#{monster.id}</p>
                 <h2 className="text-2xl font-bold">{monster.name}</h2>
                 <div className="flex items-center gap-2">
