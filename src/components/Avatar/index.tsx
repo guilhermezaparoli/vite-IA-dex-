@@ -1,18 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Link } from "@tanstack/react-router";
+import { useAuthenticateContext } from "../../context/authenticate";
 
-interface AvatarProps {
-    username?: string;
-    avatarUrl?: string;
-    alt?: string;
-    onLogout: () => void
-}
-
-export function Avatar({ username = "Usuário", avatarUrl, alt = 'avatar', onLogout }: AvatarProps) {
+export function Avatar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const { user, logout } = useAuthenticateContext();
 
     const handleLogout = () => {
-        onLogout()
+        logout();
         setIsDropdownOpen(false);
     };
 
@@ -41,34 +37,31 @@ export function Avatar({ username = "Usuário", avatarUrl, alt = 'avatar', onLog
             .join('');
     };
 
+    if (!user) {
+        return null;
+    }
+
     return (
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={toggleDropdown}
                 className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-500 text-white font-semibold hover:bg-blue-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-[#060B28]"
             >
-                {avatarUrl ? (
-                    <img
-                        src={avatarUrl}
-                        alt={alt}
-                        className="w-full h-full rounded-full object-cover"
-                    />
-                ) : (
-                    <span className="text-sm">{getInitials(username)}</span>
-                )}
+                <span className="text-sm">{getInitials(user.name)}</span>
             </button>
 
             {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-[#24293f] border border-gray-600 rounded-lg shadow-lg z-50">
                     <div className="px-4 py-3 border-b border-gray-600">
-                        <p className="text-sm text-white font-medium">{username}</p>
+                        <p className="text-sm text-white font-medium">{user.name}</p>
                         <p className="text-xs text-gray-400">Bem-vindo ao AI Dex</p>
                     </div>
                     
                     <div className="py-1">
-                        <button
+                        <Link
+                            to="/profile"
+                            className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 transition-colors duration-200"
                             onClick={() => setIsDropdownOpen(false)}
-                            className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-700 transition-colors duration-200"
                         >
                             <div className="flex items-center gap-2">
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +69,7 @@ export function Avatar({ username = "Usuário", avatarUrl, alt = 'avatar', onLog
                                 </svg>
                                 Ver Perfil
                             </div>
-                        </button>
+                        </Link>
                         
                         <button
                             onClick={handleLogout}

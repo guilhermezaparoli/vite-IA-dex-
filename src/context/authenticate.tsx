@@ -60,9 +60,8 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
             }
         }
 
-        if(token){
             initializeAuth()
-        }
+        
     }, [])
 
     useLayoutEffect(() => {
