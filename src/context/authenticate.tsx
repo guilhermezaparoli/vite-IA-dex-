@@ -7,13 +7,15 @@ import { api } from "../api/axios/api";
 import { useLogoutUser } from "../api/mutations/useLogoutUser";
 import { refreshToken } from "../api/refreshToken";
 import { useFetchUser } from "../api/queries/users/useFetchUser";
+import type { User } from "../api/fetchUser";
 
 interface AuthenticateContextType {
     // username: string;
     isAuthenticate?: boolean
     token: string | null;
     setToken: (token: string | null) => void;
-    logout: () => void
+    logout: () => void;
+    user?: User 
 }
 
 interface AuthenticateProviderParams {
@@ -57,7 +59,10 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
                 setToken(null)
             }
         }
-        initializeAuth()
+
+        if(token){
+            initializeAuth()
+        }
     }, [])
 
     useLayoutEffect(() => {
@@ -110,7 +115,8 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
             token,
             setToken,
             isAuthenticate,
-            logout
+            logout,
+            user
         }}>
             {children}
         </AuthenticateContext.Provider>
