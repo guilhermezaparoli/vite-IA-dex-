@@ -67,7 +67,7 @@ export function Login() {
                 </div>
 
                 {/* Login Form */}
-                <div className="bg-container-modal rounded-2xl p-8 shadow-2xl">
+                <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
                     <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
 
                         <div>
@@ -75,7 +75,9 @@ export function Login() {
                                 Email
                             </label>
                             <input
-                                className="w-full px-4 py-3 bg-background border border-pokemon-card-border rounded-lg text-white placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-input focus:border-transparent transition-colors"
+                                className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                autoComplete='off'
+                                type='email'
                                 placeholder="seu@email.com"
                                 {...register("email")}
                             />
@@ -90,7 +92,7 @@ export function Login() {
                             <div className="relative">
                                 <input
                                     type={showPassword ? "text" : "password"}
-                                    className="w-full px-4 py-3 bg-background border border-pokemon-card-border rounded-lg text-white placeholder-placeholder focus:outline-none focus:ring-2 focus:ring-input focus:border-transparent transition-colors pr-12"
+                                    className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     placeholder="Digite sua senha"
                                     {...register("password")}
                                 />
@@ -110,14 +112,7 @@ export function Login() {
                         </div>
 
                         {/* Remember Me & Forgot Password */}
-                        <div className="flex items-center justify-between">
-                            <label className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    className="w-4 h-4 roud text-input bg-background border-pokemon-card-border rounded focus:ring-input focus:ring-2"
-                                />
-                                <span className="ml-2 text-sm text-gray-400 select-none">Lembrar de mim</span>
-                            </label>
+                        <div className="flex items-center justify-end">
                             <a href="#" className="text-sm text-input hover:text-white transition-colors">
                                 Esqueceu a senha?
                             </a>
