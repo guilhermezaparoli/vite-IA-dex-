@@ -12,9 +12,16 @@ export function Header() {
                     {isAuthenticate ? (
                         <Avatar />
                     ) : ( 
-                        <Link to="/login" className="[&.active]:text-blue-500 hover:underline">
-                            Login
+                        (
+                            <>
+                            <Link to="/register" className="[&.active]:text-blue-500 hover:underline">
+                            Criar conta
                         </Link>
+                            <Link to="/login" className="[&.active]:text-blue-500 hover:underline">
+                            Entrar
+                        </Link>
+                            </>
+                        )
                     )}
                    
                 </ul>

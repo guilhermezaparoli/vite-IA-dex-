@@ -81,9 +81,9 @@ export function Home() {
             {isAuthenticate ? (<Link to="/create-monster" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
                 Criar monstro
             </Link>) : (<>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            <Link to="/register" className="px-4 py-2 bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-600">
                 Registre-se
-            </button>
+            </Link>
             </>)}
 
 
