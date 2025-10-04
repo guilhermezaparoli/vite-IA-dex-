@@ -7,7 +7,7 @@ import { useAuthenticate } from '../../api/mutations/useAuthenticate';
 import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import { useAuthenticateContext } from '../../context/authenticate';
-import { useNavigate } from '@tanstack/react-router';
+import { useNavigate, Link } from '@tanstack/react-router';
 
 
 export function Login() {
@@ -166,9 +166,9 @@ export function Login() {
                     <div className="mt-6 text-center">
                         <p className="text-gray-400">
                             Não tem uma conta?{' '}
-                            <a href="#" className="text-input hover:text-white transition-colors font-medium">
+                            <Link to="/register" className="text-input hover:text-white transition-colors font-medium">
                                 Cadastre-se
-                            </a>
+                            </Link>
                         </p>
                     </div>
                 </div>
