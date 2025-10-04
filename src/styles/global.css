@@ -65,7 +65,7 @@
     -webkit-font-smoothing: antialiased;
 
     &::-webkit-scrollbar {
-      width: 1rem;
+      width: 0.75rem;
     }
     &::-webkit-scrollbar-track {
       background: #060b28;

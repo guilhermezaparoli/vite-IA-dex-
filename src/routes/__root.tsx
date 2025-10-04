@@ -2,9 +2,11 @@ import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import { Header } from '../components/Header'
 import AuthenticateProvider from '../context/authenticate'
+import { NotFound } from '../pages/notFound'
 
 export const Route = createRootRoute({
     component: RootComponent,
+    notFoundComponent: () => <NotFound />,
     errorComponent: ({ error, reset }) => (
         <div className='flex flex-col items-center h-screen justify-center p-4 text-red-600'>
             <h1>Ops, alguma coisa deu errado!</h1>
