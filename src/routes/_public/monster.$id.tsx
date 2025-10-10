@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
-import { MonsterDetails } from '../pages/monsterDetails'
+import { MonsterDetails } from '../../pages/monsterDetails'
 
 export const Route = createFileRoute('/monster/$id')({
   component: RouteComponent,
