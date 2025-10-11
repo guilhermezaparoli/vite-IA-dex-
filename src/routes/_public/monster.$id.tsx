@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { MonsterDetails } from '../../pages/monsterDetails'
 
-export const Route = createFileRoute('/monster/$id')({
+export const Route = createFileRoute('/_public/monster/$id')({
   component: RouteComponent,
 })
 
