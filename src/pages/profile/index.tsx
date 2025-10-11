@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useAuthenticateContext } from "../../context/authenticate";
+import { useChangePassword } from "../../api/mutations/useChangePassword";
+import { isAxiosError } from "axios";
+import { Link } from "@tanstack/react-router";
 
 export function Profile() {
     const { user } = useAuthenticateContext();
@@ -13,6 +16,7 @@ export function Profile() {
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const { mutate: changePasswordMutate, isPending: isChangingPassword } = useChangePassword();
 
     const profileSchema = z.object({
         name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres")
@@ -67,11 +71,34 @@ export function Profile() {
     };
 
     const onSubmitPassword = (data: PasswordFormData) => {
-        // TODO: Implementar API call para alterar senha
-        console.log("Password data:", data);
-        toast.success("Senha alterada com sucesso!");
-        setShowChangePassword(false);
-        resetPassword();
+        changePasswordMutate({
+            currentPassword: data.currentPassword,
+            newPassword: data.newPassword
+        }, {
+            onSuccess: () => {
+                toast.success("Senha alterada com sucesso!", {
+                    autoClose: 2000,
+                });
+                setShowChangePassword(false);
+                resetPassword();
+            },
+            onError: (error) => {
+                if (isAxiosError(error)) {
+                    const message = error.response?.data.message;
+                    const errorTranslation: Record<string, string> = {
+                        "Current password is incorrect": "Senha atual incorreta",
+                        "Invalid current password": "Senha atual inválida",
+                    };
+
+                    if (typeof message === "string") {
+                        const translated =
+                            (message && errorTranslation[message]) ||
+                            "Ocorreu um erro ao alterar a senha. Tente novamente.";
+                        toast.error(translated);
+                    }
+                }
+            }
+        });
     };
 
     const formatDate = (date: Date | string) => {
@@ -97,7 +124,7 @@ export function Profile() {
                                 <p className="text-gray-400">Gerencie suas informações pessoais</p>
                             </div>
                         </div>
-                        <button
+                        {/* <button
                             onClick={handleEditToggle}
                             className={`flex items-center gap-2 px-4 py-2 cursor-pointer ${isEditingProfile ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"}  text-white rounded `}
                         >
@@ -112,7 +139,7 @@ export function Profile() {
                                     Editar
                                 </>
                             )}
-                        </button>
+                        </button> */}
                     </div>
 
                     <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
@@ -185,15 +212,15 @@ export function Profile() {
                             <h2 className="text-2xl font-bold text-white">Segurança</h2>
                             <p className="text-gray-400">Altere sua senha de acesso</p>
                         </div>
-                        {!showChangePassword && (
-                            <button
-                                onClick={() => setShowChangePassword(!showChangePassword)}
-                                className="px-4 py-2 bg-yellow-500 text-white rounded cursor-pointer hover:bg-yellow-600 transition-colors duration-200 max-w-96"
+                        <div className="flex gap-2">
+                            <Link
+                                to="/change-password"
+                                className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 transition-colors duration-200"
                             >
-                                Alterar Senha
-                            </button>
-
-                        )}
+                                Alterar senha
+                            </Link>
+                           
+                        </div>
                     </div>
 
                     {showChangePassword && (
@@ -273,9 +300,20 @@ export function Profile() {
 
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600 transition-colors duration-200"
+                                disabled={isChangingPassword}
+                                className="w-full py-3 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Alterar Senha
+                                {isChangingPassword ? (
+                                    <div className="flex items-center justify-center">
+                                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Alterando...
+                                    </div>
+                                ) : (
+                                    'Alterar Senha'
+                                )}
                             </button>
                         </form>
                     )}

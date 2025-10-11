@@ -16,6 +16,7 @@ import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateMonsterRouteImport } from './routes/_authenticated/create-monster'
+import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
 import { Route as PublicMonsterIdRouteImport } from './routes/_public/monster.$id'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
@@ -52,6 +53,12 @@ const AuthenticatedCreateMonsterRoute =
     path: '/create-monster',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedChangePasswordRoute =
+  AuthenticatedChangePasswordRouteImport.update({
+    id: '/change-password',
+    path: '/change-password',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const PublicMonsterIdRoute = PublicMonsterIdRouteImport.update({
   id: '/monster/$id',
   path: '/monster/$id',
@@ -59,6 +66,7 @@ const PublicMonsterIdRoute = PublicMonsterIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/change-password': typeof AuthenticatedChangePasswordRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
@@ -67,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/monster/$id': typeof PublicMonsterIdRoute
 }
 export interface FileRoutesByTo {
+  '/change-password': typeof AuthenticatedChangePasswordRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
@@ -78,6 +87,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
+  '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/_authenticated/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/login': typeof PublicLoginRoute
@@ -88,6 +98,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/change-password'
     | '/create-monster'
     | '/profile'
     | '/login'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/monster/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/change-password'
     | '/create-monster'
     | '/profile'
     | '/login'
@@ -106,6 +118,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_authenticated'
     | '/_public'
+    | '/_authenticated/change-password'
     | '/_authenticated/create-monster'
     | '/_authenticated/profile'
     | '/_public/login'
@@ -170,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCreateMonsterRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/change-password': {
+      id: '/_authenticated/change-password'
+      path: '/change-password'
+      fullPath: '/change-password'
+      preLoaderRoute: typeof AuthenticatedChangePasswordRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_public/monster/$id': {
       id: '/_public/monster/$id'
       path: '/monster/$id'
@@ -181,11 +201,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedChangePasswordRoute: typeof AuthenticatedChangePasswordRoute
   AuthenticatedCreateMonsterRoute: typeof AuthenticatedCreateMonsterRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedChangePasswordRoute: AuthenticatedChangePasswordRoute,
   AuthenticatedCreateMonsterRoute: AuthenticatedCreateMonsterRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
 }
