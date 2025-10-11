@@ -11,7 +11,7 @@ export function Header() {
                 <ul className="flex gap-3 justify-center items-center">
                     {isAuthenticate ? (
                         <Avatar />
-                    ) : ( 
+                    ) : (
                         (
                             <>
                             <Link to="/register" className="[&.active]:text-blue-500 hover:underline">
@@ -23,7 +23,7 @@ export function Header() {
                             </>
                         )
                     )}
-                   
+
                 </ul>
             </nav>
         </header>

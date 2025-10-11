@@ -1,6 +1,7 @@
 import type { MonsterType } from "../../../@types/monster";
 import { fetchAllMonsters } from "../../fetchAllMonsters";
 import { fetchMonsterById } from "../../fetchMonsterById";
+import { fetchMyMonsters } from "../../fetchMyMonsters";
 
 
 export const makeMonstersQuery = {
@@ -11,7 +12,13 @@ export const makeMonstersQuery = {
             queryFn: () => fetchAllMonsters({ page, pageSize, types, search })
         }
     ) as const,
-    byId: (id: string) => (     
+    myMonsters: (page: number, pageSize: number, types?: MonsterType[] | null, search?: string) => (
+        {
+            queryKey: [...makeMonstersQuery.all(), "my-monsters", { page, pageSize, types, search }],
+            queryFn: () => fetchMyMonsters({ page, pageSize, types, search })
+        }
+    ) as const,
+    byId: (id: string) => (
         {
             queryKey: [...makeMonstersQuery.all(), "detail", id],
             queryFn: () => fetchMonsterById(id)

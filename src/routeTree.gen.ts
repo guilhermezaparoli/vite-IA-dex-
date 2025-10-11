@@ -15,6 +15,7 @@ import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedMyMonstersRouteImport } from './routes/_authenticated/my-monsters'
 import { Route as AuthenticatedCreateMonsterRouteImport } from './routes/_authenticated/create-monster'
 import { Route as AuthenticatedChangePasswordRouteImport } from './routes/_authenticated/change-password'
 import { Route as PublicMonsterIdRouteImport } from './routes/_public/monster.$id'
@@ -47,6 +48,11 @@ const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMyMonstersRoute = AuthenticatedMyMonstersRouteImport.update({
+  id: '/my-monsters',
+  path: '/my-monsters',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedCreateMonsterRoute =
   AuthenticatedCreateMonsterRouteImport.update({
     id: '/create-monster',
@@ -68,6 +74,7 @@ const PublicMonsterIdRoute = PublicMonsterIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
+  '/my-monsters': typeof AuthenticatedMyMonstersRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
@@ -77,6 +84,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/change-password': typeof AuthenticatedChangePasswordRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
+  '/my-monsters': typeof AuthenticatedMyMonstersRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/_public': typeof PublicRouteRouteWithChildren
   '/_authenticated/change-password': typeof AuthenticatedChangePasswordRoute
   '/_authenticated/create-monster': typeof AuthenticatedCreateMonsterRoute
+  '/_authenticated/my-monsters': typeof AuthenticatedMyMonstersRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/change-password'
     | '/create-monster'
+    | '/my-monsters'
     | '/profile'
     | '/login'
     | '/register'
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
   to:
     | '/change-password'
     | '/create-monster'
+    | '/my-monsters'
     | '/profile'
     | '/login'
     | '/register'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/_public'
     | '/_authenticated/change-password'
     | '/_authenticated/create-monster'
+    | '/_authenticated/my-monsters'
     | '/_authenticated/profile'
     | '/_public/login'
     | '/_public/register'
@@ -176,6 +188,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-monsters': {
+      id: '/_authenticated/my-monsters'
+      path: '/my-monsters'
+      fullPath: '/my-monsters'
+      preLoaderRoute: typeof AuthenticatedMyMonstersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/create-monster': {
       id: '/_authenticated/create-monster'
       path: '/create-monster'
@@ -203,12 +222,14 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedChangePasswordRoute: typeof AuthenticatedChangePasswordRoute
   AuthenticatedCreateMonsterRoute: typeof AuthenticatedCreateMonsterRoute
+  AuthenticatedMyMonstersRoute: typeof AuthenticatedMyMonstersRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChangePasswordRoute: AuthenticatedChangePasswordRoute,
   AuthenticatedCreateMonsterRoute: AuthenticatedCreateMonsterRoute,
+  AuthenticatedMyMonstersRoute: AuthenticatedMyMonstersRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
 }
 
