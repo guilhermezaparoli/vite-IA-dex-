@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Edit, Save, X } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { isAxiosError } from "axios";
+import { Eye, EyeOff, Save } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { useAuthenticateContext } from "../../context/authenticate";
 import { useChangePassword } from "../../api/mutations/useChangePassword";
-import { isAxiosError } from "axios";
-import { Link } from "@tanstack/react-router";
+import { useAuthenticateContext } from "../../context/authenticate";
 
 export function Profile() {
     const { user } = useAuthenticateContext();
@@ -37,8 +37,7 @@ export function Profile() {
     const {
         register: registerProfile,
         handleSubmit: handleSubmitProfile,
-        formState: { errors: profileErrors },
-        reset: resetProfile
+        formState: { errors: profileErrors }
     } = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
         defaultValues: {
@@ -55,13 +54,6 @@ export function Profile() {
     } = useForm<PasswordFormData>({
         resolver: zodResolver(passwordSchema)
     });
-
-    const handleEditToggle = () => {
-        if (isEditingProfile) {
-            resetProfile({ name: user?.name || "" });
-        }
-        setIsEditingProfile(!isEditingProfile);
-    };
 
     const onSubmitProfile = (data: ProfileFormData) => {
         // TODO: Implementar API call para atualizar perfil
