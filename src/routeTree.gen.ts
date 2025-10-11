@@ -11,12 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PublicRouteRouteImport } from './routes/_public/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as IndexRouteImport } from './routes/_public/index'
-import { Route as MonsterIdRouteImport } from './routes/_public/monster.$id'
+import { Route as PublicIndexRouteImport } from './routes/_public/index'
 import { Route as PublicRegisterRouteImport } from './routes/_public/register'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedCreateMonsterRouteImport } from './routes/_authenticated/create-monster'
+import { Route as PublicMonsterIdRouteImport } from './routes/_public/monster.$id'
 
 const PublicRouteRoute = PublicRouteRouteImport.update({
   id: '/_public',
@@ -26,15 +26,10 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const PublicIndexRoute = PublicIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MonsterIdRoute = MonsterIdRouteImport.update({
-  id: '/monster/$id',
-  path: '/monster/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicRouteRoute,
 } as any)
 const PublicRegisterRoute = PublicRegisterRouteImport.update({
   id: '/register',
@@ -57,68 +52,71 @@ const AuthenticatedCreateMonsterRoute =
     path: '/create-monster',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const PublicMonsterIdRoute = PublicMonsterIdRouteImport.update({
+  id: '/monster/$id',
+  path: '/monster/$id',
+  getParentRoute: () => PublicRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
-  '/monster/$id': typeof MonsterIdRoute
+  '/': typeof PublicIndexRoute
+  '/monster/$id': typeof PublicMonsterIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
   '/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/login': typeof PublicLoginRoute
   '/register': typeof PublicRegisterRoute
-  '/monster/$id': typeof MonsterIdRoute
+  '/': typeof PublicIndexRoute
+  '/monster/$id': typeof PublicMonsterIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_public': typeof PublicRouteRouteWithChildren
   '/_authenticated/create-monster': typeof AuthenticatedCreateMonsterRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/register': typeof PublicRegisterRoute
-  '/monster/$id': typeof MonsterIdRoute
+  '/_public/': typeof PublicIndexRoute
+  '/_public/monster/$id': typeof PublicMonsterIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | '/create-monster'
     | '/profile'
     | '/login'
     | '/register'
+    | '/'
     | '/monster/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/create-monster'
     | '/profile'
     | '/login'
     | '/register'
+    | '/'
     | '/monster/$id'
   id:
     | '__root__'
-    | '/'
     | '/_authenticated'
     | '/_public'
     | '/_authenticated/create-monster'
     | '/_authenticated/profile'
     | '/_public/login'
     | '/_public/register'
-    | '/monster/$id'
+    | '/_public/'
+    | '/_public/monster/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   PublicRouteRoute: typeof PublicRouteRouteWithChildren
-  MonsterIdRoute: typeof MonsterIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -137,19 +135,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_public/': {
+      id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/monster/$id': {
-      id: '/monster/$id'
-      path: '/monster/$id'
-      fullPath: '/monster/$id'
-      preLoaderRoute: typeof MonsterIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicIndexRouteImport
+      parentRoute: typeof PublicRouteRoute
     }
     '/_public/register': {
       id: '/_public/register'
@@ -179,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCreateMonsterRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_public/monster/$id': {
+      id: '/_public/monster/$id'
+      path: '/monster/$id'
+      fullPath: '/monster/$id'
+      preLoaderRoute: typeof PublicMonsterIdRouteImport
+      parentRoute: typeof PublicRouteRoute
+    }
   }
 }
 
@@ -198,11 +196,15 @@ const AuthenticatedRouteRouteWithChildren =
 interface PublicRouteRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
   PublicRegisterRoute: typeof PublicRegisterRoute
+  PublicIndexRoute: typeof PublicIndexRoute
+  PublicMonsterIdRoute: typeof PublicMonsterIdRoute
 }
 
 const PublicRouteRouteChildren: PublicRouteRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
   PublicRegisterRoute: PublicRegisterRoute,
+  PublicIndexRoute: PublicIndexRoute,
+  PublicMonsterIdRoute: PublicMonsterIdRoute,
 }
 
 const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
@@ -210,10 +212,8 @@ const PublicRouteRouteWithChildren = PublicRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   PublicRouteRoute: PublicRouteRouteWithChildren,
-  MonsterIdRoute: MonsterIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
