@@ -1,0 +1,153 @@
+{
+  "common": {
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "search": "Pesquisar",
+    "filter": "Filtrar",
+    "close": "Fechar"
+  },
+  "header": {
+    "title": "AI dex",
+    "createAccount": "Criar conta",
+    "login": "Entrar",
+    "logout": "Sair",
+    "profile": "Ver Perfil",
+    "myMonsters": "Meus Monstros"
+  },
+  "auth": {
+    "login": {
+      "title": "Entrar",
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "noAccount": "Não tem uma conta?",
+      "register": "Cadastre-se",
+      "success": "Login realizado com sucesso!",
+      "error": "Erro ao fazer login"
+    },
+    "register": {
+      "title": "Criar conta",
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "confirmPassword": "Confirmar senha",
+      "submit": "Cadastrar",
+      "hasAccount": "Já tem uma conta?",
+      "login": "Faça login",
+      "success": "Conta criada com sucesso!",
+      "error": "Erro ao criar conta"
+    },
+    "logout": {
+      "success": "Logout realizado com sucesso!",
+      "error": "Houve um erro ao tentar deslogar o usuário"
+    }
+  },
+  "home": {
+    "title": "Bem vindo ao AI Dex",
+    "subtitle": "Explore o mundo dos monstros gerados por IA",
+    "createMonster": "Criar monstro",
+    "register": "Registre-se",
+    "searchPlaceholder": "Pesquise seu monstro",
+    "filterByType": "Encontre pelo tipo:",
+    "noMonstersFound": "Nenhum monstro encontrado"
+  },
+  "myMonsters": {
+    "title": "Meus Monstros",
+    "subtitle": "Veja todos os monstros que você criou",
+    "createNew": "Criar novo monstro",
+    "searchPlaceholder": "Pesquise seu monstro",
+    "filterByType": "Filtrar por tipo:",
+    "noMonstersFound": "Nenhum monstro encontrado"
+  },
+  "monster": {
+    "id": "#{{id}}",
+    "createdBy": "Criado por [{{name}}]",
+    "totalStats": "Status total:",
+    "moreDetails": "Mais detalhes",
+    "types": {
+      "NORMAL": "Normal",
+      "FIRE": "Fogo",
+      "WATER": "Água",
+      "ELECTRIC": "Elétrico",
+      "GRASS": "Planta",
+      "ICE": "Gelo",
+      "FIGHTING": "Lutador",
+      "POISON": "Veneno",
+      "GROUND": "Terra",
+      "FLYING": "Voador",
+      "PSYCHIC": "Psíquico",
+      "BUG": "Inseto",
+      "ROCK": "Pedra",
+      "GHOST": "Fantasma",
+      "DRAGON": "Dragão",
+      "DARK": "Sombrio",
+      "STEEL": "Metálico",
+      "FAIRY": "Fada"
+    },
+    "stats": {
+      "hp": "HP",
+      "attack": "Ataque",
+      "defense": "Defesa",
+      "speed": "Velocidade",
+      "specialAttack": "Ataque Especial",
+      "specialDefense": "Defesa Especial"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "welcome": "Bem-vindo ao AI Dex",
+    "changePassword": "Alterar senha"
+  },
+  "changePassword": {
+    "title": "Alterar Senha",
+    "currentPassword": "Senha atual",
+    "newPassword": "Nova senha",
+    "confirmPassword": "Confirmar nova senha",
+    "submit": "Alterar senha",
+    "success": "Senha alterada com sucesso!",
+    "error": "Erro ao alterar senha"
+  },
+  "createMonster": {
+    "title": "Criar Monstro",
+    "name": "Nome",
+    "description": "Descrição",
+    "story": "História",
+    "type": "Tipo",
+    "selectType": "Selecione o tipo",
+    "image": "Imagem",
+    "submit": "Criar monstro",
+    "success": "Monstro criado com sucesso!",
+    "error": "Erro ao criar monstro"
+  },
+  "pagination": {
+    "previous": "Anterior",
+    "next": "Próxima",
+    "page": "Página {{current}} de {{total}}",
+    "showing": "Mostrando {{from}}-{{to}} de {{total}} itens"
+  },
+  "rarity": {
+    "common": "Comum",
+    "uncommon": "Incomum",
+    "rare": "Raro",
+    "epic": "Épico",
+    "legendary": "Lendário"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "message": "A página que você está procurando não existe.",
+    "backHome": "Voltar para a página inicial"
+  },
+  "errors": {
+    "generic": "Ocorreu um erro inesperado",
+    "network": "Erro de conexão com o servidor",
+    "unauthorized": "Você não tem permissão para acessar este recurso",
+    "notFound": "Recurso não encontrado",
+    "validation": "Erro de validação dos dados"
+  }
+}

@@ -8,6 +8,7 @@ import type { MonsterType } from "../../@types/monster";
 import { monsterTypes } from "../../constants/monsterTypes";
 import { useDebounce } from "../../hooks/useDebounce";
 import { useAuthenticateContext } from "../../context/authenticate";
+import { useTranslation } from "react-i18next";
 
 export function Home() {
 
@@ -16,6 +17,7 @@ export function Home() {
     const [search, setSearch] = useState<string>('')
     const debouncedSearch = useDebounce(search, 300)
     const { isAuthenticate } = useAuthenticateContext()
+    const { t } = useTranslation()
 
     const { data: monstersData, isLoading } = useFetchAllMonsters({
         page: currentPage,
@@ -74,15 +76,15 @@ export function Home() {
         <main className="flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
 
             <section className="flex justify-center items-center flex-col space-y-4 p-4">
-                <h1 className="text-3xl font-bold text-white">Bem vindo ao AI Dex</h1>
-                <p className="text-gray-400">Explore o mundo dos monstros gerados por IA</p>
+                <h1 className="text-3xl font-bold text-white">{t('home.title')}</h1>
+                <p className="text-gray-400">{t('home.subtitle')}</p>
             </section>
 
             {isAuthenticate ? (<Link to="/create-monster" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                Criar monstro
+                {t('home.createMonster')}
             </Link>) : (<>
             <Link to="/register" className="px-4 py-2 bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-600">
-                Registre-se
+                {t('home.register')}
             </Link>
             </>)}
 
@@ -93,7 +95,7 @@ export function Home() {
                 <input
                     type="text"
                     className="p-2 pr-10 border text-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-transparent"
-                    placeholder="Pesquise seu monstro"
+                    placeholder={t('home.searchPlaceholder')}
                     value={search}
                     onChange={onHandleSearch}
                 />
@@ -105,15 +107,15 @@ export function Home() {
             </div>
 
             <section className="flex flex-col space-y-4">
-                <h2 className="text-xl font-semibold text-white ">Encontre pelo tipo:</h2>
+                <h2 className="text-xl font-semibold text-white ">{t('home.filterByType')}</h2>
                 <div className="flex flex-wrap justify-center items-center gap-4 p-4">
                     {monsterTypes.map((type) => (
-                        <LabelType monsterType={type} onClick={() => handleTypeClick(type)} selected={selectedType?.includes(type)} />
+                        <LabelType key={type} monsterType={type} onClick={() => handleTypeClick(type)} selected={selectedType?.includes(type)} />
                     ))}
                 </div>
             </section>
 
-            {isLoading ? <div className="flex items-center justify-center text-white text-xl mt-20">Carregando...</div> : (<>
+            {isLoading ? <div className="flex items-center justify-center text-white text-xl mt-20">{t('common.loading')}</div> : (<>
 
                 <section id="monsters-list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-4 mt-10">
 
@@ -124,7 +126,7 @@ export function Home() {
 
                 </section>
                 {monsters.length === 0 && (
-                    <div className="flex items-center justify-center text-white text-xl">Nenhum monstro encontrado</div>
+                    <div className="flex items-center justify-center text-white text-xl">{t('home.noMonstersFound')}</div>
                 )}
 
                 <Pagination currentPage={currentPage} totalPages={Math.ceil(pagination.totalItems / pagination.pageSize)} onPageChange={handlePageChange} itemsPerPage={pagination.pageSize} totalItems={pagination.totalItems} />

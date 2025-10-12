@@ -1,0 +1,153 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "filter": "Filter",
+    "close": "Close"
+  },
+  "header": {
+    "title": "AI dex",
+    "createAccount": "Create account",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "View Profile",
+    "myMonsters": "My Monsters"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Login",
+      "noAccount": "Don't have an account?",
+      "register": "Sign up",
+      "success": "Login successful!",
+      "error": "Login error"
+    },
+    "register": {
+      "title": "Create account",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "submit": "Register",
+      "hasAccount": "Already have an account?",
+      "login": "Login",
+      "success": "Account created successfully!",
+      "error": "Error creating account"
+    },
+    "logout": {
+      "success": "Logout successful!",
+      "error": "There was an error trying to log out the user"
+    }
+  },
+  "home": {
+    "title": "Welcome to AI Dex",
+    "subtitle": "Explore the world of AI-generated monsters",
+    "createMonster": "Create monster",
+    "register": "Sign up",
+    "searchPlaceholder": "Search your monster",
+    "filterByType": "Find by type:",
+    "noMonstersFound": "No monsters found"
+  },
+  "myMonsters": {
+    "title": "My Monsters",
+    "subtitle": "View all the monsters you created",
+    "createNew": "Create new monster",
+    "searchPlaceholder": "Search your monster",
+    "filterByType": "Filter by type:",
+    "noMonstersFound": "No monsters found"
+  },
+  "monster": {
+    "id": "#{{id}}",
+    "createdBy": "Created by [{{name}}]",
+    "totalStats": "Total stats:",
+    "moreDetails": "More details",
+    "types": {
+      "NORMAL": "Normal",
+      "FIRE": "Fire",
+      "WATER": "Water",
+      "ELECTRIC": "Electric",
+      "GRASS": "Grass",
+      "ICE": "Ice",
+      "FIGHTING": "Fighting",
+      "POISON": "Poison",
+      "GROUND": "Ground",
+      "FLYING": "Flying",
+      "PSYCHIC": "Psychic",
+      "BUG": "Bug",
+      "ROCK": "Rock",
+      "GHOST": "Ghost",
+      "DRAGON": "Dragon",
+      "DARK": "Dark",
+      "STEEL": "Steel",
+      "FAIRY": "Fairy"
+    },
+    "stats": {
+      "hp": "HP",
+      "attack": "Attack",
+      "defense": "Defense",
+      "speed": "Speed",
+      "specialAttack": "Special Attack",
+      "specialDefense": "Special Defense"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "welcome": "Welcome to AI Dex",
+    "changePassword": "Change password"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "submit": "Change password",
+    "success": "Password changed successfully!",
+    "error": "Error changing password"
+  },
+  "createMonster": {
+    "title": "Create Monster",
+    "name": "Name",
+    "description": "Description",
+    "story": "Story",
+    "type": "Type",
+    "selectType": "Select type",
+    "image": "Image",
+    "submit": "Create monster",
+    "success": "Monster created successfully!",
+    "error": "Error creating monster"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {{current}} of {{total}}",
+    "showing": "Showing {{from}}-{{to}} of {{total}} items"
+  },
+  "rarity": {
+    "common": "Common",
+    "uncommon": "Uncommon",
+    "rare": "Rare",
+    "epic": "Epic",
+    "legendary": "Legendary"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "The page you are looking for does not exist.",
+    "backHome": "Back to home"
+  },
+  "errors": {
+    "generic": "An unexpected error occurred",
+    "network": "Server connection error",
+    "unauthorized": "You do not have permission to access this resource",
+    "notFound": "Resource not found",
+    "validation": "Data validation error"
+  }
+}
