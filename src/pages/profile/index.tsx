@@ -5,12 +5,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
+import { useTranslation } from 'react-i18next';
 import { useChangePassword } from '../../api/mutations/useChangePassword';
 import { useAuthenticateContext } from '../../context/authenticate';
 import { handleApiError } from '../../utils/errors/handleApiError';
 
 export function Profile() {
   const { user } = useAuthenticateContext();
+  const { t } = useTranslation();
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -19,17 +21,17 @@ export function Profile() {
   const { mutate: changePasswordMutate, isPending: isChangingPassword } = useChangePassword();
 
   const profileSchema = z.object({
-    name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
+    name: z.string().min(2, t('profile.nameMinError')),
   });
 
   const passwordSchema = z
     .object({
-      currentPassword: z.string().min(8, 'Senha atual é obrigatória'),
-      newPassword: z.string().min(8, 'Nova senha deve ter pelo menos 8 caracteres'),
-      confirmPassword: z.string().min(8, 'Confirmação de senha é obrigatória'),
+      currentPassword: z.string().min(8, t('profile.currentPasswordError')),
+      newPassword: z.string().min(8, t('profile.newPasswordError')),
+      confirmPassword: z.string().min(8, t('profile.confirmPasswordError')),
     })
     .refine(data => data.newPassword === data.confirmPassword, {
-      message: 'As senhas não coincidem',
+      message: t('profile.passwordMismatch'),
       path: ['confirmPassword'],
     });
 
@@ -59,7 +61,7 @@ export function Profile() {
   const onSubmitProfile = (data: ProfileFormData) => {
     // TODO: Implementar API call para atualizar perfil
     console.log('Profile data:', data);
-    toast.success('Perfil atualizado com sucesso!');
+    toast.success(t('profile.profileUpdateSuccess'));
     setIsEditingProfile(false);
   };
 
@@ -71,7 +73,7 @@ export function Profile() {
       },
       {
         onSuccess: () => {
-          toast.success('Senha alterada com sucesso!', {
+          toast.success(t('changePassword.success'), {
             autoClose: 2000,
           });
           setShowChangePassword(false);
@@ -100,32 +102,18 @@ export function Profile() {
           <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-white">Informações do Perfil</h1>
-                <p className="text-gray-400">Gerencie suas informações pessoais</p>
+                <h1 className="text-2xl font-bold text-white">{t('profile.profileInfo')}</h1>
+                <p className="text-gray-400">{t('profile.profileInfoSubtitle')}</p>
               </div>
             </div>
-            {/* <button
-                            onClick={handleEditToggle}
-                            className={`flex items-center gap-2 px-4 py-2 cursor-pointer ${isEditingProfile ? "bg-red-500 hover:bg-red-600" : "bg-blue-500 hover:bg-blue-600"}  text-white rounded `}
-                        >
-                            {isEditingProfile ? (
-                                <>
-                                    <X className="w-4 h-4" />
-                                    Cancelar
-                                </>
-                            ) : (
-                                <>
-                                    <Edit className="w-4 h-4" />
-                                    Editar
-                                </>
-                            )}
-                        </button> */}
           </div>
 
           <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="mb-2 block text-sm font-medium text-white">Nome</label>
+                <label className="mb-2 block text-sm font-medium text-white">
+                  {t('profile.name')}
+                </label>
                 {isEditingProfile ? (
                   <input
                     {...registerProfile('name')}
@@ -144,7 +132,9 @@ export function Profile() {
 
               {!isEditingProfile && (
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-white">E-mail</label>
+                  <label className="mb-2 block text-sm font-medium text-white">
+                    {t('profile.email')}
+                  </label>
                   <div className="rounded-md border border-gray-600 bg-gray-800 p-3 text-white">
                     {user?.email}
                   </div>
@@ -153,7 +143,9 @@ export function Profile() {
 
               {!isEditingProfile && (
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-white">Membro desde</label>
+                  <label className="mb-2 block text-sm font-medium text-white">
+                    {t('profile.memberSince')}
+                  </label>
                   <div className="rounded-md border border-gray-600 bg-gray-800 p-3 text-white">
                     {user?.createdAt && formatDate(user?.createdAt)}
                   </div>
@@ -168,7 +160,7 @@ export function Profile() {
                   className="flex cursor-pointer items-center gap-2 rounded bg-green-500 px-6 py-2 text-white transition-colors duration-200 hover:bg-green-600"
                 >
                   <Save className="h-4 w-4" />
-                  Salvar Alterações
+                  {t('profile.saveChanges')}
                 </button>
               </div>
             )}
@@ -178,15 +170,15 @@ export function Profile() {
         <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
           <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-white">Segurança</h2>
-              <p className="text-gray-400">Altere sua senha de acesso</p>
+              <h2 className="text-2xl font-bold text-white">{t('profile.security')}</h2>
+              <p className="text-gray-400">{t('profile.securitySubtitle')}</p>
             </div>
             <div className="flex gap-2">
               <Link
                 to="/change-password"
                 className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-600"
               >
-                Alterar senha
+                {t('profile.changePassword')}
               </Link>
             </div>
           </div>
@@ -194,13 +186,15 @@ export function Profile() {
           {showChangePassword && (
             <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-4">
               <div>
-                <label className="mb-2 block text-sm font-medium text-white">Senha Atual</label>
+                <label className="mb-2 block text-sm font-medium text-white">
+                  {t('profile.currentPassword')}
+                </label>
                 <div className="relative">
                   <input
                     {...registerPassword('currentPassword')}
                     type={showCurrentPassword ? 'text' : 'password'}
                     className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Digite sua senha atual"
+                    placeholder={t('profile.currentPasswordPlaceholder')}
                   />
                   <button
                     type="button"
@@ -222,13 +216,15 @@ export function Profile() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-white">Nova Senha</label>
+                <label className="mb-2 block text-sm font-medium text-white">
+                  {t('profile.newPassword')}
+                </label>
                 <div className="relative">
                   <input
                     {...registerPassword('newPassword')}
                     type={showNewPassword ? 'text' : 'password'}
                     className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Digite sua nova senha"
+                    placeholder={t('profile.newPasswordPlaceholder')}
                   />
                   <button
                     type="button"
@@ -245,14 +241,14 @@ export function Profile() {
 
               <div>
                 <label className="mb-2 block text-sm font-medium text-white">
-                  Confirmar Nova Senha
+                  {t('profile.confirmNewPassword')}
                 </label>
                 <div className="relative">
                   <input
                     {...registerPassword('confirmPassword')}
                     type={showConfirmPassword ? 'text' : 'password'}
                     className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="Confirme sua nova senha"
+                    placeholder={t('profile.confirmNewPasswordPlaceholder')}
                   />
                   <button
                     type="button"
@@ -300,10 +296,10 @@ export function Profile() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Alterando...
+                    {t('profile.changingPassword')}
                   </div>
                 ) : (
-                  'Alterar Senha'
+                  t('profile.changePasswordButton')
                 )}
               </button>
             </form>
