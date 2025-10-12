@@ -43,6 +43,10 @@ export function Avatar() {
     return null;
   }
 
+  const capitalizeText = (text: string) => {
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  };
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button
@@ -55,7 +59,7 @@ export function Avatar() {
       {isDropdownOpen && (
         <div className="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-gray-600 bg-[#24293f] shadow-lg">
           <div className="border-b border-gray-600 px-4 py-3">
-            <p className="text-sm font-medium text-white">{user.name}</p>
+            <p className="text-sm font-medium text-white">{capitalizeText(user.name)}</p>
             <p className="text-xs text-gray-400">{t('profile.welcome')}</p>
           </div>
 
