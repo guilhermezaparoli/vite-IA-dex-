@@ -20,4 +20,9 @@ export const makeMonstersQuery = {
       queryKey: [...makeMonstersQuery.all(), 'detail', id],
       queryFn: () => fetchMonsterById(id),
     }) as const,
+  userMonsters: (page: number, pageSize: number, types?: MonsterType[] | null, search?: string) =>
+    ({
+      queryKey: [...makeMonstersQuery.all(), 'user-monsters', { page, pageSize, types, search }],
+      queryFn: () => fetchMyMonsters({ page, pageSize, types, search }),
+    }) as const,
 };
