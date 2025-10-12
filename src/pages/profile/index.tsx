@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from '@tanstack/react-router';
-import { isAxiosError } from 'axios';
 import { Eye, EyeOff, Save } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -8,6 +7,7 @@ import { toast } from 'react-toastify';
 import { z } from 'zod';
 import { useChangePassword } from '../../api/mutations/useChangePassword';
 import { useAuthenticateContext } from '../../context/authenticate';
+import { handleApiError } from '../../utils/errors/handleApiError';
 
 export function Profile() {
   const { user } = useAuthenticateContext();
@@ -78,20 +78,7 @@ export function Profile() {
           resetPassword();
         },
         onError: error => {
-          if (isAxiosError(error)) {
-            const message = error.response?.data.message;
-            const errorTranslation: Record<string, string> = {
-              'Current password is incorrect': 'Senha atual incorreta',
-              'Invalid current password': 'Senha atual inválida',
-            };
-
-            if (typeof message === 'string') {
-              const translated =
-                (message && errorTranslation[message]) ||
-                'Ocorreu um erro ao alterar a senha. Tente novamente.';
-              toast.error(translated);
-            }
-          }
+          handleApiError(error);
         },
       }
     );

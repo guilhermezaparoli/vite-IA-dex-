@@ -103,11 +103,11 @@ export function Login() {
               {errors.password && <p className="mt-2 text-red-500">{errors.password.message}</p>}
             </div>
 
-            <div className="flex items-center justify-end">
+            {/* <div className="flex items-center justify-end">
               <a href="#" className="text-input text-sm transition-colors hover:text-white">
                 {t('auth.login.forgotPassword')}
               </a>
-            </div>
+            </div> */}
 
             <button
               type="submit"
