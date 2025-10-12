@@ -1,9 +1,9 @@
-import { useTranslation } from 'react-i18next';
-import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from "react-i18next";
+import { useState, useRef, useEffect } from "react";
 
 const languages = [
-  { code: 'pt-BR', name: 'Português', flag: '🇧🇷' },
-  { code: 'en-US', name: 'English', flag: '🇺🇸' },
+  { code: "pt-BR", name: "Português", flag: "🇧🇷" },
+  { code: "en-US", name: "English", flag: "🇺🇸" },
 ];
 
 export function LanguageSwitcher() {
@@ -11,7 +11,8 @@ export function LanguageSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
+  const currentLanguage =
+    languages.find((lang) => lang.code === i18n.language) || languages[0];
 
   const handleLanguageChange = (langCode: string) => {
     i18n.changeLanguage(langCode);
@@ -20,14 +21,17 @@ export function LanguageSwitcher() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -40,12 +44,17 @@ export function LanguageSwitcher() {
         <span className="text-xl">{currentLanguage.flag}</span>
         <span className="text-sm hidden sm:inline">{currentLanguage.name}</span>
         <svg
-          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
@@ -56,9 +65,11 @@ export function LanguageSwitcher() {
               key={lang.code}
               onClick={() => handleLanguageChange(lang.code)}
               className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-700 transition-colors duration-200 flex items-center gap-2 cursor-pointer ${
-                lang.code === currentLanguage.code ? 'bg-gray-700' : ''
-              } ${lang.code === languages[0].code ? 'rounded-t-lg' : ''} ${
-                lang.code === languages[languages.length - 1].code ? 'rounded-b-lg' : ''
+                lang.code === currentLanguage.code ? "bg-gray-700" : ""
+              } ${lang.code === languages[0].code ? "rounded-t-lg" : ""} ${
+                lang.code === languages[languages.length - 1].code
+                  ? "rounded-b-lg"
+                  : ""
               }`}
             >
               <span className="text-xl">{lang.flag}</span>

@@ -1,144 +1,168 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import z from 'zod';
-import { Eye, EyeOff } from "lucide-react"
-import { useAuthenticate } from '../../api/mutations/useAuthenticate';
-import { isAxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { useAuthenticateContext } from '../../context/authenticate';
-import { useNavigate, Link } from '@tanstack/react-router';
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
+import { Eye, EyeOff } from "lucide-react";
+import { useAuthenticate } from "../../api/mutations/useAuthenticate";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
+import { useAuthenticateContext } from "../../context/authenticate";
+import { useNavigate, Link } from "@tanstack/react-router";
 
 export function Login() {
-    const [showPassword, setShowPassword] = useState(false);
-    const { setToken } = useAuthenticateContext()
-    const { mutate: authenticateMutate, isPending } = useAuthenticate()
-    const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const { setToken } = useAuthenticateContext();
+  const { mutate: authenticateMutate, isPending } = useAuthenticate();
+  const navigate = useNavigate();
 
-    const zodSchema = z.object({
-        email: z.email("Informe um e-mail válido"),
-        password: z.string().min(8, "Informe uma senha com no mínimo 8 caracteres")
-    })
+  const zodSchema = z.object({
+    email: z.email("Informe um e-mail válido"),
+    password: z.string().min(8, "Informe uma senha com no mínimo 8 caracteres"),
+  });
 
-    type FormType = z.infer<typeof zodSchema>
+  type FormType = z.infer<typeof zodSchema>;
 
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormType>({
+    resolver: zodResolver(zodSchema),
+  });
 
-    const { handleSubmit, register, formState: { errors } } = useForm<FormType>({
-        resolver: zodResolver(zodSchema)
-    })
+  const onHandleSubmit = async (data: FormType) => {
+    authenticateMutate(data, {
+      onSuccess: ({ data }) => {
+        setToken(data.token);
+        navigate({ to: "/" });
+        toast.success("Login realizado com sucesso!", {
+          autoClose: 1000,
+        });
+      },
+      onError: (error) => {
+        if (isAxiosError(error)) {
+          const message = error.response?.data.message;
+          const errorTranslation: Record<string, string> = {
+            "Invalid credentials": "Credenciais inválidas",
+          };
 
-    const onHandleSubmit = async (data: FormType) => {
+          if (typeof message === "string") {
+            const translated =
+              (message && errorTranslation[message]) ||
+              "Ocorreu um erro inesperado. Tente novamente.";
+            toast.error(translated);
+          }
+        }
+      },
+    });
+  };
 
-        authenticateMutate(data, {
-            onSuccess: ({ data }) => {
-                setToken(data.token)
-                navigate({ to: '/' })
-                toast.success("Login realizado com sucesso!", {
-                    autoClose: 1000,
-                })
-            },
-            onError: (error) => {
-                if (isAxiosError(error)) {
-                    const message = error.response?.data.message
-                    const errorTranslation: Record<string, string> = {
-                        "Invalid credentials": "Credenciais inválidas",
-                    };
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md">
+        {/* Logo/Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">AI Dex</h1>
+          <p className="text-gray-400">Entre na sua conta para continuar</p>
+        </div>
 
-                    if (typeof message === "string") {
-                        const translated =
-                            (message && errorTranslation[message]) ||
-                            "Ocorreu um erro inesperado. Tente novamente.";
-                        toast.error(translated)
-                    }
+        {/* Login Form */}
+        <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
+          <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-white mb-2"
+              >
+                Email
+              </label>
+              <input
+                className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                autoComplete="off"
+                type="email"
+                placeholder="seu@email.com"
+                {...register("email")}
+              />
+              {errors.email && (
+                <p className="text-red-500 mt-2">{errors.email.message}</p>
+              )}
+            </div>
 
-                }
-            }
-        })
-    };
+            {/* Password Field */}
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-white mb-2"
+              >
+                Senha
+              </label>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Digite sua senha"
+                  {...register("password")}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                >
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 mt-2">{errors.password.message}</p>
+              )}
+            </div>
 
-    return (
-        <main className="min-h-screen flex items-center justify-center bg-background p-4">
-            <div className="w-full max-w-md">
-                {/* Logo/Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold text-white mb-2">AI Dex</h1>
-                    <p className="text-gray-400">Entre na sua conta para continuar</p>
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-end">
+              <a
+                href="#"
+                className="text-sm text-input hover:text-white transition-colors"
+              >
+                Esqueceu a senha?
+              </a>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-full bg-input cursor-pointer text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isPending ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
+                  </svg>
+                  Entrando...
                 </div>
+              ) : (
+                "Entrar"
+              )}
+            </button>
+          </form>
 
-                {/* Login Form */}
-                <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
-                    <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
-
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
-                                Email
-                            </label>
-                            <input
-                                className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                autoComplete='off'
-                                type='email'
-                                placeholder="seu@email.com"
-                                {...register("email")}
-                            />
-                            {errors.email && <p className='text-red-500 mt-2'>{errors.email.message}</p>}
-                        </div>
-
-                        {/* Password Field */}
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
-                                Senha
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    placeholder="Digite sua senha"
-                                    {...register("password")}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
-                                >
-                                    {showPassword ?
-                                        <Eye />
-                                        : (
-                                            <EyeOff />
-                                        )}
-                                </button>
-                            </div>
-                            {errors.password && <p className='text-red-500 mt-2'>{errors.password.message}</p>}
-                        </div>
-
-                        {/* Remember Me & Forgot Password */}
-                        <div className="flex items-center justify-end">
-                            <a href="#" className="text-sm text-input hover:text-white transition-colors">
-                                Esqueceu a senha?
-                            </a>
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isPending}
-                            className="w-full bg-input cursor-pointer text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isPending ? (
-                                <div className="flex items-center justify-center">
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Entrando...
-                                </div>
-                            ) : (
-                                'Entrar'
-                            )}
-                        </button>
-                    </form>
-
-                    {/* Divider */}
-                    {/* <div className="mt-6">
+          {/* Divider */}
+          {/* <div className="mt-6">
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-pokemon-card-border"></div>
@@ -149,8 +173,8 @@ export function Login() {
                         </div>
                     </div> */}
 
-                    {/* Social Login */}
-                    {/* <div className="mt-6 space-y-3">
+          {/* Social Login */}
+          {/* <div className="mt-6 space-y-3">
                         <button className="w-full flex items-center justify-center px-4 py-3 border border-pokemon-card-border rounded-lg text-white hover:bg-background transition-colors">
                             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                                 <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -162,17 +186,20 @@ export function Login() {
                         </button>
                     </div> */}
 
-                    {/* Sign Up Link */}
-                    <div className="mt-6 text-center">
-                        <p className="text-gray-400">
-                            Não tem uma conta?{' '}
-                            <Link to="/register" className="text-input hover:text-white transition-colors font-medium">
-                                Cadastre-se
-                            </Link>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </main>
-    )
+          {/* Sign Up Link */}
+          <div className="mt-6 text-center">
+            <p className="text-gray-400">
+              Não tem uma conta?{" "}
+              <Link
+                to="/register"
+                className="text-input hover:text-white transition-colors font-medium"
+              >
+                Cadastre-se
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }

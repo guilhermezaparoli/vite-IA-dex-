@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --color-line-*: initial;
@@ -35,8 +35,7 @@
   --color-rarity-epic: #a855f7;
   --color-rarity-legendary: #f59e0b;
 
-
-   /* --breakpoint-sm: 40rem; */
+  /* --breakpoint-sm: 40rem; */
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
@@ -56,11 +55,11 @@
   }
 
   body {
-    background-color: #060B28;
+    background-color: #060b28;
     color: #fff;
     margin: 0;
     padding: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 
     -webkit-font-smoothing: antialiased;
 
@@ -70,7 +69,7 @@
     &::-webkit-scrollbar-track {
       background: #060b28;
     }
-        &::-webkit-scrollbar-thumb {
+    &::-webkit-scrollbar-thumb {
       background-color: #2f5aff;
       border-radius: 0.5rem;
     }
@@ -90,15 +89,29 @@
 }
 
 @keyframes rarity-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes legendary-sparkle {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.05) rotate(1deg); }
-  50% { transform: scale(1) rotate(0deg); }
-  75% { transform: scale(1.05) rotate(-1deg); }
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(-1deg);
+  }
 }
 
 .rarity-legendary {
@@ -108,5 +121,3 @@
 .rarity-glow {
   animation: rarity-glow 2s ease-in-out infinite;
 }
-
-
