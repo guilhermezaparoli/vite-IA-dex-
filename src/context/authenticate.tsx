@@ -60,8 +60,8 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
             }
         }
 
-            initializeAuth()
-        
+        initializeAuth()
+
     }, [])
 
     useLayoutEffect(() => {
@@ -80,6 +80,12 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
     useLayoutEffect(() => {
         const refreshInterceptor = api.interceptors.response.use((response) => response, async (error: AxiosError) => {
             const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean }
+
+         
+            if (originalRequest.url?.includes('/token/refresh')) {
+                setToken(null)
+                return Promise.reject(error)
+            }
 
             if (error.response?.status === 401 && !originalRequest._retry) {
                 originalRequest._retry = true
@@ -107,7 +113,7 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
             api.interceptors.response.eject(refreshInterceptor)
         }
 
-    }, [])
+    }, [token])
 
     return (
         <AuthenticateContext.Provider value={{
