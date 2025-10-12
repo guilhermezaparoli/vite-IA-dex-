@@ -9,6 +9,7 @@ import { Link, useNavigate } from '@tanstack/react-router';
 import { toast } from 'react-toastify';
 import { useAuthenticateContext } from '../../context/authenticate';
 import { handleApiError } from '../../utils/errors/handleApiError';
+import { useTranslation } from 'react-i18next';
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,16 +17,28 @@ export function Register() {
   const { mutate: registerMutate, isPending } = useRegisterUser();
   const { setToken } = useAuthenticateContext();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const zodSchema = z
     .object({
-      name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
-      email: z.string().email('Informe um e-mail válido'),
-      password: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres'),
-      confirmPassword: z.string().min(8, 'Confirmação de senha é obrigatória'),
+      name: z
+        .string()
+        .min(2, { message: t('auth.register.nameError') })
+        .max(75, { message: t('auth.register.nameErrorMax') }),
+      email: z
+        .email({ message: t('auth.register.emailError') })
+        .max(75, { message: t('auth.register.emailErrorMax') }),
+      password: z
+        .string()
+        .min(8, { message: t('auth.register.passwordError') })
+        .max(32, { message: t('auth.register.passwordErrorMax') }),
+      confirmPassword: z
+        .string()
+        .min(8, { message: t('auth.register.passwordError') })
+        .max(32, { message: t('auth.register.passwordErrorMax') }),
     })
     .refine(data => data.password === data.confirmPassword, {
-      message: 'As senhas não coincidem',
+      message: t('auth.register.confirmPasswordError'),
       path: ['confirmPassword'],
     });
 
@@ -45,7 +58,7 @@ export function Register() {
 
     registerMutate(registerData, {
       onSuccess: ({ token }) => {
-        toast.success('Conta criada com sucesso!', {
+        toast.success(t('auth.register.success'), {
           autoClose: 2000,
         });
         setToken(token);
@@ -63,21 +76,26 @@ export function Register() {
     <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold text-white">AI Dex</h1>
-          <p className="text-gray-400">Crie sua conta e comece a explorar</p>
+          <h1 className="mb-2 text-4xl font-bold text-white">{t('header.title')}</h1>
+          <p className="text-gray-400">{t('auth.register.subtitle')}</p>
         </div>
 
         <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
           <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
             <div>
               <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
-                Nome
+                {t('auth.register.name')}
               </label>
               <input
                 className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 autoComplete="off"
                 type="text"
-                placeholder="Seu nome"
+                placeholder={t('auth.register.namePlaceholder')}
+                onKeyDown={e => {
+                  if (e.key === ' ') {
+                    e.preventDefault();
+                  }
+                }}
                 {...register('name')}
               />
               {errors.name && <p className="mt-2 text-red-500">{errors.name.message}</p>}
@@ -86,13 +104,13 @@ export function Register() {
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-medium text-white">
-                Email
+                {t('auth.register.email')}
               </label>
               <input
                 className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 autoComplete="off"
                 type="email"
-                placeholder="seu@email.com"
+                placeholder={t('auth.register.emailPlaceholder')}
                 {...register('email')}
               />
               {errors.email && <p className="mt-2 text-red-500">{errors.email.message}</p>}
@@ -100,13 +118,13 @@ export function Register() {
 
             <div>
               <label htmlFor="password" className="mb-2 block text-sm font-medium text-white">
-                Senha
+                {t('auth.register.password')}
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Mínimo 8 caracteres"
+                  placeholder={t('auth.register.passwordPlaceholder')}
                   {...register('password')}
                 />
                 <button
@@ -125,13 +143,13 @@ export function Register() {
                 htmlFor="confirmPassword"
                 className="mb-2 block text-sm font-medium text-white"
               >
-                Confirmar senha
+                {t('auth.register.confirmPassword')}
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Confirme sua senha"
+                  placeholder={t('auth.register.confirmPasswordPlaceholder')}
                   {...register('confirmPassword')}
                 />
                 <button
@@ -174,22 +192,22 @@ export function Register() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Criando conta...
+                  {t('auth.register.submitting')}
                 </div>
               ) : (
-                'Criar conta'
+                t('auth.register.submit')
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-400">
-              Já tem uma conta?{' '}
+              {t('auth.register.hasAccount')}{' '}
               <Link
                 to="/login"
                 className="text-input font-medium transition-colors hover:text-white"
               >
-                Faça login
+                {t('auth.register.login')}
               </Link>
             </p>
           </div>
