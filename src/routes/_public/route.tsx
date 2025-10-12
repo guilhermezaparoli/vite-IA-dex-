@@ -1,8 +1,8 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useAuthenticateContext } from "../../context/authenticate";
-import { useEffect } from "react";
+import { createFileRoute, Outlet } from '@tanstack/react-router';
+import { useAuthenticateContext } from '../../context/authenticate';
+import { useEffect } from 'react';
 
-export const Route = createFileRoute("/_public")({
+export const Route = createFileRoute('/_public')({
   component: PublicLayout,
 });
 
@@ -12,7 +12,7 @@ function PublicLayout() {
 
   useEffect(() => {
     if (isAuthenticate) {
-      navigate({ to: "/" });
+      navigate({ to: '/' });
     }
   }, [isAuthenticate, navigate]);
 

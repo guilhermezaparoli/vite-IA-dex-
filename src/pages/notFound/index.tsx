@@ -1,62 +1,60 @@
-import { Link } from "@tanstack/react-router";
-import { Home, Search, ArrowLeft } from "lucide-react";
+import { Link } from '@tanstack/react-router';
+import { Home, Search, ArrowLeft } from 'lucide-react';
 
 export function NotFound() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-6 lg:p-8">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-2xl space-y-8 text-center">
         <div className="relative">
-          <h1 className="text-9xl md:text-[200px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-pulse">
+          <h1 className="animate-pulse bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-9xl font-bold text-transparent md:text-[200px]">
             404
           </h1>
-          <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 opacity-30 blur-3xl"></div>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-white">
-            Página não encontrada
-          </h2>
-          <p className="text-lg text-gray-400 max-w-md mx-auto">
-            Parece que este monstro fugiu! A página que você está procurando não
-            existe ou foi movida.
+          <h2 className="text-3xl font-bold text-white md:text-4xl">Página não encontrada</h2>
+          <p className="mx-auto max-w-md text-lg text-gray-400">
+            Parece que este monstro fugiu! A página que você está procurando não existe ou foi
+            movida.
           </p>
         </div>
 
-        <div className="text-6xl md:text-8xl my-8 opacity-50">👾</div>
+        <div className="my-8 text-6xl opacity-50 md:text-8xl">👾</div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <Link
             to="/"
-            className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 hover:scale-105 shadow-lg  cursor-pointer"
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-blue-500 px-6 py-3 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-blue-600"
           >
-            <Home className="w-5 h-5" />
+            <Home className="h-5 w-5" />
             Voltar para Home
           </Link>
 
           <button
             onClick={() => window.history.back()}
-            className="flex items-center gap-2 px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-all duration-200 hover:scale-105 shadow-lg cursor-pointer"
+            className="flex cursor-pointer items-center gap-2 rounded-lg bg-gray-700 px-6 py-3 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-gray-600"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="h-5 w-5" />
             Voltar
           </button>
         </div>
 
-        <div className="mt-12 p-6 bg-[#24293f] border border-gray-600 rounded-lg">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center justify-center gap-2">
-            <Search className="w-5 h-5" />O que você pode fazer?
+        <div className="mt-12 rounded-lg border border-gray-600 bg-[#24293f] p-6">
+          <h3 className="mb-4 flex items-center justify-center gap-2 text-xl font-semibold text-white">
+            <Search className="h-5 w-5" />O que você pode fazer?
           </h3>
-          <ul className="space-y-3 text-left text-gray-300 max-w-md mx-auto">
+          <ul className="mx-auto max-w-md space-y-3 text-left text-gray-300">
             <li className="flex items-center gap-2">
-              <span className="text-blue-500 ">•</span>
+              <span className="text-blue-500">•</span>
               <span>Verifique se o endereço foi digitado corretamente</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-blue-500 ">•</span>
+              <span className="text-blue-500">•</span>
               <span>Volte para a página inicial e navegue a partir dela</span>
             </li>
             <li className="flex items-center gap-2">
-              <span className="text-blue-500 ">•</span>
+              <span className="text-blue-500">•</span>
               <span>Explore nossa coleção de monstros criados por IA</span>
             </li>
           </ul>

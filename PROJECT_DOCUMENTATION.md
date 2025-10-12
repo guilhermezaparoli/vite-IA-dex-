@@ -343,7 +343,7 @@ The project uses:
 
 ```typescript
 // src/api/axios/api.ts
-baseURL: "http://localhost:5555/";
+baseURL: 'http://localhost:5555/';
 withCredentials: true;
 ```
 

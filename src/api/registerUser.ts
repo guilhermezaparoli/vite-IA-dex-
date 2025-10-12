@@ -1,4 +1,4 @@
-import { api } from "./axios/api";
+import { api } from './axios/api';
 
 interface RegisterUserRequest {
   name: string;
@@ -11,6 +11,6 @@ interface RegisterUserResponse {
 }
 
 export const registerUser = async (data: RegisterUserRequest) => {
-  const response = await api.post<RegisterUserResponse>("/register", data);
+  const response = await api.post<RegisterUserResponse>('/register', data);
   return response.data;
 };

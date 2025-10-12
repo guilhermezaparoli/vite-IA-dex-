@@ -1,22 +1,22 @@
-import BUG from "../../assets/monsterTypes/bug.svg";
-import FIRE from "../../assets/monsterTypes/fire.svg";
-import WATER from "../../assets/monsterTypes/water.svg";
-import GRASS from "../../assets/monsterTypes/grass.svg";
-import ELECTRIC from "../../assets/monsterTypes/electric.svg";
-import ICE from "../../assets/monsterTypes/ice.svg";
-import DRAGON from "../../assets/monsterTypes/dragon.svg";
-import DARK from "../../assets/monsterTypes/dark.svg";
-import FAIRY from "../../assets/monsterTypes/fairy.svg";
-import NORMAL from "../../assets/monsterTypes/normal.svg";
-import FIGHTING from "../../assets/monsterTypes/fighting.svg";
-import POISON from "../../assets/monsterTypes/poison.svg";
-import GROUND from "../../assets/monsterTypes/ground.svg";
-import FLYING from "../../assets/monsterTypes/flying.svg";
-import PSYCHIC from "../../assets/monsterTypes/psychic.svg";
-import ROCK from "../../assets/monsterTypes/rock.svg";
-import GHOST from "../../assets/monsterTypes/ghost.svg";
-import STEEL from "../../assets/monsterTypes/steel.svg";
-import type { MonsterType } from "../../@types/monster";
+import BUG from '../../assets/monsterTypes/bug.svg';
+import FIRE from '../../assets/monsterTypes/fire.svg';
+import WATER from '../../assets/monsterTypes/water.svg';
+import GRASS from '../../assets/monsterTypes/grass.svg';
+import ELECTRIC from '../../assets/monsterTypes/electric.svg';
+import ICE from '../../assets/monsterTypes/ice.svg';
+import DRAGON from '../../assets/monsterTypes/dragon.svg';
+import DARK from '../../assets/monsterTypes/dark.svg';
+import FAIRY from '../../assets/monsterTypes/fairy.svg';
+import NORMAL from '../../assets/monsterTypes/normal.svg';
+import FIGHTING from '../../assets/monsterTypes/fighting.svg';
+import POISON from '../../assets/monsterTypes/poison.svg';
+import GROUND from '../../assets/monsterTypes/ground.svg';
+import FLYING from '../../assets/monsterTypes/flying.svg';
+import PSYCHIC from '../../assets/monsterTypes/psychic.svg';
+import ROCK from '../../assets/monsterTypes/rock.svg';
+import GHOST from '../../assets/monsterTypes/ghost.svg';
+import STEEL from '../../assets/monsterTypes/steel.svg';
+import type { MonsterType } from '../../@types/monster';
 
 interface LabelTypeProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   monsterType: MonsterType;
@@ -47,100 +47,88 @@ const typeIcons = {
 
 const typeStyles = {
   NORMAL: {
-    bg: "bg-type-normal",
-    hoverText: "hover:border-type-normal",
+    bg: 'bg-type-normal',
+    hoverText: 'hover:border-type-normal',
   },
   BUG: {
-    bg: "bg-type-bug",
-    hoverText: "hover:border-type-bug",
+    bg: 'bg-type-bug',
+    hoverText: 'hover:border-type-bug',
   },
   FIRE: {
-    bg: "bg-type-fire",
-    hoverText: "hover:border-type-fire",
+    bg: 'bg-type-fire',
+    hoverText: 'hover:border-type-fire',
   },
   WATER: {
-    bg: "bg-type-water",
-    hoverText: "hover:border-type-water",
+    bg: 'bg-type-water',
+    hoverText: 'hover:border-type-water',
   },
   GRASS: {
-    bg: "bg-type-grass",
-    hoverText: "hover:border-type-grass",
+    bg: 'bg-type-grass',
+    hoverText: 'hover:border-type-grass',
   },
   ELECTRIC: {
-    bg: "bg-type-electric",
-    hoverText: "hover:border-type-electric",
+    bg: 'bg-type-electric',
+    hoverText: 'hover:border-type-electric',
   },
   ICE: {
-    bg: "bg-type-ice",
-    hoverText: "hover:border-type-ice",
+    bg: 'bg-type-ice',
+    hoverText: 'hover:border-type-ice',
   },
   FIGHTING: {
-    bg: "bg-type-fighting",
-    hoverText: "hover:border-type-fighting",
+    bg: 'bg-type-fighting',
+    hoverText: 'hover:border-type-fighting',
   },
   POISON: {
-    bg: "bg-type-poison",
-    hoverText: "hover:border-type-poison",
+    bg: 'bg-type-poison',
+    hoverText: 'hover:border-type-poison',
   },
   GROUND: {
-    bg: "bg-type-ground",
-    hoverText: "hover:border-type-ground",
+    bg: 'bg-type-ground',
+    hoverText: 'hover:border-type-ground',
   },
   FLYING: {
-    bg: "bg-type-flying",
-    hoverText: "hover:border-type-flying",
+    bg: 'bg-type-flying',
+    hoverText: 'hover:border-type-flying',
   },
   PSYCHIC: {
-    bg: "bg-type-psychic",
-    hoverText: "hover:border-type-psychic",
+    bg: 'bg-type-psychic',
+    hoverText: 'hover:border-type-psychic',
   },
   ROCK: {
-    bg: "bg-type-rock",
-    hoverText: "hover:border-type-rock",
+    bg: 'bg-type-rock',
+    hoverText: 'hover:border-type-rock',
   },
   GHOST: {
-    bg: "bg-type-ghost",
-    hoverText: "hover:border-type-ghost",
+    bg: 'bg-type-ghost',
+    hoverText: 'hover:border-type-ghost',
   },
   DRAGON: {
-    bg: "bg-type-dragon",
-    hoverText: "hover:border-type-dragon",
+    bg: 'bg-type-dragon',
+    hoverText: 'hover:border-type-dragon',
   },
   DARK: {
-    bg: "bg-type-dark",
-    hoverText: "hover:border-type-dark",
+    bg: 'bg-type-dark',
+    hoverText: 'hover:border-type-dark',
   },
   STEEL: {
-    bg: "bg-type-steel",
-    hoverText: "hover:border-type-steel",
+    bg: 'bg-type-steel',
+    hoverText: 'hover:border-type-steel',
   },
   FAIRY: {
-    bg: "bg-type-fairy",
-    hoverText: "hover:border-type-fairy",
+    bg: 'bg-type-fairy',
+    hoverText: 'hover:border-type-fairy',
   },
 };
 
-export function LabelType({
-  monsterType,
-  className,
-  selected = false,
-  ...rest
-}: LabelTypeProps) {
+export function LabelType({ monsterType, className, selected = false, ...rest }: LabelTypeProps) {
   return (
     <button
       type="button"
-      className={`flex items-center justify-center gap-2 px-2 py-1 rounded-lg ${typeStyles[monsterType].bg} text-white ${typeStyles[monsterType].hoverText} ${selected ? "brightness-100" : "brightness-50"} cursor-pointer ${className}`}
+      className={`flex items-center justify-center gap-2 rounded-lg px-2 py-1 ${typeStyles[monsterType].bg} text-white ${typeStyles[monsterType].hoverText} ${selected ? 'brightness-100' : 'brightness-50'} cursor-pointer ${className}`}
       {...rest}
     >
-      <img
-        src={typeIcons[monsterType]}
-        alt={monsterType}
-        className="w-4 h-4 "
-      />
-      <p>
-        {monsterType.charAt(0).toUpperCase() +
-          monsterType.toLowerCase().slice(1)}
-      </p>
+      <img src={typeIcons[monsterType]} alt={monsterType} className="h-4 w-4" />
+      <p>{monsterType.charAt(0).toUpperCase() + monsterType.toLowerCase().slice(1)}</p>
     </button>
   );
 }

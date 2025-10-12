@@ -1,22 +1,19 @@
-import { Link } from "@tanstack/react-router";
-import { useState, type ChangeEvent } from "react";
-import { CardMonster } from "../../components/CardMonster";
-import { LabelType } from "../../components/LabelType";
-import {
-  useFetchAllMonsters,
-  type Monster,
-} from "../../api/queries/monsters/useFetchAllMonsters";
-import { Pagination } from "../../components/Pagination";
-import type { MonsterType } from "../../@types/monster";
-import { monsterTypes } from "../../constants/monsterTypes";
-import { useDebounce } from "../../hooks/useDebounce";
-import { useAuthenticateContext } from "../../context/authenticate";
-import { useTranslation } from "react-i18next";
+import { Link } from '@tanstack/react-router';
+import { useState, type ChangeEvent } from 'react';
+import { CardMonster } from '../../components/CardMonster';
+import { LabelType } from '../../components/LabelType';
+import { useFetchAllMonsters, type Monster } from '../../api/queries/monsters/useFetchAllMonsters';
+import { Pagination } from '../../components/Pagination';
+import type { MonsterType } from '../../@types/monster';
+import { monsterTypes } from '../../constants/monsterTypes';
+import { useDebounce } from '../../hooks/useDebounce';
+import { useAuthenticateContext } from '../../context/authenticate';
+import { useTranslation } from 'react-i18next';
 
 export function Home() {
   const [selectedType, setSelectedType] = useState<MonsterType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState<string>("");
+  const [search, setSearch] = useState<string>('');
   const debouncedSearch = useDebounce(search, 300);
   const { isAuthenticate } = useAuthenticateContext();
   const { t } = useTranslation();
@@ -38,7 +35,7 @@ export function Home() {
 
   const handleTypeClick = (type: MonsterType) => {
     if (selectedType?.includes(type)) {
-      setSelectedType(selectedType.filter((t) => t !== type));
+      setSelectedType(selectedType.filter(t => t !== type));
       setCurrentPage(1);
       return;
     }
@@ -60,33 +57,33 @@ export function Home() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
 
-    const element = document.querySelector("#monsters-list");
+    const element = document.querySelector('#monsters-list');
     if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
   return (
     <main className="flex flex-col items-center justify-center p-4 md:p-6 lg:p-8">
-      <section className="flex justify-center items-center flex-col space-y-4 p-4">
-        <h1 className="text-3xl font-bold text-white">{t("home.title")}</h1>
-        <p className="text-gray-400">{t("home.subtitle")}</p>
+      <section className="flex flex-col items-center justify-center space-y-4 p-4">
+        <h1 className="text-3xl font-bold text-white">{t('home.title')}</h1>
+        <p className="text-gray-400">{t('home.subtitle')}</p>
       </section>
 
       {isAuthenticate ? (
         <Link
           to="/create-monster"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
         >
-          {t("home.createMonster")}
+          {t('home.createMonster')}
         </Link>
       ) : (
         <>
           <Link
             to="/register"
-            className="px-4 py-2 bg-blue-500 cursor-pointer text-white rounded hover:bg-blue-600"
+            className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
           >
-            {t("home.register")}
+            {t('home.register')}
           </Link>
         </>
       )}
@@ -94,14 +91,14 @@ export function Home() {
       <div className="relative m-8">
         <input
           type="text"
-          className="p-2 pr-10 border text-white border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-transparent"
-          placeholder={t("home.searchPlaceholder")}
+          className="rounded-md border border-gray-300 bg-transparent p-2 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder={t('home.searchPlaceholder')}
           value={search}
           onChange={onHandleSearch}
         />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <svg
-            className="w-5 h-5 text-gray-400"
+            className="h-5 w-5 text-gray-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -117,11 +114,9 @@ export function Home() {
       </div>
 
       <section className="flex flex-col space-y-4">
-        <h2 className="text-xl font-semibold text-white ">
-          {t("home.filterByType")}
-        </h2>
-        <div className="flex flex-wrap justify-center items-center gap-4 p-4">
-          {monsterTypes.map((type) => (
+        <h2 className="text-xl font-semibold text-white">{t('home.filterByType')}</h2>
+        <div className="flex flex-wrap items-center justify-center gap-4 p-4">
+          {monsterTypes.map(type => (
             <LabelType
               key={type}
               monsterType={type}
@@ -133,22 +128,22 @@ export function Home() {
       </section>
 
       {isLoading ? (
-        <div className="flex items-center justify-center text-white text-xl mt-20">
-          {t("common.loading")}
+        <div className="mt-20 flex items-center justify-center text-xl text-white">
+          {t('common.loading')}
         </div>
       ) : (
         <>
           <section
             id="monsters-list"
-            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 p-4 mt-10"
+            className="mt-10 grid grid-cols-1 gap-10 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
           >
             {monsters?.map((monster: Monster) => (
               <CardMonster key={monster.id} monster={monster} />
             ))}
           </section>
           {monsters.length === 0 && (
-            <div className="flex items-center justify-center text-white text-xl">
-              {t("home.noMonstersFound")}
+            <div className="flex items-center justify-center text-xl text-white">
+              {t('home.noMonstersFound')}
             </div>
           )}
 

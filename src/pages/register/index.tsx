@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { useRegisterUser } from "../../api/mutations/useRegisterUser";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { useRegisterUser } from '../../api/mutations/useRegisterUser';
 
-import { Link, useNavigate } from "@tanstack/react-router";
-import { toast } from "react-toastify";
-import { useAuthenticateContext } from "../../context/authenticate";
-import { handleApiError } from "../../utils/errors/handleApiError";
+import { Link, useNavigate } from '@tanstack/react-router';
+import { toast } from 'react-toastify';
+import { useAuthenticateContext } from '../../context/authenticate';
+import { handleApiError } from '../../utils/errors/handleApiError';
 
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,14 +19,14 @@ export function Register() {
 
   const zodSchema = z
     .object({
-      name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-      email: z.string().email("Informe um e-mail válido"),
-      password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
-      confirmPassword: z.string().min(8, "Confirmação de senha é obrigatória"),
+      name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
+      email: z.string().email('Informe um e-mail válido'),
+      password: z.string().min(8, 'Senha deve ter pelo menos 8 caracteres'),
+      confirmPassword: z.string().min(8, 'Confirmação de senha é obrigatória'),
     })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: "As senhas não coincidem",
-      path: ["confirmPassword"],
+    .refine(data => data.password === data.confirmPassword, {
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
     });
 
   type FormType = z.infer<typeof zodSchema>;
@@ -45,134 +45,117 @@ export function Register() {
 
     registerMutate(registerData, {
       onSuccess: ({ token }) => {
-        toast.success("Conta criada com sucesso!", {
+        toast.success('Conta criada com sucesso!', {
           autoClose: 2000,
         });
         setToken(token);
         navigate({
-          to: "/",
+          to: '/',
         });
       },
-      onError: (error) => {
+      onError: error => {
         handleApiError(error);
       },
     });
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-background p-4">
+    <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">AI Dex</h1>
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold text-white">AI Dex</h1>
           <p className="text-gray-400">Crie sua conta e comece a explorar</p>
         </div>
 
-        <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
+        <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
           <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-white mb-2"
-              >
+              <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
                 Nome
               </label>
               <input
-                className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 autoComplete="off"
                 type="text"
                 placeholder="Seu nome"
-                {...register("name")}
+                {...register('name')}
               />
-              {errors.name && (
-                <p className="text-red-500 mt-2">{errors.name.message}</p>
-              )}
+              {errors.name && <p className="mt-2 text-red-500">{errors.name.message}</p>}
             </div>
 
             {/* Email Field */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-white mb-2"
-              >
+              <label htmlFor="email" className="mb-2 block text-sm font-medium text-white">
                 Email
               </label>
               <input
-                className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 autoComplete="off"
                 type="email"
                 placeholder="seu@email.com"
-                {...register("email")}
+                {...register('email')}
               />
-              {errors.email && (
-                <p className="text-red-500 mt-2">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="mt-2 text-red-500">{errors.email.message}</p>}
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-white mb-2"
-              >
+              <label htmlFor="password" className="mb-2 block text-sm font-medium text-white">
                 Senha
               </label>
               <div className="relative">
                 <input
-                  type={showPassword ? "text" : "password"}
-                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type={showPassword ? 'text' : 'password'}
+                  className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Mínimo 8 caracteres"
-                  {...register("password")}
+                  {...register('password')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-white"
                 >
                   {showPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
-              {errors.password && (
-                <p className="text-red-500 mt-2">{errors.password.message}</p>
-              )}
+              {errors.password && <p className="mt-2 text-red-500">{errors.password.message}</p>}
             </div>
 
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-white mb-2"
+                className="mb-2 block text-sm font-medium text-white"
               >
                 Confirmar senha
               </label>
               <div className="relative">
                 <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Confirme sua senha"
-                  {...register("confirmPassword")}
+                  {...register('confirmPassword')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-white"
                 >
                   {showConfirmPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-red-500 mt-2">
-                  {errors.confirmPassword.message}
-                </p>
+                <p className="mt-2 text-red-500">{errors.confirmPassword.message}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-input cursor-pointer text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-input hover:bg-opacity-90 focus:ring-input focus:ring-offset-container-modal w-full cursor-pointer rounded-lg px-4 py-3 font-medium text-white transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? (
                 <div className="flex items-center justify-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="mr-3 -ml-1 h-5 w-5 animate-spin text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -194,17 +177,17 @@ export function Register() {
                   Criando conta...
                 </div>
               ) : (
-                "Criar conta"
+                'Criar conta'
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <p className="text-gray-400">
-              Já tem uma conta?{" "}
+              Já tem uma conta?{' '}
               <Link
                 to="/login"
-                className="text-input hover:text-white transition-colors font-medium"
+                className="text-input font-medium transition-colors hover:text-white"
               >
                 Faça login
               </Link>

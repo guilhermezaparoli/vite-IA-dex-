@@ -1,44 +1,44 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { LabelType } from "../../components/LabelType";
-import type { MonsterType } from "../../@types/monster";
-import { useCreateMonster } from "../../api/mutations/useCreateMonster";
-import { toast } from "react-toastify";
-import { useNavigate } from "@tanstack/react-router";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { LabelType } from '../../components/LabelType';
+import type { MonsterType } from '../../@types/monster';
+import { useCreateMonster } from '../../api/mutations/useCreateMonster';
+import { toast } from 'react-toastify';
+import { useNavigate } from '@tanstack/react-router';
 
 const monsterTypes: MonsterType[] = [
-  "NORMAL",
-  "FIRE",
-  "WATER",
-  "ELECTRIC",
-  "GRASS",
-  "ICE",
-  "FIGHTING",
-  "POISON",
-  "GROUND",
-  "FLYING",
-  "PSYCHIC",
-  "BUG",
-  "ROCK",
-  "GHOST",
-  "DRAGON",
-  "DARK",
-  "STEEL",
-  "FAIRY",
+  'NORMAL',
+  'FIRE',
+  'WATER',
+  'ELECTRIC',
+  'GRASS',
+  'ICE',
+  'FIGHTING',
+  'POISON',
+  'GROUND',
+  'FLYING',
+  'PSYCHIC',
+  'BUG',
+  'ROCK',
+  'GHOST',
+  'DRAGON',
+  'DARK',
+  'STEEL',
+  'FAIRY',
 ];
 
 export function CreateMonster() {
   const { mutate: createMonster, isPending } = useCreateMonster();
   const navigate = useNavigate();
   const formSchema = z.object({
-    name: z.string().min(1, "Nome é obrigatório"),
-    description: z.string().min(1, "Descrição é obrigatória"),
+    name: z.string().min(1, 'Nome é obrigatório'),
+    description: z.string().min(1, 'Descrição é obrigatória'),
     story: z.string(),
     types: z
       .array(z.enum(monsterTypes))
-      .max(2, "Selecione no máximo 2 tipos")
-      .min(1, "Selecione pelo menos 1 tipo"),
+      .max(2, 'Selecione no máximo 2 tipos')
+      .min(1, 'Selecione pelo menos 1 tipo'),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -53,19 +53,19 @@ export function CreateMonster() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       types: [],
-      story: "",
+      story: '',
     },
   });
 
-  const selectedTypes = watch("types");
+  const selectedTypes = watch('types');
 
   const handleTypeToggle = (type: MonsterType) => {
-    if (watch("types").includes(type)) {
-      const newTypes = watch("types").filter((t) => t !== type);
-      setValue("types", newTypes);
-    } else if (watch("types").length < 2) {
-      const newTypes = [...watch("types"), type];
-      setValue("types", newTypes);
+    if (watch('types').includes(type)) {
+      const newTypes = watch('types').filter(t => t !== type);
+      setValue('types', newTypes);
+    } else if (watch('types').length < 2) {
+      const newTypes = [...watch('types'), type];
+      setValue('types', newTypes);
     }
   };
 
@@ -81,91 +81,76 @@ export function CreateMonster() {
       },
       {
         onSuccess: ({ id }) => {
-          toast.success("Monstro criado com sucesso!");
+          toast.success('Monstro criado com sucesso!');
           navigate({
             to: `/monster/${id}`,
           });
         },
-      },
+      }
     );
   };
 
   console.log(errors, selectedTypes);
   return (
-    <main className="min-h-screen bg-background p-4">
-      <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-8 pt-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Criar Monstro</h1>
+    <main className="bg-background min-h-screen p-4">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-8 pt-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold text-white">Criar Monstro</h1>
           <p className="text-gray-400">Use IA para gerar seu monstro único</p>
         </div>
 
         <div className="grid grid-cols-1 gap-8">
-          <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
+          <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
             <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-white mb-2"
-                >
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
                   Nome do Monstro *
                 </label>
                 <input
                   disabled={isPending}
-                  className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent "
+                  className="w-full rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Ex: Flamezard, Aquatron..."
-                  {...register("name")}
+                  {...register('name')}
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.name.message}
-                  </p>
-                )}
+                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
               </div>
 
               <div>
-                <label
-                  htmlFor="description"
-                  className="block text-sm font-medium text-white mb-2"
-                >
+                <label htmlFor="description" className="mb-2 block text-sm font-medium text-white">
                   Descrição *
                 </label>
                 <textarea
                   disabled={isPending}
                   rows={3}
-                  className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Descreva a aparência e características do seu monstro..."
-                  {...register("description")}
+                  {...register('description')}
                 />
                 {errors.description && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.description.message}
-                  </p>
+                  <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>
                 )}
               </div>
 
               <div>
-                <label
-                  htmlFor="story"
-                  className="block text-sm font-medium text-white mb-2"
-                >
+                <label htmlFor="story" className="mb-2 block text-sm font-medium text-white">
                   História
                 </label>
                 <textarea
                   disabled={isPending}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Conte a origem e história do seu monstro..."
-                  {...register("story")}
+                  {...register('story')}
                 />
               </div>
 
               {/* Types Selection */}
               <div>
-                <label className="block text-sm font-medium text-white mb-3">
+                <label className="mb-3 block text-sm font-medium text-white">
                   Tipos * (máximo 2)
                 </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {monsterTypes.map((type) => (
+                  {monsterTypes.map(type => (
                     <div key={type}>
                       <LabelType
                         monsterType={type}
@@ -177,9 +162,7 @@ export function CreateMonster() {
                 </div>
                 <div className="mt-4">
                   {errors.types && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.types.message}
-                    </p>
+                    <p className="mt-1 text-sm text-red-500">{errors.types.message}</p>
                   )}
                 </div>
               </div>
@@ -187,12 +170,12 @@ export function CreateMonster() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-input text-white py-3 px-4 rounded-lg cursor-pointer font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-input hover:bg-opacity-90 focus:ring-input focus:ring-offset-container-modal w-full cursor-pointer rounded-lg px-4 py-3 font-medium text-white transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isPending ? (
                   <div className="flex items-center justify-center">
                     <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      className="mr-3 -ml-1 h-5 w-5 animate-spin text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -214,7 +197,7 @@ export function CreateMonster() {
                     Criando monstro...
                   </div>
                 ) : (
-                  "Criar Monstro"
+                  'Criar Monstro'
                 )}
               </button>
             </form>

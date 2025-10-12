@@ -1,7 +1,7 @@
-import type { MonsterType } from "../@types/monster";
-import { api } from "./axios/api";
-import type { Monster } from "./queries/monsters/useFetchAllMonsters";
-import qs from "qs";
+import type { MonsterType } from '../@types/monster';
+import { api } from './axios/api';
+import type { Monster } from './queries/monsters/useFetchAllMonsters';
+import qs from 'qs';
 
 interface Pagination {
   totalItems: number;
@@ -20,16 +20,11 @@ export interface MyMonstersParams {
   search?: string;
 }
 
-export async function fetchMyMonsters({
-  page,
-  pageSize,
-  types,
-  search,
-}: MyMonstersParams) {
-  const { data } = await api.get<MyMonstersResponse>("/monsters/me", {
+export async function fetchMyMonsters({ page, pageSize, types, search }: MyMonstersParams) {
+  const { data } = await api.get<MyMonstersResponse>('/monsters/me', {
     params: { page, pageSize, types: types ?? undefined, search },
-    paramsSerializer: (params) => {
-      return qs.stringify(params, { arrayFormat: "repeat" });
+    paramsSerializer: params => {
+      return qs.stringify(params, { arrayFormat: 'repeat' });
     },
   });
   return data;

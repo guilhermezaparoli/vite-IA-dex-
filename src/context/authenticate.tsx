@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useRouter } from "@tanstack/react-router";
-import type { AxiosError, AxiosRequestConfig } from "axios";
+import { useRouter } from '@tanstack/react-router';
+import type { AxiosError, AxiosRequestConfig } from 'axios';
 import {
   createContext,
   useContext,
@@ -8,13 +8,13 @@ import {
   useLayoutEffect,
   useState,
   type ReactNode,
-} from "react";
-import { toast } from "react-toastify";
-import { api } from "../api/axios/api";
-import { useLogoutUser } from "../api/mutations/useLogoutUser";
-import { refreshToken } from "../api/refreshToken";
-import { useFetchUser } from "../api/queries/users/useFetchUser";
-import type { User } from "../api/fetchUser";
+} from 'react';
+import { toast } from 'react-toastify';
+import { api } from '../api/axios/api';
+import { useLogoutUser } from '../api/mutations/useLogoutUser';
+import { refreshToken } from '../api/refreshToken';
+import { useFetchUser } from '../api/queries/users/useFetchUser';
+import type { User } from '../api/fetchUser';
 
 interface AuthenticateContextType {
   // username: string;
@@ -29,9 +29,7 @@ interface AuthenticateProviderParams {
   children: ReactNode;
 }
 
-const AuthenticateContext = createContext<AuthenticateContextType | undefined>(
-  undefined,
-);
+const AuthenticateContext = createContext<AuthenticateContextType | undefined>(undefined);
 
 const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
   const [token, setToken] = useState<string | null>(null);
@@ -45,11 +43,11 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
       onSuccess: () => {
         setToken(null);
         navigate({
-          to: "/",
+          to: '/',
         });
       },
       onError: () => {
-        toast.error("Houve um erro ao tentar deslogar o usuário");
+        toast.error('Houve um erro ao tentar deslogar o usuário');
       },
     });
   }
@@ -69,10 +67,8 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
   }, []);
 
   useLayoutEffect(() => {
-    const authInterceptor = api.interceptors.request.use((config) => {
-      config.headers.Authorization = token
-        ? `Bearer ${token}`
-        : config.headers.Authorization;
+    const authInterceptor = api.interceptors.request.use(config => {
+      config.headers.Authorization = token ? `Bearer ${token}` : config.headers.Authorization;
 
       return config;
     });
@@ -84,13 +80,13 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
 
   useLayoutEffect(() => {
     const refreshInterceptor = api.interceptors.response.use(
-      (response) => response,
+      response => response,
       async (error: AxiosError) => {
         const originalRequest = error.config as AxiosRequestConfig & {
           _retry?: boolean;
         };
 
-        if (originalRequest.url?.includes("/token/refresh")) {
+        if (originalRequest.url?.includes('/token/refresh')) {
           setToken(null);
           return Promise.reject(error);
         }
@@ -115,7 +111,7 @@ const AuthenticateProvider = ({ children }: AuthenticateProviderParams) => {
         }
 
         return Promise.reject(error);
-      },
+      }
     );
     return () => {
       api.interceptors.response.eject(refreshInterceptor);
@@ -143,9 +139,7 @@ export const useAuthenticateContext = () => {
   const context = useContext(AuthenticateContext);
 
   if (context == undefined) {
-    throw new Error(
-      "useAuthenticateContext must be used within an AuthenticateProvider",
-    );
+    throw new Error('useAuthenticateContext must be used within an AuthenticateProvider');
   }
 
   return context;

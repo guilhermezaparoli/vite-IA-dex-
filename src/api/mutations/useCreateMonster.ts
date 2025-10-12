@@ -1,6 +1,6 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createMonster } from "../createMonster";
-import { makeMonstersQuery } from "../queries/queryFactory/makeMonstersQuery";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createMonster } from '../createMonster';
+import { makeMonstersQuery } from '../queries/queryFactory/makeMonstersQuery';
 
 export function useCreateMonster() {
   const queryClient = useQueryClient();

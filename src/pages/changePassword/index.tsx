@@ -1,12 +1,12 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { Eye, EyeOff } from "lucide-react";
-import { useChangePassword } from "../../api/mutations/useChangePassword";
-import { isAxiosError } from "axios";
-import { toast } from "react-toastify";
-import { useNavigate } from "@tanstack/react-router";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import z from 'zod';
+import { Eye, EyeOff } from 'lucide-react';
+import { useChangePassword } from '../../api/mutations/useChangePassword';
+import { isAxiosError } from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from '@tanstack/react-router';
 
 export function ChangePassword() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
@@ -17,17 +17,13 @@ export function ChangePassword() {
 
   const zodSchema = z
     .object({
-      currentPassword: z
-        .string()
-        .min(8, "Informe a senha atual com no mínimo 8 caracteres"),
-      newPassword: z
-        .string()
-        .min(8, "Informe uma senha com no mínimo 8 caracteres"),
-      confirmPassword: z.string().min(8, "Confirme a nova senha"),
+      currentPassword: z.string().min(8, 'Informe a senha atual com no mínimo 8 caracteres'),
+      newPassword: z.string().min(8, 'Informe uma senha com no mínimo 8 caracteres'),
+      confirmPassword: z.string().min(8, 'Confirme a nova senha'),
     })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-      message: "As senhas não coincidem",
-      path: ["confirmPassword"],
+    .refine(data => data.newPassword === data.confirmPassword, {
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
     });
 
   type FormType = z.infer<typeof zodSchema>;
@@ -49,99 +45,92 @@ export function ChangePassword() {
       },
       {
         onSuccess: () => {
-          toast.success("Senha alterada com sucesso!", {
+          toast.success('Senha alterada com sucesso!', {
             autoClose: 2000,
           });
           reset();
-          navigate({ to: "/profile" });
+          navigate({ to: '/profile' });
         },
-        onError: (error) => {
+        onError: error => {
           if (isAxiosError(error)) {
             const message = error.response?.data.message;
             const errorTranslation: Record<string, string> = {
-              "Current password is incorrect": "Senha atual incorreta",
-              "Invalid current password": "Senha atual inválida",
+              'Current password is incorrect': 'Senha atual incorreta',
+              'Invalid current password': 'Senha atual inválida',
             };
 
-            if (typeof message === "string") {
+            if (typeof message === 'string') {
               const translated =
                 (message && errorTranslation[message]) ||
-                "Ocorreu um erro ao alterar a senha. Tente novamente.";
+                'Ocorreu um erro ao alterar a senha. Tente novamente.';
               toast.error(translated);
             }
           }
         },
-      },
+      }
     );
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-background p-4">
+    <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Alterar Senha</h1>
+        <div className="mb-8 text-center">
+          <h1 className="mb-2 text-4xl font-bold text-white">Alterar Senha</h1>
           <p className="text-gray-400">Atualize sua senha de acesso</p>
         </div>
 
-        <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
+        <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
           <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
             {/* Current Password Field */}
             <div>
               <label
                 htmlFor="currentPassword"
-                className="block text-sm font-medium text-white mb-2"
+                className="mb-2 block text-sm font-medium text-white"
               >
                 Senha Atual
               </label>
               <div className="relative">
                 <input
-                  type={showCurrentPassword ? "text" : "password"}
-                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type={showCurrentPassword ? 'text' : 'password'}
+                  className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Digite sua senha atual"
-                  {...register("currentPassword")}
+                  {...register('currentPassword')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-white"
                 >
                   {showCurrentPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
               {errors.currentPassword && (
-                <p className="text-red-500 mt-2">
-                  {errors.currentPassword.message}
-                </p>
+                <p className="mt-2 text-red-500">{errors.currentPassword.message}</p>
               )}
             </div>
 
             {/* New Password Field */}
             <div>
-              <label
-                htmlFor="newPassword"
-                className="block text-sm font-medium text-white mb-2"
-              >
+              <label htmlFor="newPassword" className="mb-2 block text-sm font-medium text-white">
                 Nova Senha
               </label>
               <div className="relative">
                 <input
-                  type={showNewPassword ? "text" : "password"}
-                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type={showNewPassword ? 'text' : 'password'}
+                  className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Digite sua nova senha"
-                  {...register("newPassword")}
+                  {...register('newPassword')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-white"
                 >
                   {showNewPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
               {errors.newPassword && (
-                <p className="text-red-500 mt-2">
-                  {errors.newPassword.message}
-                </p>
+                <p className="mt-2 text-red-500">{errors.newPassword.message}</p>
               )}
             </div>
 
@@ -149,41 +138,39 @@ export function ChangePassword() {
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-white mb-2"
+                className="mb-2 block text-sm font-medium text-white"
               >
                 Confirmar Nova Senha
               </label>
               <div className="relative">
                 <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   placeholder="Confirme sua nova senha"
-                  {...register("confirmPassword")}
+                  {...register('confirmPassword')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 transform text-gray-400 transition-colors hover:text-white"
                 >
                   {showConfirmPassword ? <Eye /> : <EyeOff />}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-red-500 mt-2">
-                  {errors.confirmPassword.message}
-                </p>
+                <p className="mt-2 text-red-500">{errors.confirmPassword.message}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-input cursor-pointer text-white py-3 px-4 rounded-lg font-medium hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-input focus:ring-offset-2 focus:ring-offset-container-modal transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-input hover:bg-opacity-90 focus:ring-input focus:ring-offset-container-modal w-full cursor-pointer rounded-lg px-4 py-3 font-medium text-white transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isPending ? (
                 <div className="flex items-center justify-center">
                   <svg
-                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    className="mr-3 -ml-1 h-5 w-5 animate-spin text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -205,15 +192,15 @@ export function ChangePassword() {
                   Alterando...
                 </div>
               ) : (
-                "Alterar Senha"
+                'Alterar Senha'
               )}
             </button>
           </form>
 
           <div className="mt-6 text-center">
             <button
-              onClick={() => navigate({ to: "/profile" })}
-              className="text-gray-400 cursor-pointer hover:text-white transition-colors"
+              onClick={() => navigate({ to: '/profile' })}
+              className="cursor-pointer text-gray-400 transition-colors hover:text-white"
             >
               Voltar ao perfil
             </button>

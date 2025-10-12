@@ -1,5 +1,5 @@
-import type { MonsterType } from "../@types/monster";
-import { api } from "./axios/api";
+import type { MonsterType } from '../@types/monster';
+import { api } from './axios/api';
 
 interface CreateMonsterRequest {
   name: string;
@@ -13,9 +13,6 @@ interface CreateMonsterResponse {
 }
 
 export async function createMonster(body: CreateMonsterRequest) {
-  const { data } = await api.post<CreateMonsterResponse>(
-    "/monsters/create",
-    body,
-  );
+  const { data } = await api.post<CreateMonsterResponse>('/monsters/create', body);
   return data;
 }

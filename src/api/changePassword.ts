@@ -1,4 +1,4 @@
-import { api } from "./axios/api";
+import { api } from './axios/api';
 
 interface ChangePasswordRequestBody {
   currentPassword: string;
@@ -10,5 +10,5 @@ interface ChangePasswordResponse {
 }
 
 export function changePassword(body: ChangePasswordRequestBody) {
-  return api.patch<ChangePasswordResponse>("/change-password", body);
+  return api.patch<ChangePasswordResponse>('/change-password', body);
 }

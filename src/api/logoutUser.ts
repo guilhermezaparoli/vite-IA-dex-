@@ -1,7 +1,7 @@
-import { api } from "./axios/api";
+import { api } from './axios/api';
 
 export async function logoutUser() {
-  const { data } = await api.post("/logout");
+  const { data } = await api.post('/logout');
 
   return data;
 }

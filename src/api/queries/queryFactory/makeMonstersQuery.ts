@@ -1,41 +1,23 @@
-import type { MonsterType } from "../../../@types/monster";
-import { fetchAllMonsters } from "../../fetchAllMonsters";
-import { fetchMonsterById } from "../../fetchMonsterById";
-import { fetchMyMonsters } from "../../fetchMyMonsters";
+import type { MonsterType } from '../../../@types/monster';
+import { fetchAllMonsters } from '../../fetchAllMonsters';
+import { fetchMonsterById } from '../../fetchMonsterById';
+import { fetchMyMonsters } from '../../fetchMyMonsters';
 
 export const makeMonstersQuery = {
-  all: () => ["monsters"] as const,
-  allPaginated: (
-    page: number,
-    pageSize: number,
-    types?: MonsterType[] | null,
-    search?: string,
-  ) =>
+  all: () => ['monsters'] as const,
+  allPaginated: (page: number, pageSize: number, types?: MonsterType[] | null, search?: string) =>
     ({
-      queryKey: [
-        ...makeMonstersQuery.all(),
-        "list",
-        { page, pageSize, types, search },
-      ],
+      queryKey: [...makeMonstersQuery.all(), 'list', { page, pageSize, types, search }],
       queryFn: () => fetchAllMonsters({ page, pageSize, types, search }),
     }) as const,
-  myMonsters: (
-    page: number,
-    pageSize: number,
-    types?: MonsterType[] | null,
-    search?: string,
-  ) =>
+  myMonsters: (page: number, pageSize: number, types?: MonsterType[] | null, search?: string) =>
     ({
-      queryKey: [
-        ...makeMonstersQuery.all(),
-        "my-monsters",
-        { page, pageSize, types, search },
-      ],
+      queryKey: [...makeMonstersQuery.all(), 'my-monsters', { page, pageSize, types, search }],
       queryFn: () => fetchMyMonsters({ page, pageSize, types, search }),
     }) as const,
   byId: (id: string) =>
     ({
-      queryKey: [...makeMonstersQuery.all(), "detail", id],
+      queryKey: [...makeMonstersQuery.all(), 'detail', id],
       queryFn: () => fetchMonsterById(id),
     }) as const,
 };

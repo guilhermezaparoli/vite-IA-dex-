@@ -1,4 +1,4 @@
-import { api } from "./axios/api";
+import { api } from './axios/api';
 
 interface AuthenticateRequestBody {
   email: string;
@@ -9,5 +9,5 @@ interface AuthenticateResponse {
   token: string;
 }
 export function authenticate(body: AuthenticateRequestBody) {
-  return api.post<AuthenticateResponse>("/auth", body);
+  return api.post<AuthenticateResponse>('/auth', body);
 }

@@ -1,4 +1,4 @@
-import { api } from "./axios/api";
+import { api } from './axios/api';
 
 export interface User {
   name: string;
@@ -11,7 +11,7 @@ interface FetchUserResponse {
 }
 
 export async function fetchUser() {
-  const { data } = await api.get<FetchUserResponse>("/me");
+  const { data } = await api.get<FetchUserResponse>('/me');
 
   return data.user;
 }

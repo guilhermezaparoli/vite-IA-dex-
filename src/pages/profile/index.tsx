@@ -1,13 +1,13 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@tanstack/react-router";
-import { isAxiosError } from "axios";
-import { Eye, EyeOff, Save } from "lucide-react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import { z } from "zod";
-import { useChangePassword } from "../../api/mutations/useChangePassword";
-import { useAuthenticateContext } from "../../context/authenticate";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link } from '@tanstack/react-router';
+import { isAxiosError } from 'axios';
+import { Eye, EyeOff, Save } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { z } from 'zod';
+import { useChangePassword } from '../../api/mutations/useChangePassword';
+import { useAuthenticateContext } from '../../context/authenticate';
 
 export function Profile() {
   const { user } = useAuthenticateContext();
@@ -16,24 +16,21 @@ export function Profile() {
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { mutate: changePasswordMutate, isPending: isChangingPassword } =
-    useChangePassword();
+  const { mutate: changePasswordMutate, isPending: isChangingPassword } = useChangePassword();
 
   const profileSchema = z.object({
-    name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+    name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   });
 
   const passwordSchema = z
     .object({
-      currentPassword: z.string().min(8, "Senha atual é obrigatória"),
-      newPassword: z
-        .string()
-        .min(8, "Nova senha deve ter pelo menos 8 caracteres"),
-      confirmPassword: z.string().min(8, "Confirmação de senha é obrigatória"),
+      currentPassword: z.string().min(8, 'Senha atual é obrigatória'),
+      newPassword: z.string().min(8, 'Nova senha deve ter pelo menos 8 caracteres'),
+      confirmPassword: z.string().min(8, 'Confirmação de senha é obrigatória'),
     })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-      message: "As senhas não coincidem",
-      path: ["confirmPassword"],
+    .refine(data => data.newPassword === data.confirmPassword, {
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
     });
 
   type ProfileFormData = z.infer<typeof profileSchema>;
@@ -46,7 +43,7 @@ export function Profile() {
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: user?.name || "",
+      name: user?.name || '',
     },
   });
 
@@ -61,8 +58,8 @@ export function Profile() {
 
   const onSubmitProfile = (data: ProfileFormData) => {
     // TODO: Implementar API call para atualizar perfil
-    console.log("Profile data:", data);
-    toast.success("Perfil atualizado com sucesso!");
+    console.log('Profile data:', data);
+    toast.success('Perfil atualizado com sucesso!');
     setIsEditingProfile(false);
   };
 
@@ -74,54 +71,50 @@ export function Profile() {
       },
       {
         onSuccess: () => {
-          toast.success("Senha alterada com sucesso!", {
+          toast.success('Senha alterada com sucesso!', {
             autoClose: 2000,
           });
           setShowChangePassword(false);
           resetPassword();
         },
-        onError: (error) => {
+        onError: error => {
           if (isAxiosError(error)) {
             const message = error.response?.data.message;
             const errorTranslation: Record<string, string> = {
-              "Current password is incorrect": "Senha atual incorreta",
-              "Invalid current password": "Senha atual inválida",
+              'Current password is incorrect': 'Senha atual incorreta',
+              'Invalid current password': 'Senha atual inválida',
             };
 
-            if (typeof message === "string") {
+            if (typeof message === 'string') {
               const translated =
                 (message && errorTranslation[message]) ||
-                "Ocorreu um erro ao alterar a senha. Tente novamente.";
+                'Ocorreu um erro ao alterar a senha. Tente novamente.';
               toast.error(translated);
             }
           }
         },
-      },
+      }
     );
   };
 
   const formatDate = (date: Date | string) => {
-    const dateObj = typeof date === "string" ? new Date(date) : date;
-    return dateObj.toLocaleDateString("pt-BR", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    return dateObj.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     });
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-4 md:p-6 lg:p-8">
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-4xl space-y-6">
-        <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
-          <div className="flex items-center justify-between mb-6">
+        <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
+          <div className="mb-6 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div>
-                <h1 className="text-2xl font-bold text-white">
-                  Informações do Perfil
-                </h1>
-                <p className="text-gray-400">
-                  Gerencie suas informações pessoais
-                </p>
+                <h1 className="text-2xl font-bold text-white">Informações do Perfil</h1>
+                <p className="text-gray-400">Gerencie suas informações pessoais</p>
               </div>
             </div>
             {/* <button
@@ -142,39 +135,30 @@ export function Profile() {
                         </button> */}
           </div>
 
-          <form
-            onSubmit={handleSubmitProfile(onSubmitProfile)}
-            className="space-y-6"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Nome
-                </label>
+                <label className="mb-2 block text-sm font-medium text-white">Nome</label>
                 {isEditingProfile ? (
                   <input
-                    {...registerProfile("name")}
+                    {...registerProfile('name')}
                     type="text"
-                    className="w-full p-3 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                   />
                 ) : (
-                  <div className="p-3 border border-gray-600 rounded-md bg-gray-800 text-white">
+                  <div className="rounded-md border border-gray-600 bg-gray-800 p-3 text-white">
                     {user?.name}
                   </div>
                 )}
                 {profileErrors.name && (
-                  <p className="mt-1 text-sm text-red-400">
-                    {profileErrors.name.message}
-                  </p>
+                  <p className="mt-1 text-sm text-red-400">{profileErrors.name.message}</p>
                 )}
               </div>
 
               {!isEditingProfile && (
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    E-mail
-                  </label>
-                  <div className="p-3 border border-gray-600 rounded-md bg-gray-800 text-white">
+                  <label className="mb-2 block text-sm font-medium text-white">E-mail</label>
+                  <div className="rounded-md border border-gray-600 bg-gray-800 p-3 text-white">
                     {user?.email}
                   </div>
                 </div>
@@ -182,10 +166,8 @@ export function Profile() {
 
               {!isEditingProfile && (
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
-                    Membro desde
-                  </label>
-                  <div className="p-3 border border-gray-600 rounded-md bg-gray-800 text-white">
+                  <label className="mb-2 block text-sm font-medium text-white">Membro desde</label>
+                  <div className="rounded-md border border-gray-600 bg-gray-800 p-3 text-white">
                     {user?.createdAt && formatDate(user?.createdAt)}
                   </div>
                 </div>
@@ -196,9 +178,9 @@ export function Profile() {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="flex items-center gap-2 px-6 py-2 cursor-pointer bg-green-500 text-white rounded hover:bg-green-600 transition-colors duration-200"
+                  className="flex cursor-pointer items-center gap-2 rounded bg-green-500 px-6 py-2 text-white transition-colors duration-200 hover:bg-green-600"
                 >
-                  <Save className="w-4 h-4" />
+                  <Save className="h-4 w-4" />
                   Salvar Alterações
                 </button>
               </div>
@@ -206,8 +188,8 @@ export function Profile() {
           </form>
         </div>
 
-        <div className="bg-[#24293f] border border-gray-600 rounded-lg shadow-lg p-6">
-          <div className="flex flex-col gap-4 mb-6 md:flex-row md:justify-between md:items-center">
+        <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
+          <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-2xl font-bold text-white">Segurança</h2>
               <p className="text-gray-400">Altere sua senha de acesso</p>
@@ -215,7 +197,7 @@ export function Profile() {
             <div className="flex gap-2">
               <Link
                 to="/change-password"
-                className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600 transition-colors duration-200"
+                className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-600"
               >
                 Alterar senha
               </Link>
@@ -223,19 +205,14 @@ export function Profile() {
           </div>
 
           {showChangePassword && (
-            <form
-              onSubmit={handleSubmitPassword(onSubmitPassword)}
-              className="space-y-4"
-            >
+            <form onSubmit={handleSubmitPassword(onSubmitPassword)} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Senha Atual
-                </label>
+                <label className="mb-2 block text-sm font-medium text-white">Senha Atual</label>
                 <div className="relative">
                   <input
-                    {...registerPassword("currentPassword")}
-                    type={showCurrentPassword ? "text" : "password"}
-                    className="w-full p-3 pr-10 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    {...registerPassword('currentPassword')}
+                    type={showCurrentPassword ? 'text' : 'password'}
+                    className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder="Digite sua senha atual"
                   />
                   <button
@@ -244,9 +221,9 @@ export function Profile() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white"
                   >
                     {showCurrentPassword ? (
-                      <EyeOff className="w-5 h-5" />
+                      <EyeOff className="h-5 w-5" />
                     ) : (
-                      <Eye className="w-5 h-5" />
+                      <Eye className="h-5 w-5" />
                     )}
                   </button>
                 </div>
@@ -258,14 +235,12 @@ export function Profile() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Nova Senha
-                </label>
+                <label className="mb-2 block text-sm font-medium text-white">Nova Senha</label>
                 <div className="relative">
                   <input
-                    {...registerPassword("newPassword")}
-                    type={showNewPassword ? "text" : "password"}
-                    className="w-full p-3 pr-10 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    {...registerPassword('newPassword')}
+                    type={showNewPassword ? 'text' : 'password'}
+                    className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder="Digite sua nova senha"
                   />
                   <button
@@ -273,29 +248,23 @@ export function Profile() {
                     onClick={() => setShowNewPassword(!showNewPassword)}
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white"
                   >
-                    {showNewPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
+                    {showNewPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
                 </div>
                 {passwordErrors.newPassword && (
-                  <p className="mt-1 text-sm text-red-400">
-                    {passwordErrors.newPassword.message}
-                  </p>
+                  <p className="mt-1 text-sm text-red-400">{passwordErrors.newPassword.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-white mb-2">
+                <label className="mb-2 block text-sm font-medium text-white">
                   Confirmar Nova Senha
                 </label>
                 <div className="relative">
                   <input
-                    {...registerPassword("confirmPassword")}
-                    type={showConfirmPassword ? "text" : "password"}
-                    className="w-full p-3 pr-10 border border-gray-600 rounded-md bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    {...registerPassword('confirmPassword')}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    className="w-full rounded-md border border-gray-600 bg-transparent p-3 pr-10 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder="Confirme sua nova senha"
                   />
                   <button
@@ -304,9 +273,9 @@ export function Profile() {
                     className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white"
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="w-5 h-5" />
+                      <EyeOff className="h-5 w-5" />
                     ) : (
-                      <Eye className="w-5 h-5" />
+                      <Eye className="h-5 w-5" />
                     )}
                   </button>
                 </div>
@@ -320,12 +289,12 @@ export function Profile() {
               <button
                 type="submit"
                 disabled={isChangingPassword}
-                className="w-full py-3 bg-green-500 text-white rounded cursor-pointer hover:bg-green-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full cursor-pointer rounded bg-green-500 py-3 text-white transition-colors duration-200 hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isChangingPassword ? (
                   <div className="flex items-center justify-center">
                     <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      className="mr-3 -ml-1 h-5 w-5 animate-spin text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -347,7 +316,7 @@ export function Profile() {
                     Alterando...
                   </div>
                 ) : (
-                  "Alterar Senha"
+                  'Alterar Senha'
                 )}
               </button>
             </form>
