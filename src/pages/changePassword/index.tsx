@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { Eye, EyeOff } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useChangePassword } from '../../api/mutations/useChangePassword';
 import { isAxiosError } from 'axios';
 import { toast } from 'react-toastify';
@@ -14,15 +15,16 @@ export function ChangePassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { mutate: changePasswordMutate, isPending } = useChangePassword();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const zodSchema = z
     .object({
-      currentPassword: z.string().min(8, 'Informe a senha atual com no mínimo 8 caracteres'),
-      newPassword: z.string().min(8, 'Informe uma senha com no mínimo 8 caracteres'),
-      confirmPassword: z.string().min(8, 'Confirme a nova senha'),
+      currentPassword: z.string().min(8, t('changePassword.currentPasswordError')),
+      newPassword: z.string().min(8, t('changePassword.newPasswordError')),
+      confirmPassword: z.string().min(8, t('changePassword.confirmPasswordError')),
     })
     .refine(data => data.newPassword === data.confirmPassword, {
-      message: 'As senhas não coincidem',
+      message: t('changePassword.passwordMismatch'),
       path: ['confirmPassword'],
     });
 
@@ -45,7 +47,7 @@ export function ChangePassword() {
       },
       {
         onSuccess: () => {
-          toast.success('Senha alterada com sucesso!', {
+          toast.success(t('changePassword.success'), {
             autoClose: 2000,
           });
           reset();
@@ -55,14 +57,13 @@ export function ChangePassword() {
           if (isAxiosError(error)) {
             const message = error.response?.data.message;
             const errorTranslation: Record<string, string> = {
-              'Current password is incorrect': 'Senha atual incorreta',
-              'Invalid current password': 'Senha atual inválida',
+              'Current password is incorrect': t('changePassword.incorrectPassword'),
+              'Invalid current password': t('changePassword.invalidPassword'),
             };
 
             if (typeof message === 'string') {
               const translated =
-                (message && errorTranslation[message]) ||
-                'Ocorreu um erro ao alterar a senha. Tente novamente.';
+                (message && errorTranslation[message]) || t('changePassword.genericError');
               toast.error(translated);
             }
           }
@@ -75,8 +76,8 @@ export function ChangePassword() {
     <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold text-white">Alterar Senha</h1>
-          <p className="text-gray-400">Atualize sua senha de acesso</p>
+          <h1 className="mb-2 text-4xl font-bold text-white">{t('changePassword.title')}</h1>
+          <p className="text-gray-400">{t('changePassword.subtitle')}</p>
         </div>
 
         <div className="rounded-lg border border-gray-600 bg-[#24293f] p-6 shadow-lg">
@@ -87,13 +88,13 @@ export function ChangePassword() {
                 htmlFor="currentPassword"
                 className="mb-2 block text-sm font-medium text-white"
               >
-                Senha Atual
+                {t('changePassword.currentPassword')}
               </label>
               <div className="relative">
                 <input
                   type={showCurrentPassword ? 'text' : 'password'}
                   className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Digite sua senha atual"
+                  placeholder={t('changePassword.currentPasswordPlaceholder')}
                   {...register('currentPassword')}
                 />
                 <button
@@ -112,13 +113,13 @@ export function ChangePassword() {
             {/* New Password Field */}
             <div>
               <label htmlFor="newPassword" className="mb-2 block text-sm font-medium text-white">
-                Nova Senha
+                {t('changePassword.newPassword')}
               </label>
               <div className="relative">
                 <input
                   type={showNewPassword ? 'text' : 'password'}
                   className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Digite sua nova senha"
+                  placeholder={t('changePassword.newPasswordPlaceholder')}
                   {...register('newPassword')}
                 />
                 <button
@@ -140,13 +141,13 @@ export function ChangePassword() {
                 htmlFor="confirmPassword"
                 className="mb-2 block text-sm font-medium text-white"
               >
-                Confirmar Nova Senha
+                {t('changePassword.confirmPassword')}
               </label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   className="w-full rounded-md border border-gray-600 bg-transparent p-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Confirme sua nova senha"
+                  placeholder={t('changePassword.confirmPasswordPlaceholder')}
                   {...register('confirmPassword')}
                 />
                 <button
@@ -189,10 +190,10 @@ export function ChangePassword() {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     ></path>
                   </svg>
-                  Alterando...
+                  {t('changePassword.submitting')}
                 </div>
               ) : (
-                'Alterar Senha'
+                t('changePassword.submit')
               )}
             </button>
           </form>
@@ -202,7 +203,7 @@ export function ChangePassword() {
               onClick={() => navigate({ to: '/profile' })}
               className="cursor-pointer text-gray-400 transition-colors hover:text-white"
             >
-              Voltar ao perfil
+              {t('changePassword.backToProfile')}
             </button>
           </div>
         </div>
