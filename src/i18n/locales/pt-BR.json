@@ -171,15 +171,29 @@
   },
   "createMonster": {
     "title": "Criar Monstro",
+    "subtitle": "Use IA para gerar seu monstro único",
+    "monsterName": "Nome do Monstro",
+    "monsterNamePlaceholder": "Ex: Flamezard, Aquatron...",
     "name": "Nome",
     "description": "Descrição",
+    "descriptionPlaceholder": "Descreva a aparência e características do seu monstro...",
     "story": "História",
+    "storyPlaceholder": "Conte a origem e história do seu monstro...",
+    "types": "Tipos",
+    "maxTypes": "máximo 2",
     "type": "Tipo",
     "selectType": "Selecione o tipo",
     "image": "Imagem",
-    "submit": "Criar monstro",
+    "submit": "Criar Monstro",
+    "creating": "Criando monstro...",
     "success": "Monstro criado com sucesso!",
-    "error": "Erro ao criar monstro"
+    "error": "Erro ao criar monstro",
+    "validation": {
+      "nameRequired": "Nome é obrigatório",
+      "descriptionRequired": "Descrição é obrigatória",
+      "minTypes": "Selecione pelo menos 1 tipo",
+      "maxTypes": "Selecione no máximo 2 tipos"
+    }
   },
   "pagination": {
     "previous": "Anterior",

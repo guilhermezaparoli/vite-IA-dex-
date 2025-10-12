@@ -6,6 +6,7 @@ import type { MonsterType } from '../../@types/monster';
 import { useCreateMonster } from '../../api/mutations/useCreateMonster';
 import { toast } from 'react-toastify';
 import { useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 const monsterTypes: MonsterType[] = [
   'NORMAL',
@@ -29,16 +30,17 @@ const monsterTypes: MonsterType[] = [
 ];
 
 export function CreateMonster() {
+  const { t } = useTranslation();
   const { mutate: createMonster, isPending } = useCreateMonster();
   const navigate = useNavigate();
   const formSchema = z.object({
-    name: z.string().min(1, 'Nome é obrigatório'),
-    description: z.string().min(1, 'Descrição é obrigatória'),
+    name: z.string().min(1, t('createMonster.validation.nameRequired')),
+    description: z.string().min(1, t('createMonster.validation.descriptionRequired')),
     story: z.string(),
     types: z
       .array(z.enum(monsterTypes))
-      .max(2, 'Selecione no máximo 2 tipos')
-      .min(1, 'Selecione pelo menos 1 tipo'),
+      .max(2, t('createMonster.validation.maxTypes'))
+      .min(1, t('createMonster.validation.minTypes')),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -81,7 +83,7 @@ export function CreateMonster() {
       },
       {
         onSuccess: ({ id }) => {
-          toast.success('Monstro criado com sucesso!');
+          toast.success(t('createMonster.success'));
           navigate({
             to: `/monster/${id}`,
           });
@@ -95,8 +97,8 @@ export function CreateMonster() {
     <main className="bg-background min-h-screen p-4">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 pt-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold text-white">Criar Monstro</h1>
-          <p className="text-gray-400">Use IA para gerar seu monstro único</p>
+          <h1 className="mb-2 text-4xl font-bold text-white">{t('createMonster.title')}</h1>
+          <p className="text-gray-400">{t('createMonster.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-1 gap-8">
@@ -104,12 +106,12 @@ export function CreateMonster() {
             <form onSubmit={handleSubmit(onHandleSubmit)} className="space-y-6">
               <div>
                 <label htmlFor="name" className="mb-2 block text-sm font-medium text-white">
-                  Nome do Monstro *
+                  {t('createMonster.monsterName')} *
                 </label>
                 <input
                   disabled={isPending}
                   className="w-full rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Ex: Flamezard, Aquatron..."
+                  placeholder={t('createMonster.monsterNamePlaceholder')}
                   {...register('name')}
                 />
                 {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>}
@@ -117,13 +119,13 @@ export function CreateMonster() {
 
               <div>
                 <label htmlFor="description" className="mb-2 block text-sm font-medium text-white">
-                  Descrição *
+                  {t('createMonster.description')} *
                 </label>
                 <textarea
                   disabled={isPending}
                   rows={3}
                   className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Descreva a aparência e características do seu monstro..."
+                  placeholder={t('createMonster.descriptionPlaceholder')}
                   {...register('description')}
                 />
                 {errors.description && (
@@ -133,13 +135,13 @@ export function CreateMonster() {
 
               <div>
                 <label htmlFor="story" className="mb-2 block text-sm font-medium text-white">
-                  História
+                  {t('createMonster.story')}
                 </label>
                 <textarea
                   disabled={isPending}
                   rows={4}
                   className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder="Conte a origem e história do seu monstro..."
+                  placeholder={t('createMonster.storyPlaceholder')}
                   {...register('story')}
                 />
               </div>
@@ -147,7 +149,7 @@ export function CreateMonster() {
               {/* Types Selection */}
               <div>
                 <label className="mb-3 block text-sm font-medium text-white">
-                  Tipos * (máximo 2)
+                  {t('createMonster.types')} * ({t('createMonster.maxTypes')})
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {monsterTypes.map(type => (
@@ -194,10 +196,10 @@ export function CreateMonster() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Criando monstro...
+                    {t('createMonster.creating')}
                   </div>
                 ) : (
-                  'Criar Monstro'
+                  t('createMonster.submit')
                 )}
               </button>
             </form>

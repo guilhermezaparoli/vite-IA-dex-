@@ -171,15 +171,29 @@
   },
   "createMonster": {
     "title": "Create Monster",
-    "name": "Username",
+    "subtitle": "Use AI to generate your unique monster",
+    "monsterName": "Monster Name",
+    "monsterNamePlaceholder": "Ex: Flamezard, Aquatron...",
+    "name": "Name",
     "description": "Description",
+    "descriptionPlaceholder": "Describe the appearance and characteristics of your monster...",
     "story": "Story",
+    "storyPlaceholder": "Tell the origin and story of your monster...",
+    "types": "Types",
+    "maxTypes": "maximum 2",
     "type": "Type",
     "selectType": "Select type",
     "image": "Image",
-    "submit": "Create monster",
+    "submit": "Create Monster",
+    "creating": "Creating monster...",
     "success": "Monster created successfully!",
-    "error": "Error creating monster"
+    "error": "Error creating monster",
+    "validation": {
+      "nameRequired": "Name is required",
+      "descriptionRequired": "Description is required",
+      "minTypes": "Select at least 1 type",
+      "maxTypes": "Select a maximum of 2 types"
+    }
   },
   "pagination": {
     "previous": "Previous",
