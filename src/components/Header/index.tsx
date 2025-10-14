@@ -16,6 +16,10 @@ export function Header() {
       <nav className="flex items-center gap-4">
         <LanguageSwitcher />
         <ul className="flex items-center justify-center gap-3">
+          <Link to="/" className="hover:underline [&.active]:text-blue-500">
+            {t('header.home')}
+          </Link>
+
           {isAuthenticate ? (
             <Avatar />
           ) : (

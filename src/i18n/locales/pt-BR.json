@@ -18,7 +18,8 @@
     "login": "Entrar",
     "logout": "Sair",
     "profile": "Ver Perfil",
-    "myMonsters": "Meus Monstros"
+    "myMonsters": "Meus Monstros",
+    "home": "Início"
   },
   "auth": {
     "login": {

@@ -18,7 +18,8 @@
     "login": "Login",
     "logout": "Logout",
     "profile": "View Profile",
-    "myMonsters": "My Monsters"
+    "myMonsters": "My Monsters",
+    "home": "Home"
   },
   "auth": {
     "login": {
