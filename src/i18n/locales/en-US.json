@@ -229,6 +229,16 @@
     "network": "Server connection error",
     "unauthorized": "You do not have permission to access this resource",
     "notFound": "Resource not found",
-    "validation": "Data validation error"
+    "validation": "Data validation error",
+    "api": {
+      "invalidCredentials": "Invalid credentials",
+      "emailAlreadyExists": "This email is already registered",
+      "userAlreadyExists": "This user already exists",
+      "emailAlreadyInUse": "This email is already in use",
+      "validationFailed": "Invalid data",
+      "networkError": "Connection error. Check your internet",
+      "contentPolicyViolation": "Your request violated our content policy",
+      "unknownError": "An unexpected error occurred"
+    }
   }
 }

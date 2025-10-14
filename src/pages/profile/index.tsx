@@ -80,7 +80,7 @@ export function Profile() {
           resetPassword();
         },
         onError: error => {
-          handleApiError(error);
+          handleApiError(error, t);
         },
       }
     );

@@ -229,6 +229,16 @@
     "network": "Erro de conexão com o servidor",
     "unauthorized": "Você não tem permissão para acessar este recurso",
     "notFound": "Recurso não encontrado",
-    "validation": "Erro de validação dos dados"
+    "validation": "Erro de validação dos dados",
+    "api": {
+      "invalidCredentials": "Credenciais inválidas",
+      "emailAlreadyExists": "Este e-mail já está cadastrado",
+      "userAlreadyExists": "Este usuário já existe",
+      "emailAlreadyInUse": "Este e-mail já está em uso",
+      "validationFailed": "Dados inválidos",
+      "networkError": "Erro de conexão. Verifique sua internet",
+      "contentPolicyViolation": "Sua solicitação violou nossa política de conteúdo",
+      "unknownError": "Ocorreu um erro inesperado"
+    }
   }
 }

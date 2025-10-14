@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { CreationLoader } from '../../components/CreationLoader';
+import { handleApiError } from '../../utils/errors/handleApiError';
 
 const monsterTypes: MonsterType[] = [
   'NORMAL',
@@ -71,8 +72,6 @@ export function CreateMonster() {
   };
 
   const onHandleSubmit = (data: FormData) => {
-    console.log(data);
-
     createMonster(
       {
         description: data.description,
@@ -85,6 +84,9 @@ export function CreateMonster() {
           navigate({
             to: `/monster/${id}`,
           });
+        },
+        onError: (error: Error) => {
+          handleApiError(error, t);
         },
       }
     );

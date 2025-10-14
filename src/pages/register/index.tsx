@@ -67,7 +67,7 @@ export function Register() {
         });
       },
       onError: error => {
-        handleApiError(error);
+        handleApiError(error, t);
       },
     });
   };
