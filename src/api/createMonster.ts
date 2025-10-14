@@ -4,7 +4,6 @@ import { api } from './axios/api';
 interface CreateMonsterRequest {
   name: string;
   description: string;
-  story: string;
   types: MonsterType[];
 }
 

@@ -36,7 +36,6 @@ export function CreateMonster() {
   const formSchema = z.object({
     name: z.string().min(1, t('createMonster.validation.nameRequired')),
     description: z.string().min(1, t('createMonster.validation.descriptionRequired')),
-    story: z.string(),
     types: z
       .array(z.enum(monsterTypes))
       .max(2, t('createMonster.validation.maxTypes'))
@@ -55,7 +54,6 @@ export function CreateMonster() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       types: [],
-      story: '',
     },
   });
 
@@ -78,7 +76,6 @@ export function CreateMonster() {
       {
         description: data.description,
         name: data.name,
-        story: data.story,
         types: selectedTypes,
       },
       {
@@ -92,7 +89,6 @@ export function CreateMonster() {
     );
   };
 
-  console.log(errors, selectedTypes);
   return (
     <main className="bg-background min-h-screen p-4">
       <div className="mx-auto max-w-2xl">
@@ -131,19 +127,6 @@ export function CreateMonster() {
                 {errors.description && (
                   <p className="mt-1 text-sm text-red-500">{errors.description.message}</p>
                 )}
-              </div>
-
-              <div>
-                <label htmlFor="story" className="mb-2 block text-sm font-medium text-white">
-                  {t('createMonster.story')}
-                </label>
-                <textarea
-                  disabled={isPending}
-                  rows={4}
-                  className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder={t('createMonster.storyPlaceholder')}
-                  {...register('story')}
-                />
               </div>
 
               {/* Types Selection */}
