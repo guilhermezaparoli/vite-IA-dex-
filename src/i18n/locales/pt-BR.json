@@ -193,7 +193,17 @@
       "descriptionRequired": "Descrição é obrigatória",
       "minTypes": "Selecione pelo menos 1 tipo",
       "maxTypes": "Selecione no máximo 2 tipos"
-    }
+    },
+    "loadingMessages": [
+      "Invocando as forças da IA...",
+      "Desenhando os traços do seu monstro...",
+      "Calculando os atributos perfeitos...",
+      "Dando vida à criatura...",
+      "Gerando a aparência única...",
+      "Definindo poderes e habilidades...",
+      "Quase lá! Finalizando os detalhes...",
+      "A magia está acontecendo..."
+    ]
   },
   "pagination": {
     "previous": "Anterior",

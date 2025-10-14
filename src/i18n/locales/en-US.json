@@ -193,7 +193,17 @@
       "descriptionRequired": "Description is required",
       "minTypes": "Select at least 1 type",
       "maxTypes": "Select a maximum of 2 types"
-    }
+    },
+    "loadingMessages": [
+      "Invoking the powers of AI...",
+      "Drawing your monster's features...",
+      "Calculating the perfect attributes...",
+      "Bringing the creature to life...",
+      "Generating unique appearance...",
+      "Defining powers and abilities...",
+      "Almost there! Finalizing details...",
+      "The magic is happening..."
+    ]
   },
   "pagination": {
     "previous": "Previous",
