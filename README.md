@@ -186,17 +186,6 @@ Os monstros são automaticamente classificados baseado na soma total de seus atr
 - Sanitização de inputs
 - Tratamento de erros centralizado
 
-## 🎯 Funcionalidades Futuras
-
-- [ ] Sistema de favoritos
-- [ ] Comentários em monstros
-- [ ] Sistema de batalhas
-- [ ] Compartilhamento social
-- [ ] Modo escuro
-- [ ] Mais idiomas
-- [ ] PWA (Progressive Web App)
-- [ ] Upload de imagens customizadas
-
 ## 🤝 Contribuindo
 
 Contribuições são bem-vindas! Por favor:
@@ -213,7 +202,7 @@ Este projeto está sob a licença MIT.
 
 ## 👨‍💻 Autor
 
-Desenvolvido com ❤️ usando React, TypeScript e IA
+Desenvolvido por Guilherme Zaparoli Gomes
 
 ---
 
