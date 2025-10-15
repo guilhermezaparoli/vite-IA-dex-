@@ -240,7 +240,8 @@
       "validationFailed": "Dados inválidos",
       "networkError": "Erro de conexão. Verifique sua internet",
       "contentPolicyViolation": "Sua solicitação violou nossa política de conteúdo",
-      "unknownError": "Ocorreu um erro inesperado"
+      "unknownError": "Ocorreu um erro inesperado",
+      "usernameAlreadyExists": "Nome de usuário já existe"
     }
   }
 }

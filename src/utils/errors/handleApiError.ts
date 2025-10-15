@@ -17,6 +17,7 @@ const ERROR_KEY_MAP: Record<string, string> = {
   'Validation failed': 'errors.api.validationFailed',
   'Network Error': 'errors.api.networkError',
   'Your request violated our content policy.': 'errors.api.contentPolicyViolation',
+  'Username already exists': 'errors.api.usernameAlreadyExists',
 };
 
 export const handleApiError = (error: unknown, t: TFunction): string => {
