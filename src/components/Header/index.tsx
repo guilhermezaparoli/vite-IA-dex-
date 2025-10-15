@@ -9,7 +9,7 @@ export function Header() {
   const { t } = useTranslation();
 
   return (
-    <header className="flex w-full items-center justify-between p-4 text-white">
+    <header className="flex w-full items-center justify-between p-4 text-white md:px-24">
       <Link to="/" className="text-2xl font-bold">
         {t('header.title')}
       </Link>
