@@ -1,19 +1,24 @@
 import { Link } from '@tanstack/react-router';
+import { useEffect } from 'react';
 import { useFetchMonsterById } from '../../api/queries/monsters/useFetchMonsterById';
 import { RarityIndicator } from '../../components/RarityIndicator';
 import { getRarityConfig } from '../../utils/rarity';
+import { LabelType } from '../../components/LabelType';
 
 interface MonsterDetailsProps {
   monsterId: string;
 }
-
-// type MonsterType = "normal" | "fire" | "water" | "electric" | "grass" | "ice" | "fighting" | "poison" | "ground" | "flying" | "psychic" | "bug" | "rock" | "ghost" | "dragon" | "dark" | "steel" | "fairy";
 
 const MAX_STAT_VALUE = 255;
 
 export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
   const { data: monster } = useFetchMonsterById(monsterId);
   const rarityConfig = getRarityConfig(monster);
+
+  // Reset scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [monsterId]);
 
   return (
     <main className="bg-background min-h-screen p-4">
@@ -50,20 +55,15 @@ export function MonsterDetails({ monsterId }: MonsterDetailsProps) {
                 <div className="text-lg text-gray-400">#{monster.id}</div>
                 <h1 className="text-4xl font-bold text-white">{monster.name}</h1>
 
-                <div className="flex justify-center">
-                  <RarityIndicator monster={monster} size="large" />
+                <div className="flex justify-center gap-2">
+                  {monster.types?.map(type => (
+                    <LabelType key={type} monsterType={type} selected className="!cursor-default" />
+                  ))}
                 </div>
 
-                {/* <div className="flex justify-center gap-2">
-                                    {monster.types?.map((type) => (
-                                        <LabelType 
-                                            key={type} 
-                                            monsterType={type} 
-                                            selected 
-                                            className="!cursor-default" 
-                                        />
-                                    ))}
-                                </div> */}
+                <div className="mt-10 flex justify-center">
+                  <RarityIndicator monster={monster} size="large" />
+                </div>
 
                 <div className="text-sm text-gray-400">
                   Criado em {new Date(monster.created_at).toLocaleDateString('pt-BR')} por{' '}
