@@ -58,9 +58,7 @@ export function Profile() {
     resolver: zodResolver(passwordSchema),
   });
 
-  const onSubmitProfile = (data: ProfileFormData) => {
-    // TODO: Implementar API call para atualizar perfil
-    console.log('Profile data:', data);
+  const onSubmitProfile = () => {
     toast.success(t('profile.profileUpdateSuccess'));
     setIsEditingProfile(false);
   };
