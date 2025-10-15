@@ -87,6 +87,7 @@ export function CreateMonster() {
       {
         onSuccess: ({ id }) => {
           toast.success(t('createMonster.success'));
+          console.log(id);
           navigate({
             to: `/monster/${id}`,
           });
@@ -135,7 +136,7 @@ export function CreateMonster() {
                   </label>
                   <textarea
                     disabled={isPending}
-                    rows={3}
+                    rows={5}
                     className="w-full resize-none rounded-md border border-gray-600 bg-transparent px-4 py-3 text-white focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     placeholder={t('createMonster.descriptionPlaceholder')}
                     {...register('description')}

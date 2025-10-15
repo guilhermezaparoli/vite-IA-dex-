@@ -18,6 +18,7 @@ const ERROR_KEY_MAP: Record<string, string> = {
   'Network Error': 'errors.api.networkError',
   'Your request violated our content policy.': 'errors.api.contentPolicyViolation',
   'Username already exists': 'errors.api.usernameAlreadyExists',
+  'Invalid or expired refresh token': 'errors.api.invalidRefreshToken',
 };
 
 export const handleApiError = (error: unknown, t: TFunction): string => {

@@ -242,7 +242,8 @@
       "networkError": "Connection error. Check your internet",
       "contentPolicyViolation": "Your request violated our content policy",
       "unknownError": "An unexpected error occurred",
-      "usernameAlreadyExists": "Username already exists"
+      "usernameAlreadyExists": "Username already exists",
+      "invalidRefreshToken": "Invalid credentials"
     }
   }
 }

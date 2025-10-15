@@ -1,14 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, useNavigate } from '@tanstack/react-router';
+import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import z from 'zod';
-import { Eye, EyeOff } from 'lucide-react';
-import { useAuthenticate } from '../../api/mutations/useAuthenticate';
-import { isAxiosError } from 'axios';
-import { toast } from 'react-toastify';
-import { useAuthenticateContext } from '../../context/authenticate';
-import { useNavigate, Link } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import z from 'zod';
+import { useAuthenticate } from '../../api/mutations/useAuthenticate';
+import { useAuthenticateContext } from '../../context/authenticate';
+import { handleApiError } from '../../utils/errors/handleApiError';
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,17 +42,7 @@ export function Login() {
         });
       },
       onError: error => {
-        if (isAxiosError(error)) {
-          const message = error.response?.data.message;
-          const errorTranslation: Record<string, string> = {
-            'Invalid credentials': t('auth.login.invalidCredentials'),
-          };
-
-          if (typeof message === 'string') {
-            const translated = (message && errorTranslation[message]) || t('errors.generic');
-            toast.error(translated);
-          }
-        }
+        handleApiError(error, t);
       },
     });
   };
@@ -102,12 +92,6 @@ export function Login() {
               </div>
               {errors.password && <p className="mt-2 text-red-500">{errors.password.message}</p>}
             </div>
-
-            {/* <div className="flex items-center justify-end">
-              <a href="#" className="text-input text-sm transition-colors hover:text-white">
-                {t('auth.login.forgotPassword')}
-              </a>
-            </div> */}
 
             <button
               type="submit"
