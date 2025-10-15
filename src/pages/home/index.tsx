@@ -73,19 +73,36 @@ export function Home() {
       {isAuthenticate ? (
         <Link
           to="/create-monster"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          className="rounded bg-blue-500 px-6 py-3 text-lg font-semibold text-white transition-all hover:scale-105 hover:bg-blue-600"
         >
           {t('home.createMonster')}
         </Link>
       ) : (
-        <>
+        <div className="mx-4 mb-8 max-w-2xl rounded-xl border-2 border-blue-500 bg-gradient-to-r from-blue-900/30 to-purple-900/30 p-8 text-center shadow-xl backdrop-blur-sm">
+          <div className="mb-4">
+            <svg
+              className="mx-auto h-16 w-16 text-blue-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+          </div>
+          <h2 className="mb-3 text-2xl font-bold text-white">{t('home.ctaTitle')}</h2>
+          <p className="mb-6 text-gray-300">{t('home.ctaDescription')}</p>
           <Link
             to="/register"
-            className="cursor-pointer rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            className="inline-block cursor-pointer rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:scale-105 hover:shadow-blue-500/50"
           >
-            {t('home.register')}
+            {t('home.ctaButton')}
           </Link>
-        </>
+        </div>
       )}
 
       <div className="relative m-8">

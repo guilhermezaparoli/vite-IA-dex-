@@ -77,7 +77,10 @@
     "register": "Registre-se",
     "searchPlaceholder": "Pesquise seu monstro",
     "filterByType": "Encontre pelo tipo:",
-    "noMonstersFound": "Nenhum monstro encontrado"
+    "noMonstersFound": "Nenhum monstro encontrado",
+    "ctaTitle": "Crie seu próprio monstro único!",
+    "ctaDescription": "Cadastre-se e use a IA para gerar criaturas personalizadas com descrições, histórias e atributos únicos.",
+    "ctaButton": "Criar minha conta grátis"
   },
   "myMonsters": {
     "title": "Meus Monstros",

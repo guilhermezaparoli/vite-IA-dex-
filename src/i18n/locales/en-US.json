@@ -77,7 +77,10 @@
     "register": "Sign up",
     "searchPlaceholder": "Search your monster",
     "filterByType": "Find by type:",
-    "noMonstersFound": "No monsters found"
+    "noMonstersFound": "No monsters found",
+    "ctaTitle": "Create your own unique monster!",
+    "ctaDescription": "Sign up and use AI to generate custom creatures with unique descriptions, stories and attributes.",
+    "ctaButton": "Create my free account"
   },
   "myMonsters": {
     "title": "My Monsters",
