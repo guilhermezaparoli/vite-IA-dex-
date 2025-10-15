@@ -182,6 +182,7 @@
     "storyPlaceholder": "Tell the origin and story of your monster...",
     "types": "Types",
     "maxTypes": "maximum 2",
+
     "type": "Type",
     "selectType": "Select type",
     "image": "Image",
@@ -193,7 +194,9 @@
       "nameRequired": "Name is required",
       "descriptionRequired": "Description is required",
       "minTypes": "Select at least 1 type",
-      "maxTypes": "Select a maximum of 2 types"
+      "maxTypes": "Select a maximum of 2 types",
+      "nameMax": "Name must be at most 50 characters",
+      "descriptionMax": "Description must be at most 400 characters"
     },
     "loadingMessages": [
       "Invoking the powers of AI...",

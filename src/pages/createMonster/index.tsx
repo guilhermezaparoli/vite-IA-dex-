@@ -36,8 +36,14 @@ export function CreateMonster() {
   const { mutate: createMonster, isPending } = useCreateMonster();
   const navigate = useNavigate();
   const formSchema = z.object({
-    name: z.string().min(1, t('createMonster.validation.nameRequired')),
-    description: z.string().min(1, t('createMonster.validation.descriptionRequired')),
+    name: z
+      .string()
+      .min(1, t('createMonster.validation.nameRequired'))
+      .max(50, t('createMonster.validation.nameMax')),
+    description: z
+      .string()
+      .min(1, t('createMonster.validation.descriptionRequired'))
+      .max(400, t('createMonster.validation.descriptionMax')),
     types: z
       .array(z.enum(monsterTypes))
       .max(2, t('createMonster.validation.maxTypes'))

@@ -193,7 +193,9 @@
       "nameRequired": "Nome é obrigatório",
       "descriptionRequired": "Descrição é obrigatória",
       "minTypes": "Selecione pelo menos 1 tipo",
-      "maxTypes": "Selecione no máximo 2 tipos"
+      "maxTypes": "Selecione no máximo 2 tipos",
+      "nameMax": "Nome deve ter no máximo 50 caracteres",
+      "descriptionMax": "Descrição deve ter no máximo 400 caracteres"
     },
     "loadingMessages": [
       "Invocando as forças da IA...",
